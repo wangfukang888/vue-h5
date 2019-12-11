@@ -1,11 +1,23 @@
 <template>
-  <transition name="move">
+  <transition @before-enter="beforeEnter" @before-leave="beforeLeave" name="move" mode="out-in">
     <div class="container">
       <slot></slot>
     </div>
   </transition>
 </template>
 
+<script>
+export default {
+  methods: {
+    beforeEnter() {    
+      console.log('进入')   
+    },
+    beforeLeave() {
+      console.log('离开')
+    }
+  }
+}
+</script>  
 <style lang="scss" scoped>
 .container{
   position: absolute;
@@ -20,7 +32,7 @@
   &.move-leave-active {
     transition: all .4s cubic-bezier(1.0, 0.5, 0.8, 1.0);
   }
-  &.move-enter, &.move-leave-active{
+  &.move-enter-to, &.move-leave-to{
     transform: translate3d(0, 100%, 0);
     opacity: 0;
   }

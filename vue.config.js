@@ -1,7 +1,5 @@
 const path = require('path')
 
-const assetsDir = 'public/h5'
-
  // 线上地址
 const url = 'https://wcp.szyrwl.com/' 
 // 测试地址
@@ -10,16 +8,11 @@ const url = 'https://wcp.szyrwl.com/'
 module.exports = {
   productionSourceMap: true,
   filenameHashing: true,
-  // publicPath: './public',
-  assetsDir,
+  publicPath: '/',
+  // 输出文件目录`
   devServer: {
     proxy: {
       '/api|/app': {
-        target: url,
-        ws: true,
-        changeOrigin: true
-      },
-      '/public/uploads/': {
         target: url,
         ws: true,
         changeOrigin: true
