@@ -1,7 +1,6 @@
 <template>
   <container>
     <div class="equipment">
-      <nav-bar :title="text"></nav-bar>
       <template v-if="!show_search">
         <div class="top">
           <div class="icon-code"  @click="getScan"> 
@@ -45,13 +44,12 @@
 </template>
 
 <script>
-import navBar from "com/nav-bar";
-import VSearch from 'com/search';
-import VGrid from "com/grid-icon";
+import VSearch from 'com/search'
+import VGrid from "com/grid-icon"
+import {equipment_data} from '../mock/grid_data'
 
 export default {
   components: {
-    navBar,
     VGrid,
     VSearch
   },
@@ -74,75 +72,8 @@ export default {
           text: '售后服务'
         }
       ],
-      grid_list: [
-        {
-          title: "现场服务申请",
-          desc: "举升机、四轮定位仪等上门现场服务",
-          list: [
-            {
-              icon: "",
-              text: "现场安装"
-            },
-            {
-              icon: "",
-              text: "现场培训"
-            },
-            {
-              icon: "",
-              text: "现场维修"
-            }
-          ]
-        },
-        {
-          title: "设备服务申请",
-          desc: "举升机、四轮定位仪等",
-          list: [
-            {
-              icon: "",
-              text: "返厂维修"
-            },
-            {
-              icon: "",
-              text: "配件需求"
-            },
-            {
-              icon: "",
-              text: "产品退换货"
-            },
-            {
-              icon: "",
-              text: "客户索赔"
-            },
-            {
-              icon: "",
-              text: "产品翻新"
-            },
-            {
-              icon: "",
-              text: "设备资料"
-            }
-          ]
-        },
-        {
-          title: "投诉与建议",
-          desc: "留下您宝贵的建议，力求为您提供最优质的服务",
-          list: [
-            {
-              icon: "",
-              text: "客户投诉"
-            },
-            {
-              icon: "",
-              text: "产品改善建议"
-            },
-            {
-              icon: "",
-              text: "质量问题反馈"
-            }    
-          ]
-        }
-      ]
-    };
+      grid_list: equipment_data || []
+    }
   },
   methods: {
     getScan() {
@@ -215,7 +146,6 @@ export default {
       flex-direction: column;
       text-align: left;
       .title{
-        // justify-content: flex-start;
         margin-bottom: size(40);
       }
       .desc{

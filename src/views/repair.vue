@@ -1,7 +1,6 @@
 <template>
   <container>
     <div class="repair">
-      <nav-bar :title="text"></nav-bar>
       <div class="r-container">
         <div class="banner">
           <div class="btn">下载APP</div>
@@ -15,75 +14,17 @@
 </template>
 
 <script>
-import navBar from 'com/nav-bar'
 import VGrid from 'com/grid-icon'
-
+import {repir_data} from '../mock/grid_data'
+ 
 export default {
   data() {
     return {
       text: "修车有问题",
-      grid_list: [
-        {
-          title: "社区",
-          desc: "汽修问题线上问",
-          list: [
-            {
-              icon: "",
-              text: "我要提问"
-            },
-            {
-              icon: "",
-              text: "专家答疑"
-            },
-            {
-              icon: "",
-              text: "远程诊断"
-            }
-          ]
-        },
-        {
-          title: "工作台",
-          desc: "技师维修辅助工具大全",
-          list: [
-            {
-              icon: "",
-              text: "维修案例"
-            },
-            {
-              icon: "",
-              text: "维修资料"
-            },
-            {
-              icon: "",
-              text: "故障指引"
-            },
-            {
-              icon: "",
-              text: "车架号查询"
-            },
-            {
-              icon: "",
-              text: "英文查询"
-            },
-            {
-              icon: "",
-              text: "故障码查询"
-            },
-            {
-              icon: "",
-              text: "配件查询"
-            },
-            {
-              icon: "",
-              text: "维修课堂"
-            }
-          ]
-        }
-      ]
-    };
+      grid_list: repir_data || []
+    }
   },
   components: {
-    navBar,
     VGrid
   }
 };

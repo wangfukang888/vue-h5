@@ -6,7 +6,6 @@ import 'vant/lib/index.css';
 import { NavBar, Loading, Toast, GridItem, Grid, Search, Icon } from 'vant';
 import container  from './components/px-container.vue';
 
-
 Vue.use(NavBar)
 Vue.use(Loading)
 Vue.use(Toast)

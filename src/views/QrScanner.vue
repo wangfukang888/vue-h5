@@ -1,6 +1,5 @@
 <template>
-  <div>
-    <nav-bar :title="text"></nav-bar>
+  <container class="con">
     <!-- 内容部分 -->
     <video id="qr-vedio" class="v" autoplay></video>
     <canvas
@@ -11,17 +10,13 @@
     ></canvas>
     <p v-show="result != ''">{{result}}</p>
     <p v-show="errorMes != ''">{{errorMes}}</p>
-  </div>
+  </container>
 </template>
  
 <script>
 import qrcode from "qrcode";
-import navBar from "com/nav-bar";
 
 export default {
-  components: {
-    navBar
-  },
   data() {
     return {
       text: '扫码',
@@ -124,6 +119,9 @@ export default {
 .v {
   width: 320px;
   height: 240px;
+}
+.con{
+  background: #eee;
 }
 p{
   padding: 30px;
