@@ -4,8 +4,8 @@
       <nav-bar :title="text"></nav-bar>
       <template v-if="!show_search">
         <div class="top">
-          <div class="icon-code">
-            <van-icon name="scan" />
+          <div class="icon-code"  @click="getScan"> 
+            <van-icon name="scan"/>
           </div>
           <div class="search">
             <div class="icon">
@@ -145,6 +145,9 @@ export default {
     };
   },
   methods: {
+    getScan() {
+      this.$router.push('/scan')
+    },
     goSearch() {
       this.show_search = true
       this.$nextTick(() => {

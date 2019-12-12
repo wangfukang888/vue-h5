@@ -12,12 +12,13 @@ export default {
     beforeEnter() {    
       console.log('进入')   
     },
-    beforeLeave() {
+    beforeLeave(el) {
       console.log('离开')
     }
   }
 }
 </script>  
+
 <style lang="scss" scoped>
 .container{
   position: absolute;
@@ -27,7 +28,7 @@ export default {
   bottom: 0;
   background: #fff;
   &.move-enter-active{
-    transition: all 0.2s ease;    
+    transition: all 0.2s ease;   
   }   
   &.move-leave-active {
     transition: all .4s cubic-bezier(1.0, 0.5, 0.8, 1.0);
