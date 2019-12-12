@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import {req} from 'api'
+import api  from 'api'
 
 export default {
   name: 'home',
@@ -27,14 +27,13 @@ export default {
       this.$router.push(url)
     }
   },
-  mounted() {
-    req.get('/api/partner/index/withdrawlist',{
+  async mounted() {
+    const data = await api.get('/api/partner/index/withdrawlist',{
       params:{
         page: 1
       }
-    }).then(res => {
-      console.log(res.data)
     })
+    console.log(data)
   }
 }
 </script>

@@ -23,7 +23,7 @@ export default {
   watch: {
     $route(to, from) {
       this.is_alive = to.meta.keepAlive
-      this.$store.commit('get_bar', to.meta.title)
+      to.meta.title && this.$store.commit('get_bar', to.meta.title)
       if(to.meta.index > from.meta.index){
 	    //设置动画名称
         this.animate= 'slide-left';
