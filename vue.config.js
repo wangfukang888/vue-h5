@@ -8,7 +8,8 @@ const url = 'https://wcp.szyrwl.com/'
 module.exports = {
   productionSourceMap: true,
   filenameHashing: true,
-  publicPath: '/',
+  publicPath: './',
+  assetsDir : 'static',
   // 输出文件目录`
   devServer: {
     proxy: {
