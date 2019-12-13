@@ -10,7 +10,7 @@
           <van-grid-item
             v-for="(value, o) in item.list"
             :key="o"
-            icon="photo-o"
+            :icon="value.icon || 'photo-o'"
             :url="value.url"
             @click="goGrid(value.url, value.path)"
             :text="value.text"
@@ -60,5 +60,9 @@ export default {
   &:last-child {
     margin-bottom: size(20);
   }
+}
+
+/deep/ .van-grid-item__icon{
+  font-size: size(60);
 }
 </style>

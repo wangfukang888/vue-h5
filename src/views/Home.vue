@@ -2,6 +2,7 @@
   <div class="home">
     <div class="top">
       <div class="left">
+
       </div>
       <div class="right">
         历史记录
@@ -28,12 +29,12 @@ export default {
     }
   },
   async mounted() {
-    const data = await api.get('/api/partner/index/withdrawlist',{
-      params:{
-        page: 1
-      }
-    })
-    console.log(data)
+    // const data = await api.get('/api/partner/index/withdrawlist',{
+    //   params:{
+    //     page: 1
+    //   }
+    // })
+    // console.log(data)
   }
 }
 </script>
@@ -45,16 +46,16 @@ export default {
   height: size(100);
   background: #323d43;
   box-sizing: border-box;
-  padding: size(25) 0 0 size(30);
+  padding: size(20) 0 0 size(30);
   position: relative;
   .left{
-    width: size(50);
-    height: size(50);
-    background: #ddd;
+    width: size(60);
+    height: size(60);
+    @include bg('~img/icon-home.png');
   }
   .right{
     position: absolute;
-    top: size(25);
+    top: size(22);
     right: size(30);
     padding: size(10) size(20);
     border:size(1) solid #fff;

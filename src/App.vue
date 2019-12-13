@@ -11,28 +11,28 @@
 
 <script>
 export default {
-  name: 'App',
-  data(){
-      return {
-        animate: '',
-        is_alive: false
-      }
+  name: "App",
+  data() {
+    return {
+      animate: "",
+      is_alive: false
+    };
   },
   //使用watch 监听$router的变化
   //如果to索引大于from索引,判断为前进状态,反之则为后退状态
   watch: {
     $route(to, from) {
-      this.is_alive = to.meta.keepAlive
-      to.meta.title && this.$store.commit('get_bar', to.meta.title)
-      if(to.meta.index > from.meta.index){
-	    //设置动画名称
-        this.animate= 'slide-left';
-      }else{
-        this.animate= 'slide-right';
+      this.is_alive = to.meta.keepAlive;
+      to.meta.title && this.$store.commit("get_bar", to.meta.title);
+      if (to.meta.index > from.meta.index) {
+        //设置动画名称
+        this.animate = "slide-left";
+      } else {
+        this.animate = "slide-right";
       }
     }
   }
-}
+};
 </script>
 
 <style lang="scss">
