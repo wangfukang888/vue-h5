@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import VGrid from 'com/grid-icon'
+import VGrid from 'com/grid-list'
 import {repir_data} from '../mock/grid_data'
  
 export default {

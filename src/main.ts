@@ -14,7 +14,7 @@ Vue.use(Search).use(Icon)
 
 Vue.config.productionTip = false
 Vue.component('nav-bar', NavBar)
-Vue.component('load', Loading)
+Vue.component('loading', Loading)
 Vue.component('container', container)
 
 Vue.prototype.toast = function(text: string) {

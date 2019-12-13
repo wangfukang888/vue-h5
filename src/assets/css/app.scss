@@ -75,3 +75,13 @@ body, html {
     opacity: 0;
     transform: translate3d(-100%, 0, 0);
   }
+
+  .van-search__content{
+    border-radius: size(40);
+  }
+  
+  .van-grid-item__text{
+    font-size: size(14);
+    font-weight: bold;
+  }
+  

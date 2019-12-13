@@ -13,11 +13,12 @@
             <input type="text" v-model="search_val" placeholder="搜索序列号" @focus="goSearch">
           </div>
         </div>
-        <div class="search-info">
+        <loading type="spinner" v-if="is_loading" style="padding: 20px 0"/>
+        <div class="search-info" v-if="search_info">
           <div class="header">
             <div class="left-img"></div>
             <div class="info">
-              <div class="title">喷油嘴清洗仪</div>
+              <div class="title">模拟数据 喷油嘴清洗仪</div>
               <div class="desc">
                 <span class="dec-x">序列号  62459005510</span>
                 <div class="dec-type">
@@ -45,7 +46,7 @@
 
 <script>
 import VSearch from 'com/search'
-import VGrid from "com/grid-icon"
+import VGrid from "com/grid-list"
 import {equipment_data} from '../mock/grid_data'
 
 export default {
@@ -57,7 +58,9 @@ export default {
     return {
       text: "设备有问题",
       search_val: '',
+      is_loading: false,
       show_search: false,
+      search_info: null,
       search_grid: [
         {
           icon: '',
@@ -75,6 +78,8 @@ export default {
       grid_list: equipment_data || []
     }
   },
+  computed: {
+  },
   methods: {
     getScan() {
       this.$router.push('/scan')
@@ -90,7 +95,14 @@ export default {
     },
     search(val) {
       this.show_search = false
+      this.search_info = ''
       this.search_val = val
+      this.is_loading = true
+      setTimeout(() => {
+        this.search_info = '1'
+        this.is_loading = false
+      },2000)
+      
     }
   }
 };

@@ -20,7 +20,7 @@ const routes = [
     component: () => import('../views/equipment.vue'),
     meta: {
       index: 1,
-      keepAlive: false,
+      keepAlive: true,
       title: '设备有问题'
     }
   },

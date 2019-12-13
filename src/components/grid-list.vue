@@ -11,6 +11,8 @@
             v-for="(value, o) in item.list"
             :key="o"
             icon="photo-o"
+            :url="value.url"
+            @click="goGrid(value.url, value.path)"
             :text="value.text"
           />
         </van-grid>
@@ -23,6 +25,11 @@
 export default {
   props: {
     list: Array
+  },
+  methods: {
+    goGrid(url, path) {
+      (!url || !path) && this.$toast('暂未开通此功能')
+    }
   }
 };
 </script>

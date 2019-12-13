@@ -5,6 +5,7 @@
       v-model="val"
       placeholder="请输入序列号"
       show-action
+      background="#eee"
       @search="onSearch"
       @cancel="onCancel"
     />

@@ -23,23 +23,28 @@ export const equipment_data = [
     list: [
       {
         icon: "",
+        url: "http://18665898937.udesk.cn/im_client/feedback_tab/new.html?form=2&language=zh-cn",
         text: "返厂维修"
       },
       {
         icon: "",
+        url: "http://18665898937.udesk.cn/im_client/feedback_tab/new.html?form=8&language=zh-cn",
         text: "配件需求"
       },
       {
         icon: "",
-        text: "产品退换货"
+        text: "产品退换货",
+        url: "http://18665898937.udesk.cn/im_client/feedback_tab/new.html?form=5&language=zh-cnhttp://18665898937.udesk.cn/im_client/feedback_tab/new.html?form=5&language=zh-cn"
       },
       {
         icon: "",
-        text: "客户索赔"
+        text: "客户索赔",
+        url: 'http://18665898937.udesk.cn/im_client/feedback_tab/new.html?form=7&language=zh-cn'
       },
-      {
+      { 
         icon: "",
-        text: "产品翻新"
+        text: "产品翻新",
+        url: 'http://18665898937.udesk.cn/im_client/feedback_tab/new.html?form=9&language=zh-cn'
       },
       {
         icon: "",
@@ -53,15 +58,18 @@ export const equipment_data = [
     list: [
       {
         icon: "",
-        text: "客户投诉"
+        text: "客户投诉",
+        url: 'http://18665898937.udesk.cn/im_client/feedback_tab/new.html?form=3&language=zh-cn'
       },
       {
         icon: "",
-        text: "产品改善建议"
+        text: "产品改善建议",
+        url: 'http://18665898937.udesk.cn/im_client/feedback_tab/new.html?form=4&language=zh-cn'
       },
       {
         icon: "",
-        text: "质量问题反馈"
+        text: "质量问题反馈",
+        url: 'http://18665898937.udesk.cn/im_client/feedback_tab/new.html?form=6&language=zh-cn'
       }
     ]
   }
