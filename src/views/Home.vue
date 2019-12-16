@@ -40,8 +40,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '~css/def';
-
 .top{
   height: size(100);
   background: #323d43;
@@ -61,6 +59,9 @@ export default {
     border:size(1) solid #fff;
     color: #fff;
     border-radius: size(40);
+  }
+  img{
+    display: block;
   }
 }
 

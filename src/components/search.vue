@@ -1,14 +1,16 @@
 <template>
   <div class="search-container">
-    <van-search
-      ref="s_f"
-      v-model="val"
-      placeholder="请输入序列号"
-      show-action
-      background="#eee"
-      @search="onSearch"
-      @cancel="onCancel"
-    />
+    <form action="/">
+      <van-search
+        ref="s_f"
+        v-model="val"
+        placeholder="请输入序列号"
+        show-action
+        background="#eee"
+        @search="onSearch"
+        @cancel="onCancel"
+      />
+    </form>
   </div>
 </template>
 
@@ -43,5 +45,12 @@ export default {
 }
 .nav-container{
   padding-bottom: size( 100);
+}
+/deep/ input {
+    background: transparent !important;
+}
+
+/deep/ .van-search__content{
+  border-radius: size(40);
 }
 </style>

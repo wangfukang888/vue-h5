@@ -11,7 +11,18 @@ const routes = [
     component: Home,
     meta: {
       index: 0,
-      keepAlive: true
+      keepAlive: true,
+      title: 'golo汽修大师'
+    }
+  },
+  {
+    path: '*',
+    name: 'notfound',
+    component: () => import('../views/notfound.vue'),
+    meta: {
+      index: 1,
+      keepAlive: false,
+      title: '页面不存在'
     }
   },
   {
@@ -46,6 +57,8 @@ const routes = [
   }
 ]
 
+const BASE_URL = process.env.NODE_ENV !== 'production' ? '/' : '/index/indexpro'
+
 const router = new VueRouter({
   mode: 'history',
   scrollBehavior(to, from, saveTop) {
@@ -55,7 +68,7 @@ const router = new VueRouter({
       return { x: 0, y: 0 }
     }
   },
-  base: process.env.BASE_URL,
+  base: BASE_URL,
   routes
 })
 

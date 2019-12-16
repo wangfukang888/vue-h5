@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <n-bar :title="text" />
+    <!-- <n-bar :title="text" /> -->
     <slot></slot>
   </div>
 </template>

@@ -6,7 +6,7 @@
         <span>{{item.desc}}</span>
       </div>
       <div class="icon-grid">
-        <van-grid :column-num="3">
+        <van-grid :column-num="3" :border="false">
           <van-grid-item
             v-for="(value, o) in item.list"
             :key="o"
@@ -28,15 +28,13 @@ export default {
   },
   methods: {
     goGrid(url, path) {
-      (!url || !path) && this.$toast('暂未开通此功能')
+      !(url || path) && this.$toast('暂未开通此功能')
     }
   }
 };
 </script>
 
 <style scoped lang="scss">
-@import "~css/def";
-
 .list {
   .title {
     height: size(150);
@@ -65,4 +63,8 @@ export default {
 /deep/ .van-grid-item__icon{
   font-size: size(60);
 }
+/deep/ .van-grid-item__text{
+    font-size: size(24);
+    font-weight: bold;
+  }
 </style>

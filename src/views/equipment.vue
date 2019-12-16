@@ -28,8 +28,8 @@
             </div>
           </div>
           <div class="bottom">
-            <van-grid :column-num="3">
-              <van-grid-item v-for="(item, index) in search_grid" :key="index" icon="photo-o" :text="item.text" />
+            <van-grid :column-num="3" :border="false">
+              <van-grid-item v-for="(item, index) in search_grid" :key="index" :text="item.text" :icon="item.icon || 'photo-o'" />
             </van-grid>
           </div>
         </div>
@@ -109,8 +109,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "~css/def";
-
 .top{
   width: 100%;
   background: #f1f1f1;
@@ -119,22 +117,22 @@ export default {
   display: flex;
   .icon-code{
     width: size(50);
-    background: #fff;
-    margin-right: size(20);
-    font-size: size(50);
+    margin-right: size(30);
+    font-size: size(60);
   }
   .search{
     position: relative;
     flex: 1;
     width: 100%;
+    height: size(60);
     .icon{
       position: absolute;
-      top:size(10);
+      top:size(15);
       left: size(10);
     }
     input{
-      height: size(50);
-      line-height: size(50);
+      height: size(60);
+      line-height: size(60);
       padding-left: size(60); 
       border-radius: size(40);
       font-size: size(26);

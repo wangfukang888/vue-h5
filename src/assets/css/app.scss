@@ -1,4 +1,4 @@
-@import 'def';
+// @import 'def';
 @import 'reset';
 
 html {
@@ -76,12 +76,5 @@ body, html {
     transform: translate3d(-100%, 0, 0);
   }
 
-  .van-search__content{
-    border-radius: size(40);
-  }
   
-  .van-grid-item__text{
-    font-size: size(14);
-    font-weight: bold;
-  }
   
