@@ -113,7 +113,7 @@ export default {
   width: 100%;
   background: #f1f1f1;
   height: size(100);
-  padding: size(25) size(30);
+  padding: size(20);
   display: flex;
   .icon-code{
     width: size(50);
@@ -140,19 +140,24 @@ export default {
   }
 }
 .search-info{
-  padding: size(20) size(30);
+  padding: 0 size(20);
+  margin-bottom: size(20);
   .header{
     display: flex;
-    padding: size(15);
+    background: #fff;
+    padding: size(20) size(30);
+    border-radius: size(40) size(40) 0 0;
     .left-img{
       width: size(150);
       height: size(150);
       background: #ccc;
+      border-radius: size(5);
     }
     .info{
       flex: 1;
       margin-left: size(30);
       display: flex;
+      padding: size(5) 0;
       flex-direction: column;
       text-align: left;
       .title{
@@ -178,6 +183,7 @@ export default {
   }
 }
 /deep/ .grid-eq {
+  padding: 0 size(20);
   .title {
     &.t-1 {
       background: linear-gradient(to right, #5e2228, #90424b);

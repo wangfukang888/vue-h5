@@ -38,13 +38,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '~css/def';
-
 /deep/ .van-nav-bar .van-icon {
   color: #333; 
-}
-.nav-container{
-  padding-bottom: size( 100);
 }
 /deep/ input {
     background: transparent !important;

@@ -29,8 +29,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '~css/def';
-
 /deep/ .van-nav-bar .van-icon {
   color: #333; 
 }

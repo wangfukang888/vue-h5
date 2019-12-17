@@ -21,12 +21,9 @@ export default {
 
 <style lang="scss" scoped>
 .container{
-  position: absolute;
   width: 100%;
-  top: 0;
-  left:0;
-  bottom: 0;
-  background: #fff;   
+  height: 100%;
+  background: #f1f1f1;   
 }
 
 </style>

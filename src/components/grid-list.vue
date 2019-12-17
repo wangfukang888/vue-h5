@@ -45,7 +45,7 @@ export default {
     h2 {
       margin-top: size(10);
       margin-bottom: size(20);
-      font-size: size(32);
+      font-size: size(36);
     }
     span{
       font-size: size(26);
@@ -53,18 +53,19 @@ export default {
     }
   }
   .icon-grid {
-    padding: size(10) 0;
-  }
-  &:last-child {
+    background: #fff;
     margin-bottom: size(20);
   }
+  // &:last-child {
+  //   margin-bottom: size(20);
+  // }
 }
 
 /deep/ .van-grid-item__icon{
   font-size: size(60);
 }
 /deep/ .van-grid-item__text{
-    font-size: size(24);
-    font-weight: bold;
-  }
+  font-size: size(24);
+  font-weight: bold;
+}
 </style>

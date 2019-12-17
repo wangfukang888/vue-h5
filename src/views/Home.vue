@@ -8,8 +8,8 @@
         历史记录
       </div>
     </div>
-    <img src="~img/problem1.png" @click="goback('equipment')">
-    <img src="~img/problem2.png" @click="goback('reqair')">
+    <div class="bg bg-e" @click="goback('equipment')"></div>
+    <div class="bg bg-r" @click="goback('reqair')"></div>
   </div>
 </template>
 
@@ -62,6 +62,17 @@ export default {
   }
   img{
     display: block;
+  }
+}
+.bg{
+  width: 100%;
+  height: size(600);
+  &-e{
+    @include bg('~img/problem1.png');
+  }
+  &-r{
+    height: size(700);
+    @include bg('~img/problem2.png');
   }
 }
 

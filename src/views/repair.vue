@@ -38,7 +38,7 @@ export default {
 
 <style lang="scss" scoped>
 .r-container {
-  padding: 0 size(20);
+  padding: size(10) size(20) 0 size(20);
   .banner {
     position: relative;
     width: 100%;
@@ -49,14 +49,14 @@ export default {
     .phone{
       position: absolute;
       top: size(60);
-      left:size(60);
+      left:size(98);
       width: size(158);
       height: size(318);
       @include bg('~img/phone.png');
     }
     .split{
       position: absolute;
-      left:40%;
+      left:44%;
       top:35%;
       background: rgba($color: #fff, $alpha: 0.4);
       width: size(1);

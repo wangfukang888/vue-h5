@@ -57,6 +57,7 @@ const routes = [
   }
 ]
 
+// 需要与服务器路由匹配
 const BASE_URL = process.env.NODE_ENV !== 'production' ? '/' : '/index/indexpro'
 
 const router = new VueRouter({
