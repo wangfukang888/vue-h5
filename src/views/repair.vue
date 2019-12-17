@@ -76,8 +76,6 @@ export default {
       top: size(150);
       width: size(138);
       height: size(137);
-      // z-index: 50;
-      // @include bg('~img/code.png');
     }
     .btn{
       position: absolute;
@@ -88,16 +86,6 @@ export default {
       color: #fff;
       font-size: size(26);
       border: size(1) solid #fff;
-    }
-  }
-  /deep/ .grid-m {
-    .title{
-      &.t-1 {
-        background: linear-gradient(to right, #04b396, #07d6c5);
-      }
-      &.t-2 {
-        background: linear-gradient(to right, #024374, #096bb4) ;
-      }
     }
   }
 }

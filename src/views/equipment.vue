@@ -177,24 +177,12 @@ export default {
             margin-right: size(20);
           }
         }
-      }
-     
+      }    
     }
   }
 }
 /deep/ .grid-eq {
   padding: 0 size(20);
-  .title {
-    &.t-1 {
-      background: linear-gradient(to right, #5e2228, #90424b);
-    }
-    &.t-2 {
-      background: linear-gradient(to right, #2f5f48, #579379);
-    }
-    &.t-3 {
-      background: linear-gradient(to right, #024374, #096bb4) ;
-    }
-  }
 }
 </style>
 

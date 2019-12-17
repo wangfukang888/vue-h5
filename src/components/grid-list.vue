@@ -1,7 +1,7 @@
 <template>
   <div class="grid-icon">
     <div class="list" v-for="(item, index) in list" :key="index">
-      <div class="title" :class="'t-' + (index + 1)">
+      <div class="title" :style="`background: linear-gradient(to right, ${item.l_bg}, ${item.r_bg})`">
         <h2>{{item.title}}</h2>
         <span>{{item.desc}}</span>
       </div>

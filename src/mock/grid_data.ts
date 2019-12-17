@@ -3,6 +3,8 @@ export const equipment_data = [
   {
     title: "现场服务申请",
     desc: "举升机、四轮定位仪等上门现场服务",
+    l_bg: '#5e2228',
+    r_bg: '#90424b',
     list: [
       {
         icon: require('img/icon/12.png'),
@@ -21,6 +23,8 @@ export const equipment_data = [
   {
     title: "设备服务申请",
     desc: "元征各类产品非现场类售后服务申请",
+    l_bg: '#2f5f48',
+    r_bg: '#579379',
     list: [
       {
         icon: require('img/icon/15.png'),
@@ -56,6 +60,8 @@ export const equipment_data = [
   {
     title: "投诉与建议",
     desc: "留下您宝贵的建议，力求为您提供最优质的服务",
+    l_bg: '#024374',
+    r_bg: '#096bb4',
     list: [
       {
         icon: require('img/icon/21.png'),
@@ -80,6 +86,8 @@ export const repir_data = [
   {
     title: "社区",
     desc: "汽修问题线上问，专家为您解决各种疑难杂症",
+    l_bg: '#04b396',
+    r_bg: '#07d6c5',
     list: [
       {
         icon: require('img/icon/1.png'),
@@ -98,6 +106,8 @@ export const repir_data = [
   {
     title: "工作台",
     desc: "技师维修辅助工具大全",
+    l_bg: '#024374',
+    r_bg: '#096bb4',
     list: [
       {
         icon: require('img/icon/4.png'),
