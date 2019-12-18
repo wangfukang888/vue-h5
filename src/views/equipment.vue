@@ -48,6 +48,7 @@
 import VSearch from 'com/search'
 import VGrid from "com/grid-list"
 import {equipment_data} from '../mock/grid_data'
+import {wx_scan} from '../utils/wxConfig'
 
 export default {
   components: {
@@ -82,7 +83,7 @@ export default {
   },
   methods: {
     getScan() {
-      this.$router.push('/scan')
+      wx_scan(wx)
     },
     goSearch() {
       this.show_search = true
@@ -101,8 +102,7 @@ export default {
       setTimeout(() => {
         this.search_info = '1'
         this.is_loading = false
-      },2000)
-      
+      },2000)   
     }
   }
 };

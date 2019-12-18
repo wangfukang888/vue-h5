@@ -5,7 +5,8 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    nav_bar_t: ''
+    nav_bar_t: '',
+    wx_info: {}
   },
   mutations: {
     get_bar(state, text) {

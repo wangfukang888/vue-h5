@@ -42,7 +42,7 @@ export default {
   color: #333; 
 }
 /deep/ input {
-    background: transparent !important;
+  background: transparent !important;
 }
 
 /deep/ .van-search__content{
