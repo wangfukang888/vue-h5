@@ -38,14 +38,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-/deep/ .van-nav-bar .van-icon {
-  color: #333; 
-}
-/deep/ input {
-  background: transparent !important;
-}
+.search-container{
+  /deep/ .van-nav-bar .van-icon {
+    color: #333; 
+  }
+  /deep/ input {
+    background: transparent;
+  }
 
-/deep/ .van-search__content{
-  border-radius: size(40);
+  /deep/ .van-search__content{
+    border-radius: size(40);
+  }
 }
 </style>

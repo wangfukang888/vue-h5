@@ -2,9 +2,14 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-import 'vant/lib/index.css'; 
-import { NavBar, Loading, Toast, GridItem, Grid, Search, Icon } from 'vant';
-import container  from './components/px-container.vue';
+import 'vant/lib/index.css'
+import { NavBar, Loading, Toast, GridItem, Grid, Search, Icon } from 'vant'
+import container  from './components/px-container.vue'
+import FastClick from 'fastclick'
+
+let f : any = FastClick
+console.log(f)
+f.attach(document.body)
 
 Vue.use(NavBar)
 Vue.use(Loading)

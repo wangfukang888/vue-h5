@@ -59,13 +59,13 @@ export default {
   // &:last-child {
   //   margin-bottom: size(20);
   // }
+  /deep/ .van-grid-item__icon{
+    font-size: size(60);
+  }
+  /deep/ .van-grid-item__text{
+    font-size: size(24);
+    font-weight: bold;
+  }
 }
 
-/deep/ .van-grid-item__icon{
-  font-size: size(60);
-}
-/deep/ .van-grid-item__text{
-  font-size: size(24);
-  font-weight: bold;
-}
 </style>

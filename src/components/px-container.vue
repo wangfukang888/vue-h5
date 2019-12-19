@@ -1,12 +1,16 @@
 <template>
   <div class="container">
     <!-- <n-bar :title="text" /> -->
-    <slot></slot>
+    <div class="b-scroll no-bar" ref="bscroll">
+      <slot></slot>
+    </div>
   </div>
 </template>
 
 <script>
 import NBar from 'com/nav-bar'
+import BScroll from 'better-scroll'
+
 export default {
   components: {
     NBar
@@ -14,6 +18,25 @@ export default {
   data() {
     return{
       text: this.$store.state.nav_bar_t || ''
+    }
+  },
+  mounted() {
+    this.$nextTick(() => {
+      let bs_dom = this.$refs.bscroll
+      this.bs = new BScroll(bs_dom, {
+        click: false,
+        scrollbar: { // 设置滚动条
+          fade: true 
+        }
+      })
+    })
+  },
+  methods: {
+    refresh() {
+      this.bs && this.bs.refresh()
+    },
+    destroy() {
+      this.bs && this.bs.destroy()
     }
   }
 }
@@ -23,7 +46,19 @@ export default {
 .container{
   width: 100%;
   height: 100%;
-  background: #f1f1f1;   
+  /deep/ .bscroll-vertical-scrollbar{
+    width: 4px !important;
+  }
 }
-
+.b-scroll{
+  position: absolute;
+  width: 100%;
+  top: size(92);
+  bottom: 0;
+  // height: 100%;
+  background: #f1f1f1; 
+  &.no-bar{
+    top: 0;
+  }
+}
 </style>

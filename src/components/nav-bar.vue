@@ -29,10 +29,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-/deep/ .van-nav-bar .van-icon {
-  color: #333; 
-}
 .nav-container{
   padding-bottom: size( 100);
+  /deep/ .van-nav-bar .van-icon {
+    color: #333; 
+  }
 }
 </style>

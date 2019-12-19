@@ -1,5 +1,5 @@
 <template>
-  <container>
+  <container ref="e_bs">
     <div class="equipment">
       <template v-if="!show_search">
         <div class="top">
@@ -80,6 +80,9 @@ export default {
     }
   },
   computed: {
+  },
+  destroyed() {
+    this.$refs.e_bs && this.$refs.e_bs.destroy()
   },
   methods: {
     getScan() {
@@ -181,7 +184,7 @@ export default {
     }
   }
 }
-/deep/ .grid-eq {
+.grid-eq {
   padding: 0 size(20);
 }
 </style>
