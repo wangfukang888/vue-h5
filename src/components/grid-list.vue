@@ -12,6 +12,7 @@
             :key="o"
             :icon="value.icon || 'photo-o'"
             :url="value.url"
+            :to="value.path"
             @click="goGrid(value.url, value.path)"
             :text="value.text"
           />

@@ -1,35 +1,17 @@
 <template>
-  <div class="container">
-    <!-- <n-bar :title="text" /> -->
-    <div class="b-scroll no-bar" ref="bscroll">
-      <slot></slot>
-    </div>
+  <div class="scroll-container" ref="scroll_list">
+    <slot></slot>
   </div>
 </template>
 
 <script>
-import NBar from 'com/nav-bar'
 import BScroll from 'better-scroll'
 
 export default {
-  components: {
-    NBar
-  },
-  props: {
-    disable_scroll: {
-      type: Boolean,
-      default: true
-    }
-  },
-  data() {
-    return{
-      text: this.$store.state.nav_bar_t || ''
-    }
-  },
   mounted() {
-    this.disable_scroll && this.$nextTick(() => {
-      let bs_dom = this.$refs.bscroll
-      this.bs = new BScroll(bs_dom, {
+    this.$nextTick(() => {
+      let scroll_list = this.$refs.scroll_list
+      this.scroll_list = new BScroll(scroll_list, {
         click: true,
         scrollbar: { // 设置滚动条
           fade: true 

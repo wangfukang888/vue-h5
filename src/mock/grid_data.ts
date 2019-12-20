@@ -8,6 +8,7 @@ export const equipment_data = [
     list: [
       {
         icon: require('img/icon/12.png'),
+        path:'/eq_install',
         text: "现场安装"
       },
       {

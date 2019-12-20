@@ -10,7 +10,7 @@
             <div class="icon">
               <van-icon name="search" />
             </div>
-            <input type="text" v-model="search_val" placeholder="搜索序列号" @focus="goSearch">
+            <input class="needsclick" type="text" v-model="search_val" placeholder="搜索序列号" @focus="goSearch">
           </div>
         </div>
         <loading type="spinner" v-if="is_loading" style="padding: 20px 0"/>

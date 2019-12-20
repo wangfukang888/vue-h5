@@ -26,6 +26,16 @@ const routes = [
     }
   },
   {
+    path: '/login',
+    name: 'login',
+    component: () => import('../views/user/login.vue'),
+    meta: {
+      index: 0,
+      keepAlive: false,
+      title: '登录'
+    }
+  },
+  {
     path: '/equipment',
     name: 'equipment',
     component: () => import('../views/equipment.vue'),
@@ -53,6 +63,16 @@ const routes = [
       index: 3,
       keepAlive: false,
       title: '扫码'
+    }
+  },
+  {
+    path: '/eq_install',
+    name: 'eq_install',
+    component: () => import('../views/equipment_install.vue'),
+    meta: {
+      index: 4,
+      keepAlive: false,
+      title: '设备安装'
     }
   }
 ]
