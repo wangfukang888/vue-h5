@@ -17,6 +17,7 @@
 <script>
 import info from './eq_install/info'
 import partner from './eq_install/partner'
+import release from './eq_install/release'
 import BScroll from 'better-scroll'
 
 export default {
@@ -33,7 +34,8 @@ export default {
   },
   components: {
     info,
-    partner
+    partner,
+    release
   },
   computed: {
   },

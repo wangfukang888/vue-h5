@@ -6,7 +6,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     nav_bar_t: '',
-    token: 's',
+    token: 'ea28b23ef404a553b9b226f1994ea977',
     wx_info: {}
   },
   mutations: {

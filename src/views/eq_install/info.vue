@@ -1,82 +1,85 @@
 <template>
-  <scroll-list class="info-container">
-    <div class="main">
-      <div class="btn-select">选择设备</div>
-      <div class="desc">
-        <div class="title">基本资料</div>
-        <div class="det">
-          <van-cell-group>
-            <van-field v-model="value" placeholder="请输入用户名" />
-            <van-field v-model="form_data.phone" placeholder="请输入手机号" />
-          </van-cell-group>
-        </div>
-      </div>
-      <div class="l-r">
+  <div>
+    <scroll-list class="info-container">
+      <div class="main">
+        <div class="btn-select">选择设备</div>
         <div class="desc">
-          <div class="title">安装日期</div>
+          <div class="title">基本资料</div>
           <div class="det">
             <van-cell-group>
-              <van-field v-model="value" placeholder="请选择安装日期" readonly right-icon="arrow" @click="getDate" />
+              <van-field v-model="value" placeholder="请输入用户名" />
+              <van-field v-model="form_data.phone" placeholder="请输入手机号" />
             </van-cell-group>
           </div>
         </div>
-         <div class="desc">
-          <div class="title">所在地区</div>
+        <div class="l-r">
+          <div class="desc">
+            <div class="title">安装日期</div>
+            <div class="det">
+              <van-cell-group>
+                <van-field v-model="value" placeholder="请选择安装日期" readonly right-icon="arrow" @click="getDate" />
+              </van-cell-group>
+            </div>
+          </div>
+          <div class="desc">
+            <div class="title">所在地区</div>
+            <div class="det">
+              <van-cell-group>
+                <van-field v-model="form_data.address" placeholder="请选择地址" readonly right-icon="arrow" @click="$refs.selAddr.show()"/>
+              </van-cell-group>
+            </div>
+          </div>
+        </div>
+        <div class="desc">
+          <div class="title">详细地址</div>
           <div class="det">
             <van-cell-group>
-              <van-field v-model="value" placeholder="请选择地址" readonly right-icon="arrow"/>
+              <van-field v-model="value" placeholder="请填写详细地址" />
             </van-cell-group>
           </div>
         </div>
-      </div>
-      <div class="desc">
-        <div class="title">详细地址</div>
-        <div class="det">
-          <van-cell-group>
-            <van-field v-model="value" placeholder="请填写详细地址" />
-          </van-cell-group>
+        <div class="desc">
+          <div class="title">备注</div>
+          <div class="det">
+            <van-cell-group>
+              <van-field type="textarea" v-model="value" placeholder="备注信息" />
+            </van-cell-group>
+          </div>
         </div>
-      </div>
-      <div class="desc">
-        <div class="title">备注</div>
-        <div class="det">
-          <van-cell-group>
-            <van-field type="textarea" v-model="value" placeholder="备注信息" />
-          </van-cell-group>
+        <div class="btn-next active" @click="goActive">下一步
+          <span class="icon">
+            <van-icon name="arrow" />
+          </span>
         </div>
-      </div>
-      <div class="btn-next active" @click="goActive">下一步
-        <span class="icon">
-          <van-icon name="arrow" />
-        </span>
-      </div>
-    </div> 
-    <!-- <div class="picker">
-      <van-datetime-picker
-        v-model="currentDate"
-        type="date"
-        :min-date="minDate"
-      />
-    </div> -->
-  </scroll-list>
+      </div> 
+    </scroll-list>
+    <v-city v-model="addr" ref="selAddr" @input="getCityName"/>
+  </div>
 </template>
 
 <script>
+import VCity from 'com/city'
 import scrollList from "com/scroll-list";
 
 export default {
   data() {
     return {
       form_data: {},
+      addr: [],
       currentDate: new Date()
     };
   },
   components: {
-    scrollList
+    scrollList,
+    VCity
   },
   methods: {
     getDate() {
       console.log(this.form_data.phone);
+    },
+    getCityName(arr) {
+      console.log(arr)
+      this.form_data.address = arr.join('-')
     },
     getAddress() {},
     goActive() {

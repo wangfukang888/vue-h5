@@ -8,6 +8,20 @@
 import BScroll from 'better-scroll'
 
 export default {
+  props: {
+    data: Number,
+    pullup: {
+      type: Boolean,
+      default: false
+    }
+  },
+  watch: {
+    data(val) {
+      if(val) {
+        this.refresh()
+      }
+    }
+  },
   mounted() {
     this.$nextTick(() => {
       let scroll_list = this.$refs.scroll_list
@@ -17,6 +31,13 @@ export default {
           fade: true 
         }
       })
+      if (this.pullup) {
+        this.scroll_list.on('scrollEnd', (pos) => {
+          if (this.scroll_list.y <= (this.scroll_list.maxScrollY + 50)) {
+            this.$emit('scrollToEnd')
+          }
+        })
+      }
     })
   },
   methods: {

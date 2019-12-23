@@ -74,6 +74,26 @@ const routes = [
       keepAlive: false,
       title: '设备安装'
     }
+  },
+  {
+    path: '/order_list',
+    name: 'order_list',
+    component: () => import('../views/order/order-list.vue'),
+    meta: {
+      index: 5,
+      keepAlive: false,
+      title: '历史记录'
+    }
+  },
+  {
+    path: '/order_detail',
+    name: 'order_detail',
+    component: () => import('../views/order/order-detail.vue'),
+    meta: {
+      index: 6,
+      keepAlive: false,
+      title: '订单详情'
+    }
   }
 ]
 

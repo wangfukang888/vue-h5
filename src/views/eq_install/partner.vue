@@ -1,143 +1,160 @@
 <template>
-  <scroll-list class="info-container">
-    <div class="main">
-      <div class="btn-select">选择设备</div>
-      <div class="desc">
-        <div class="title">基本资料</div>
-        <div class="det">
-          <van-cell-group>
-            <van-field v-model="value" placeholder="请输入用户名" />
-            <van-field v-model="form_data.phone" placeholder="请输入手机号" />
-          </van-cell-group>
+  <div class="partner-container">
+    <div class="header">
+      <div class="item" @click="$refs.sel.show()">
+        <div class="info">{{partner_data.address}}</div>
+        <div class="icon">
+          <van-icon name="arrow" />
         </div>
       </div>
-   
+      <div class="item" @click="show_picker = true">
+        <div class="info">{{partner_data.info_type}}</div>
+        <div class="icon">
+          <van-icon name="arrow" />
+        </div>
+      </div>
+    </div>
+    <scroll-list class="list-wrap"  :data="list_data" ref="list_p">
+      <info-list :data="7"/>
+    </scroll-list>
+    <div class="footer">
       <div class="btn-next active" @click="goActive">下一步
         <span class="icon">
           <van-icon name="arrow" />
         </span>
-      </div>
-    </div> 
-    <!-- <div class="picker">
-      <van-datetime-picker
-        v-model="currentDate"
-        type="date"
-        :min-date="minDate"
-      />
-    </div> -->
-  </scroll-list>
+      </div>  
+    </div>
+    <div>
+      <v-city v-model="addr" ref="sel" @input="getCity" />
+      <v-pop v-model="show_picker" position="bottom">
+         <v-picker
+          show-toolbar
+          title="安装类型"
+          :columns="columns"
+          @cancel="show_picker = false"
+          @confirm="onConfirm"
+        />
+      </v-pop>
+    </div>
+  </div>
+  
 </template>
 
 <script>
-import scrollList from "com/scroll-list";
+import VCity from 'com/city'
+import InfoList from 'com/partner/info-list'
+import scrollList from "com/scroll-list"
+import { Picker , Popup} from 'vant';
 
 export default {
   data() {
     return {
-      form_data: {},
-      currentDate: new Date()
+      addr: [],
+      show_picker: false,
+      columns: ['杭州', '宁波', '温州', '嘉兴', '湖州'],
+      partner_data: {
+        address: '广东省-深圳市',
+        info_type: '举升机'
+      },
+      list_data: [],
+      show_type: false
     };
   },
   components: {
-    scrollList
+    scrollList,
+    VCity,
+    InfoList,
+    'v-picker': Picker,
+    'v-pop': Popup
   },
   methods: {
-    getDate() {
-      console.log(this.form_data.phone);
+    getCity(arr) {
+      console.log(arr)
+      this.partner_data.address = arr.join('-')
     },
-    getAddress() {},
     goActive() {
-      this.$emit("go_ative", 1);
+      this.$emit("go_ative", 2, 'release');
+    },
+    onConfirm() {
+
     }
   }
 };
 </script>
 
 <style lang="scss" scoped>
-.info-container {
-  position: absolute;
-  top: size(60);
-  bottom: 0;
-  width: 100%;
-  padding: size(10) size(60);
-  .main{
-    padding-bottom: size(10);
-  }
-  .btn-select{
+.partner-container {
+  // padding: size(10) size(60);
+  .header{
+    position: fixed;
     width: 100%;
-    height:size(80);
-    font-size: size(30);
-    font-weight:500;
-    color:rgba(43,166,159,1);
-    border: size(1) solid #2BA69F;
-    line-height:size(80);
-    border-radius: size(30);
-  }
-  .l-r{
+    top:size( 180);
     display: flex;
-    .desc{
+    padding: size(10) size(60);
+    align-items: center;
+    .item{
       flex: 1;
-      margin-right: size(50);
-      &:last-child{
-        margin-right: 0;
+      text-align: center;
+      font-size: size(28);
+      div{
+        display: inline-block;
+        vertical-align: middle;
+        &.icon{
+          margin-left: size(10);
+          font-size: size(24);
+        }
       }
+      // text-align: center;  
     }
   }
-  .desc{
+  .list-wrap{
+    position: absolute;
     width: 100%;
-    margin: size(20) 0;
-    // height: size(900);
-    // background: #ccc;
-    .title{
-      height: size(50);
-      line-height: size(50);
-      font-size: size(30);
-      color: #666;
-      text-align: left;
-    }
-    .det{
-      margin: size(20) 0;
-      /deep/ .van-cell{
-        margin: size(20) 0;
-        background: #EBEDF0;
-        border-radius: size(30);
-        color: #939FB2;
-        input{
-          background: transparent;
+    top:size(100);
+    bottom: size(200);
+    padding: size(0) size(60);
+    overflow: hidden;
+  }
+  .footer{
+    position: fixed;
+    left: 0;
+    width: 100%;
+    bottom: 0;
+    background: #fff;
+    // border-radius: size(30) size(30) 0 0;
+    height: size(200);
+    .btn-next{
+      position: relative;
+      margin: size(40) auto;
+      border-radius: size(30);
+      width: size(440);
+      height: size(110);
+      line-height: size(110);
+      background: #EBEDF0;
+      .icon{
+        position: absolute;
+        top: size(20);
+        right:size(20);
+        display: inline-block;
+        width: size(70);
+        height: size(70);
+        line-height: size(80);
+        padding-left: 1%;
+        background: #fff;
+        border-radius: 50%;
+        color: #333;
+        font-weight: bold;
+      }
+      &.active{
+        background: #2BA69F;
+        color: #fff;
+        .icon{
+          color: #2BA69F;
         }
       }
     }
   }
-  .btn-next{
-    position: relative;
-    margin: size(50) auto;
-    border-radius: size(30);
-    width: size(440);
-    height: size(110);
-    line-height: size(110);
-    background: #EBEDF0;
-    .icon{
-      position: absolute;
-      top: size(20);
-      right:size(20);
-      display: inline-block;
-      width: size(70);
-      height: size(70);
-      line-height: size(80);
-      padding-left: 1%;
-      background: #fff;
-      border-radius: 50%;
-      color: #333;
-      font-weight: bold;
-    }
-    &.active{
-      background: #2BA69F;
-      color: #fff;
-      .icon{
-        color: #2BA69F;
-      }
-    }
-  }
+  
 }
 </style>
 
