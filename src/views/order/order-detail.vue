@@ -3,7 +3,7 @@
     <scroll-list class="detail-m">
       <div class="container">
         <div class="hd">待服务</div>
-        <div class="info">
+        <div class="g-order-info info">
           <div class="item">
             <div class="l">服务类型:</div>
             <div class="r">现场安装</div>
@@ -25,8 +25,8 @@
             <div class="r">现场安装深圳市民治达到就是看手机深圳市民治达到就是</div>
           </div>
         </div>
-         <div class="name-p">
-          <info-list :noclick="true" :data="1"/>
+         <div class="name-p">   
+          <info-list :noclick="true" :data="1"/>  
         </div>
       </div>
     </scroll-list>
@@ -59,7 +59,7 @@ export default {
 <style lang="scss" scoped>
 .order-detail{
   .detail-m{
-    position: absolute;
+    position: fixed;
     top:0;
     width: 100%;
     background: #f1f1f1;
@@ -74,28 +74,12 @@ export default {
     }
     .name-p{
       margin-top: size(20);
-      /deep/ .list{background: #fff;}
+      /deep/ .list{background: #fff;padding: size(30) size(60);}
     }
     .info{ 
       background: #fff;
-      padding: size(40);
-      .item{
-        display: flex;
-        line-height: size(70);
-        font-size: size(26);
-        text-align: left;
-      }
-      .l{
-        width: size(150);
-        margin-right: size(50);
-        color: #818181;
-      }
-      .r{
-        flex: 1;
-        padding-right: size(20);  
-        color: #333;
-        font-weight: bold;
-      }
+      padding: size(40) size(60);
+      text-align: left;
     }
   }
   .footer{

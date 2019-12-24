@@ -1,6 +1,8 @@
 <template>
-  <div class="scroll-container" ref="scroll_list">
-    <slot></slot>
+  <div class="scroll-container" ref="scroll">
+    <div class="wrapper">
+      <slot></slot>
+    </div>
   </div>
 </template>
 
@@ -23,51 +25,49 @@ export default {
     }
   },
   mounted() {
+    setTimeout(() => {
+      this.initScroll()
+    }, 20)
     this.$nextTick(() => {
-      let scroll_list = this.$refs.scroll_list
-      this.scroll_list = new BScroll(scroll_list, {
+      
+    })
+  },
+  methods: {
+    // 滚动初始化
+    initScroll() {
+      let scroll = this.$refs.scroll
+      this.scroll = new BScroll(scroll, {
         click: true,
         scrollbar: { // 设置滚动条
           fade: true 
         }
       })
       if (this.pullup) {
-        this.scroll_list.on('scrollEnd', (pos) => {
-          if (this.scroll_list.y <= (this.scroll_list.maxScrollY + 50)) {
+        this.scroll.on('scrollEnd', (pos) => {
+          if (this.scroll.y <= (this.scroll.maxScrollY + 50)) {
             this.$emit('scrollToEnd')
           }
         })
       }
-    })
-  },
-  methods: {
+    },
+    scrollTop() {
+      this.scroll && this.scroll.scrollTo(0, 0)
+    },
     refresh() {
-      this.bs && this.bs.refresh()
+      this.scroll && this.scroll.refresh()
+      console.log('更新')
     },
     destroy() {
-      this.bs && this.bs.destroy()
+      this.scroll && this.scroll.destroy()
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-.container{
-  width: 100%;
-  height: 100%;
+.scroll-container{
   /deep/ .bscroll-vertical-scrollbar{
     width: 4px !important;
-  }
-}
-.b-scroll{
-  position: absolute;
-  width: 100%;
-  top: size(92);
-  bottom: 0;
-  // height: 100%;
-  background: #f1f1f1; 
-  &.no-bar{
-    top: 0;
   }
 }
 </style>

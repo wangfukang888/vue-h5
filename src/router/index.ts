@@ -76,6 +76,16 @@ const routes = [
     }
   },
   {
+    path: '/select_device',
+    name: 'select_device',
+    component: () => import('../views/select-device.vue'),
+    meta: {
+      index: 5,
+      keepAlive: false,
+      title: '选择设备'
+    }
+  },
+  {
     path: '/order_list',
     name: 'order_list',
     component: () => import('../views/order/order-list.vue'),
@@ -86,13 +96,23 @@ const routes = [
     }
   },
   {
-    path: '/order_detail',
+    path: '/order_detail/:id',
     name: 'order_detail',
     component: () => import('../views/order/order-detail.vue'),
     meta: {
-      index: 6,
+      index: 7,
       keepAlive: false,
       title: '订单详情'
+    }
+  },
+  {
+    path: '/order_ok',
+    name: 'order_ok',
+    component: () => import('../views/order/order-success.vue'),
+    meta: {
+      index: 6,
+      keepAlive: false,
+      title: '发布成功'
     }
   }
 ]

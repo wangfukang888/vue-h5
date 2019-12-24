@@ -76,14 +76,14 @@ export default{
       &.info-t{
         margin-bottom: size(10);
         .name{
-          font-size: size(32);
+          font-size: size(30);
           font-weight: bold;
           margin-right: size(30);
         }
         .lip{
           background: #35A1F2;
           color: #fff;
-          margin-top: -0.5%;
+          margin-top: -0.7%;
           padding: 0 size(10);
           font-size: size(24);
           height: size(40);

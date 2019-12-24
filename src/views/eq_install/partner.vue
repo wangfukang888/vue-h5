@@ -74,6 +74,7 @@ export default {
     },
     goActive() {
       this.$emit("go_ative", 2, 'release');
+      this.$store.commit('install_info', [{partner_data: this.partner_data}])
     },
     onConfirm() {
 
@@ -88,7 +89,8 @@ export default {
   .header{
     position: fixed;
     width: 100%;
-    top:size( 180);
+    top: 13.5%;
+    height: size(80);
     display: flex;
     padding: size(10) size(60);
     align-items: center;
@@ -96,12 +98,15 @@ export default {
       flex: 1;
       text-align: center;
       font-size: size(28);
+      height: size(60);
+      line-height: size(60);
       div{
         display: inline-block;
-        vertical-align: middle;
         &.icon{
+          margin-top: size(2);
+          vertical-align: middle;
           margin-left: size(10);
-          font-size: size(24);
+          font-size: size(20);
         }
       }
       // text-align: center;  

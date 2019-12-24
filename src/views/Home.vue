@@ -1,12 +1,8 @@
 <template>
   <div class="home">
     <div class="top">
-      <div class="left">
-
-      </div>
-      <div class="right">
-        历史记录
-      </div>
+      <div class="left"></div>
+      <div class="right" @click="goback('order_list')">历史记录</div>
     </div>
     <div class="bg bg-e" @click="goback('equipment')"></div>
     <div class="bg bg-r" @click="goback('reqair')"></div>
@@ -28,13 +24,8 @@ export default {
       this.$router.push(url)
     }
   },
-  async mounted() {
-    // const data = await api.get('/api/partner/index/withdrawlist',{
-    //   params:{
-    //     page: 1
-    //   }
-    // })
-    // console.log(data)
+  mounted() {
+    
   }
 }
 </script>

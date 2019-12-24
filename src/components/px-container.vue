@@ -8,13 +8,13 @@
 </template>
 
 <script>
-import NBar from 'com/nav-bar'
+// import NBar from 'com/nav-bar'
 import BScroll from 'better-scroll'
 
 export default {
-  components: {
-    NBar
-  },
+  // components: {
+  //   NBar
+  // },
   props: {
     disable_scroll: {
       type: Boolean,
@@ -61,7 +61,6 @@ export default {
   width: 100%;
   top: size(92);
   bottom: 0;
-  // height: 100%;
   background: #f1f1f1; 
   &.no-bar{
     top: 0;

@@ -75,6 +75,28 @@ body, html {
     opacity: 0;
     transform: translate3d(-100%, 0, 0);
   }
-
+  
+  // 公共样式
+  .g-order-info{
+    padding-top: size(20);  
+    .item{
+      display: flex;
+      line-height: size(40);
+      margin-bottom: size(20);
+      font-size: size(26);
+    }
+    .l{
+      width: size(150);
+      font-size: size(24);
+      margin-right: size(50);
+      color: #818181;
+    }
+    .r{
+      flex: 1;
+      color: #161616;
+      text-align: left;
+      font-weight: 500;
+    }
+  }
   
   

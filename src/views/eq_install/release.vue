@@ -3,7 +3,7 @@
     <scroll-list class="release-wrap" ref="list_p" :data="1">
       <div class="main">
         <div class="title">诊断详情</div>
-        <div class="info">
+        <div class="g-order-info info">
           <div class="item">
             <div class="l">服务类型:</div>
             <div class="r">现场安装</div>
@@ -90,23 +90,6 @@ export default {
       color: #202020;
       font-size: size(34);
       padding: size(40) 0;
-    }
-    .info{ 
-      .item{
-        display: flex;
-        line-height: size(50);
-        font-size: size(26);
-      }
-      .l{
-        width: size(150);
-        margin-right: size(50);
-        color: #818181;
-      }
-      .r{
-        flex: 1;
-        color: #161616;
-        font-weight: bold;
-      }
     }
   }
   .footer{
