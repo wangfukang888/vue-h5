@@ -2,7 +2,7 @@ import axios from 'axios'
 import store from '@/store'
 import qs from 'qs'
 import {Toast } from 'vant';
-export const OK = 200
+export const OK = 1
 export const SIZE = 10
 
 axios.defaults.timeout = 100000
@@ -13,7 +13,8 @@ const headers = {
 
 // 通用参数
 const params = {
-  source_type: 'app'
+  source_type: 'app',
+  // sign: '8ea8a9b8-29de-492d-a11e-d53916ebb900'
 }
 
 const api = axios.create({
@@ -25,18 +26,20 @@ const api = axios.create({
 // 响应拦截
 api.interceptors.response.use(
   (response) => {
-    let res = response.data
-    if (res.code != 200) {
+    const res = response.data
+    if (res.code != OK) {
       Toast(res.msg || '')
-      return res.msg
     }
-    return res
+    return res.data
   },
   err => {
     const err_code = err.response.status
     switch (err_code) {
       case 401 :
         // 登录过期 
+      break; 
+      case 500 :
+      Toast('服务器访问失败')
       break; 
     }
   }

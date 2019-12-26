@@ -4,13 +4,14 @@
       <div class="left"></div>
       <div class="right" @click="goback('order_list')">历史记录</div>
     </div>
-    <div class="bg bg-e" @click="goback('equipment')"></div>
-    <div class="bg bg-r" @click="goback('reqair')"></div>
+    <div class="content">
+      <div class="bg bg-e" @click="goback('equipment')"></div>
+      <div class="bg bg-r" @click="goback('reqair')"></div>
+    </div>  
   </div>
 </template>
 
 <script>
-import api from 'api'
 
 export default {
   name: 'home',
@@ -23,20 +24,19 @@ export default {
     goback(url) {
       this.$router.push(url)
     }
-  },
-  mounted() {
-    
   }
 }
 </script>
 
 <style lang="scss" scoped>
 .top{
+  position: fixed;
+  width: 100%;
   height: size(100);
   background: #323d43;
-  box-sizing: border-box;
+  // box-sizing: border-box;
+  z-index: 10;
   padding: size(20) 0 0 size(30);
-  position: relative;
   .left{
     width: size(60);
     height: size(60);
@@ -54,6 +54,13 @@ export default {
   img{
     display: block;
   }
+}
+.content{
+  position: absolute;
+  width: 100%;
+  top: size(100);
+  overflow: auto;
+  bottom: 0;
 }
 .bg{
   width: 100%;

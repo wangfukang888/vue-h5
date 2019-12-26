@@ -1,7 +1,7 @@
 <template>
   <div class="release-container">
-    <scroll-list class="release-wrap" ref="list_p" :data="1">
-      <div class="main">
+    <scroll-list class="release-wrap" ref="list_p">
+      <div class="main" v-if="r_info">
         <div class="title">诊断详情</div>
         <div class="g-order-info info">
           <div class="item">
@@ -10,28 +10,28 @@
           </div>
           <div class="item">
             <div class="l">设备名称:</div>
-            <div class="r">hhjd举升机</div>
+            <div class="r">{{r_info.select_info.device_name}}</div>
           </div>
           <div class="item">
             <div class="l">设备型号:</div>
-            <div class="r">现场安装</div>
+            <div class="r">{{r_info.select_info.device_model}}</div>
           </div>
           <div class="item">
             <div class="l">服务地址</div>
-            <div class="r">深圳市民治达到就是看手机</div>
+            <div class="r">{{r_info.address}}{{r_info.f_address}}</div>
           </div>
           <div class="item">
             <div class="l">备注：</div>
-            <div class="r">现场安装深圳市民治达到就是看手机深圳市民治达到就是</div>
+            <div class="r">{{r_info.remask}}</div>
           </div>
         </div>
         <div class="title">合伙人详情</div>
-        <info-list :noclick="true" :data="1"/>
+        <info-list :noclick="true" :list_data="partener_info"/>
       </div>
     </scroll-list>
-    <div class="footer">
+    <div class="footer" v-if="r_info">
       <div class="left">
-        安装费：¥   300.00
+        安装费：¥ {{r_info.select_info.device_price.toFixed(2)}}
       </div>
       <div class="r-btn">
         <v-btn color="#2BA69F" :loading="isLoading" type="info" loading-text="发布中..." @click="goRelease">立即发布</v-btn>
@@ -49,6 +49,8 @@ export default {
   data() {
     return {
       addr: [],
+      r_info: null,
+      partener_info: 1,
       show_picker: false,
       show_type: false,
       isLoading: false
@@ -59,7 +61,14 @@ export default {
     InfoList,
     'v-btn': Button
   },
-  methods: {
+  mounted() {
+    let store_data = this.$store.state.install_info
+    if(store_data) {
+      store_data.address = store_data.address.split('-').join('')
+      this.r_info = store_data
+    }
+  },
+  methods: {  
     getCity(arr) {
       console.log(arr)
       this.partner_data.address = arr.join('-')
@@ -69,6 +78,11 @@ export default {
     },
     goRelease() {
       this.isLoading = true
+      setTimeout(() => {
+        this.isLoading = false
+        this.$toast('发布成功')
+        this.$router.push('order_ok')
+      },5000)
     }
     
   }

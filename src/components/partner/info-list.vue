@@ -1,6 +1,6 @@
 <template>
 <div>
-  <div class="list" :class="{'select': selelctIndex == index}" v-for="(item,index) in data" :key="index" @click="selectItem(index, item)"> 
+  <div class="list" :class="{'select': selelctIndex == index}" v-for="(item,index) in list_data" :key="index" @click="selectItem(index, item)"> 
     <div class="left">
 
     </div>
@@ -24,11 +24,11 @@
 <script>
 export default{
   props: {
+    list_data: Number,
     noclick: {
       type: Boolean,
       default: false
-    },
-    data: Number
+    }
   },
   data() {
     return{
@@ -41,7 +41,7 @@ export default{
         return
       }
       this.selelctIndex = idx
-      console.log(item)
+      this.$emit('select', item)
     }
   }
 }

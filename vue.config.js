@@ -1,9 +1,8 @@
 const path = require('path')
 
-// 线上地址
-const url = 'https://wcp.szyrwl.com/'
-// 测试地址
-// const url = 'https://storemp.golodata.com/'
+const GOLO_URL = 'https://partner.golodata.com/'
+// 线上
+// const GOLO_URL = 'https://partner.goloiov.cn/'
 
 module.exports = {
   productionSourceMap: true,
@@ -12,10 +11,21 @@ module.exports = {
   // 输出文件目录`
   devServer: {
     proxy: {
-      '/api|/app': {
-        target: url,
+      '/apis/': {
+        target: GOLO_URL,
         ws: true,
-        changeOrigin: true
+        changeOrigin: true,
+        pathRewrite: {
+          '^/apis/':'/' 
+        }
+      },
+      '/tp/': {
+        target: 'http://eq.test.x431.com/',
+        ws: true,
+        changeOrigin: true,
+        pathRewrite: {
+          '^/tp/':'/' 
+        }
       }
     }
   },
@@ -33,7 +43,8 @@ module.exports = {
         'com': path.resolve(__dirname, './src/components'),
         'img': path.resolve(__dirname, './src/assets/img'),
         'css': path.resolve(__dirname, './src/assets/css'),
-        'api': path.resolve(__dirname, './src/fetch')
+        'req': path.resolve(__dirname, './src/fetch'),
+        'api': path.resolve(__dirname, './src/api')
       }
     }
   },

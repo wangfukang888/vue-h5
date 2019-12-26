@@ -43,6 +43,7 @@
 
 <script type="text/ecmascript-6">
 import { Field } from 'vant'
+import {getLogin} from 'api'
 // import { sendCode, mobileLogin, accountLogin } from 'api/main'
 // import Cookies from 'js-cookie'
 // import { config } from '@/utils/request'
@@ -55,8 +56,8 @@ export default {
       seconds: 60,
       timer: null,
       mobileFormSubmitting: false,
-      account: '',
-      password: '',
+      account: 'golo_2136380',
+      password: '123456',
       accountFormSubmitting: false
     }
   },
@@ -71,14 +72,13 @@ export default {
     }
   },
   methods: {
-    _sendCode() {
+    async _sendCode() {
       if (!this.mobile) {
         this.$toast('手机号不能为空')
         return false
       }
-      this.$showLoading()
-      sendCode(this.mobile).then(res => {
-        this.$hideLoading()
+      const data = await sendCode(this.mobile)
+      if ( data ) {
         this.timer = setInterval(() => {
           this.seconds--
           if (this.seconds === 0) {
@@ -86,13 +86,9 @@ export default {
             this.timer = null
           }
         }, 1000)
-        console.log(res)
-      }).catch(err => {
-        this.$hideLoading()
-        console.log(err)
-      })
+      }
     },
-    _mobileLogin() {
+    async _mobileLogin() {
       if (!this.mobile) {
         this.$toast('手机号不能为空')
         return false
@@ -101,20 +97,10 @@ export default {
         this.$toast('验证码不能为空')
         return false
       }
-      this.$showLoading()
-      this.mobileFormSubmitting = true
-      mobileLogin(this.mobile, this.code).then(res => {
-        this.$hideLoading()
-        this.mobileFormSubmitting = false
-        console.log(res)
-        this.success(res)
-      }).catch(err => {
-        this.$hideLoading()
-        this.mobileFormSubmitting = false
-        console.log(err)
-      })
+      const data = _mobileLogin(this.mobile, this.code)
+      data && this.success(data.userinfo, 'code')
     },
-    _accountLogin() {
+    async _accountLogin() {
       if (!this.account) {
         this.$toast('账号不能为空')
         return false
@@ -123,30 +109,13 @@ export default {
         this.$toast('密码不能为空')
         return false
       }
-      this.$showLoading()
-      this.accountFormSubmitting = true
-      accountLogin(this.account, this.password).then(res => {
-        this.$hideLoading()
-        this.accountFormSubmitting = false
-        console.log(res)
-        this.success(res)
-      }).catch(err => {
-        this.$hideLoading()
-        this.accountFormSubmitting = false
-        console.log(err)
-      })
+      const data = await getLogin(this.account, this.password)
+      data.userinfo && this.success(data.userinfo)  
     },
-    success(res) {
-      const token = res.data.userinfo.token
-      Cookies.set('token', token)
-      this.$store.commit('SET_TOKEN', token)
-      config.headers['token'] = token
-      this.$store.dispatch('GetUserInfo')
-      if (this.$route.query.redirect) {
-        this.$router.replace(this.$route.query.redirect)
-      } else {
-        this.$router.replace('/')
-      }
+    success(info, code) {
+      this.$store.commit('get_login', info)
+      code ? this.mobileFormSubmitting = true : this.accountFormSubmitting = true 
+      this.$router.push('/')
     }
   },
   components: {

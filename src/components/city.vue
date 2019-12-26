@@ -4,9 +4,9 @@
     <div class="city-wrap">
       <div class="title border-bottom">所在地区<div class="close"><van-icon name="cross" @click="hide" /></div></div>
       <div class="col border-bottom result">
-        <div class="one" :class="{blank: step < 1}">{{step>=1 ? result[0].areaname : '请选择'}}</div>
-        <div class="two" v-if="step>=1" :class="{blank: step < 2}">{{step>=2 ? result[1].areaname : '请选择'}}</div>
-        <div class="three" v-if="step>=2" :class="{blank: step < 3}">{{step>=3 ? result[2].areaname : '请选择'}}</div>
+        <div class="one" :class="{blank: step < 1}">{{step>=1 ? result[0] : '请选择'}}</div>
+        <div class="two" v-if="step>=1" :class="{blank: step < 2}">{{step>=2 ? result[1] : '请选择'}}</div>
+        <div class="three" v-if="step>=2" :class="{blank: step < 3}">{{step>=3 ? result[2] : '请选择'}}</div>
       </div>
       <div class="list" ref="list">
         <!-- eslint-disable-next-line -->
@@ -27,6 +27,8 @@
 <script>
 import showHide from '@/mixins/show-hide'
 import {getAreaInfo} from '../api'
+import area from '../utils/area'
+
 export default {
   mixins: [showHide],
   data() {
@@ -54,50 +56,48 @@ export default {
       this.result.length = l
     }
   },
-  created() {
-  },
   methods: {
-    async show() {
+    show() {
+      let arr = []
       this.isShow = true
       this.step = 0
       // 要延迟这个设置才会起作用
       this.$nextTick(() => {
         this.goTop()
       })
-      if (this.province.length <= 0) {
-        // 加载省的数据
-        let data = await getAreaInfo()
-        if ( data.code == 200) {
-          this.province = data.data
+      for ( let i in area.province_list) {
+        let item = area.province_list
+        arr.push({
+          id: i,
+          areaname: item[i]
+        })
+      }
+      this.province = arr
+    },
+    selP(p) {
+      this.goTop()
+      this.result[0] = p.areaname
+      this.step = 1
+      // 检索id对应的市级元素
+      const arr = []
+      for( let i in area.city_list) {
+        let item = area.city_list
+        if( i.substring(0,2) == p.id.substring(0,2)) {
+          arr.push({
+            id: i,
+            areaname: item[i]
+          })
         }
       }
-    },
-    async selP(p) {
-      this.goTop()
-      let data = await getAreaInfo(p.id)
-      // console.log(data)
-      if ( data.code == 200) {
-        this.result[0] = p
-        this.city = data.data
-        this.step = 1
-      }
+      this.city = arr
     },
     async selC(c) {
       this.goTop()
-      let data = await getAreaInfo(c.id)
-      // console.log(data)
-      if ( data.code == 200) {
-        this.result[1] = c
-          this.area = data.data
-          this.step = 2
-          this.$emit('input', this.result.map(d => d.areaname))
-            // console.log(this.result)
-          this.hide()
-          if (data.length === 0) {
-            // 没有区了,提前返回
-            
-          }
-      }
+      this.result[1] = c.areaname
+      this.step = 2
+      this.$emit('input', this.result)
+      this.hide()
+      // 暂时不用
     },
     // selA(a) {
     //   this.result[2] = a

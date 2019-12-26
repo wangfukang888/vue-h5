@@ -16,20 +16,22 @@
         <loading type="spinner" v-if="is_loading" style="padding: 20px 0"/>
         <div class="search-info" v-if="search_info">
           <div class="header">
-            <div class="left-img"></div>
+            <div class="left-img">
+              <img :src="search_info.deviceimage" alt="">
+            </div>
             <div class="info">
-              <div class="title">模拟数据 喷油嘴清洗仪</div>
+              <div class="title">{{search_info.devicename}}</div>
               <div class="desc">
-                <span class="dec-x">序列号  62459005510</span>
+                <span class="dec-x">序列号 {{search_info.devicesn}}</span>
                 <div class="dec-type">
-                  <span class="mark">型号</span><span>CNC6013C +</span>
+                  <span class="mark">型号</span><span> {{search_info.devicemodel}}</span>
                 </div>
               </div>
             </div>
           </div>
           <div class="bottom">
             <van-grid :column-num="3" :border="false">
-              <van-grid-item v-for="(item, index) in search_grid" :key="index" :text="item.text" :icon="item.icon || 'photo-o'" />
+              <van-grid-item v-for="(item, index) in search_grid" :key="index" :text="item.name" :icon="item.url || 'photo-o'" />
             </van-grid>
           </div>
         </div>
@@ -48,6 +50,7 @@
 import VSearch from 'com/search'
 import VGrid from "com/grid-list"
 import {equipment_data} from '../mock/grid_data'
+import {queryDevice} from 'api'
 import {wx_scan} from '../utils/wxConfig'
 
 export default {
@@ -62,20 +65,7 @@ export default {
       is_loading: false,
       show_search: false,
       search_info: null,
-      search_grid: [
-        {
-          icon: '',
-          text: '使用说明'
-        },
-         {
-          icon: '',
-          text: '快速入门'
-        },
-         {
-          icon: '',
-          text: '售后服务'
-        }
-      ],
+      search_grid: [],
       grid_list: equipment_data || []
     }
   },
@@ -85,6 +75,19 @@ export default {
     this.$refs.e_bs && this.$refs.e_bs.destroy()
   },
   methods: {
+    async queryInfo(val) {
+      const data = await queryDevice(val)
+      let arr = []
+      if (data) {
+        this.search_info = data
+        let files = data.deviceFile
+        for (let i in files) {
+          arr.push(files[i])
+        }
+        this.search_grid = arr
+      }
+      this.is_loading = false
+    },
     getScan() {
       wx_scan(wx)
     },
@@ -102,10 +105,7 @@ export default {
       this.search_info = ''
       this.search_val = val
       this.is_loading = true
-      setTimeout(() => {
-        this.search_info = '1'
-        this.is_loading = false
-      },2000)   
+      this.queryInfo(624590081900)
     }
   }
 };
@@ -148,7 +148,8 @@ export default {
   .header{
     display: flex;
     background: #fff;
-    padding: size(20) size(30);
+    padding: size(30);
+    padding-bottom: size(10);
     border-radius: size(40) size(40) 0 0;
     .left-img{
       width: size(150);
@@ -160,11 +161,11 @@ export default {
       flex: 1;
       margin-left: size(30);
       display: flex;
-      padding: size(5) 0;
+      padding: size(10) 0;
       flex-direction: column;
       text-align: left;
       .title{
-        margin-bottom: size(40);
+        margin-bottom: size(30);  
       }
       .desc{
         justify-content: flex-end;   
@@ -173,7 +174,7 @@ export default {
         .dec-type{
           margin-top: size(20);
           .mark{
-            padding:size(10) size(20);
+            padding:size(6) size(20);
             background: #579379;
             font-size: size(24);
             border-radius: size(30);

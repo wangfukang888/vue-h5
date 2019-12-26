@@ -2,24 +2,29 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 
 Vue.use(Vuex)
+// ea28b23ef404a553b9b226f1994ea977
+const str = localStorage.getItem('userInfo')
+const userObj = str ? JSON.parse(str) : null
+const token = userObj ? userObj.token : ''
 
 export default new Vuex.Store({
   state: {
+    token,
     nav_bar_t: '',
-    token: 'ea28b23ef404a553b9b226f1994ea977',
+    userInfo: userObj,
     wx_info: {},
-    install_info: new Array(),
-    select_info: null
+    install_info: new Array()
   },
   mutations: {
+    get_login(state, userinfo) {
+      localStorage.setItem('userInfo', JSON.stringify(userinfo))
+      state.token = userinfo.token
+    },
     get_bar(state, text) {
       state.nav_bar_t = text
     },
-    select_info(state, obj) {
-      state.select_info = obj
-    },
     install_info(state, arr) {
-      state.install_info.push(arr)
+      state.install_info = arr
       console.log(state.install_info)
     }
   },

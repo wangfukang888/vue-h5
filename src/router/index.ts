@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
 
 Vue.use(VueRouter)
 
@@ -8,7 +7,7 @@ const routes = [
   {
     path: '/',
     name: 'home',
-    component: Home,
+    component: () => import('../views/index.vue'),
     meta: {
       index: 0,
       keepAlive: true,
@@ -71,18 +70,8 @@ const routes = [
     component: () => import('../views/equipment_install.vue'),
     meta: {
       index: 4,
-      keepAlive: false,
+      keepAlive: true,
       title: '设备安装'
-    }
-  },
-  {
-    path: '/select_device',
-    name: 'select_device',
-    component: () => import('../views/select-device.vue'),
-    meta: {
-      index: 5,
-      keepAlive: false,
-      title: '选择设备'
     }
   },
   {

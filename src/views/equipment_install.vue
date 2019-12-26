@@ -8,8 +8,8 @@
         </div>
       </div>
     </div> 
-    <div class="component">
-      <component :is="currentView" @go_ative="go_ative"></component>
+    <div class="component" :class="{hidden: is_hidden}">
+      <component :is="currentView" @go_ative="go_ative" @hidden="page_hidden"></component>
     </div> 
   </container>
 </template>
@@ -26,6 +26,7 @@ export default {
       active: 0,
       currentView: 'info',
       currentIndex: 0,
+      is_hidden: true,
       step_list: ['填写信息', '选择合伙人', '发布信息']
     }
   },
@@ -46,6 +47,10 @@ export default {
     go_ative(num, cpt) {
       this.currentIndex = num
       this.currentView = cpt
+    },
+    page_hidden(is_hidden) {
+      // 容器样式处理
+      this.is_hidden = !is_hidden
     }
   }
 };
@@ -57,7 +62,6 @@ export default {
   top:0;
   width: 100%;
   height: size(280);
-  z-index: 2;
   background: #2BA69F;
   .steps{
     padding: size(40) size(15);
@@ -97,9 +101,11 @@ export default {
   top: 12%;
   bottom: 0;
   z-index: 3;
-  overflow: hidden;
   background: #fff;
   border-radius: size(60) size(60) 0 0;
+  &.hidden{
+    overflow: hidden;
+  }
 }
 </style>
 

@@ -5,10 +5,10 @@ import store from './store'
 import 'vant/lib/index.css'
 import { NavBar, Loading, Toast, GridItem, Grid, Search, Icon, Step, Steps, Cell,  CellGroup, Field } from 'vant'
 import container  from './components/px-container.vue'
-import FastClick from 'fastclick'
 
-let f : any = FastClick
-f.attach(document.body)
+// import FastClick from 'fastclick'
+// let f : any = FastClick
+// f.attach(document.body)
 
 Vue.use(NavBar)
 Vue.use(Loading)
@@ -32,14 +32,18 @@ router.beforeEach((to,from,next) => {
   let obj : any = {
     path: '/login'
   }
-  if ( to.path == '/') {
-    if ( store.state.token) {
-      return next()
-    } else {
-      return next( obj )
-    }
+  console.log(store.state.token)
+  // 小坑， 防止找不到Promise router引发错误
+  if (from.path == '/login') {
+    return next()
   }
+  if (to.path == '/' && !store.state.token){
+    console.log('进入')
+    return next('/login')
+  } 
+  
   next()
+  
 })
 
 new Vue({

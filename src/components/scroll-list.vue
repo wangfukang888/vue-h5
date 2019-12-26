@@ -11,7 +11,7 @@ import BScroll from 'better-scroll'
 
 export default {
   props: {
-    data: Number,
+    data: Array,
     pullup: {
       type: Boolean,
       default: false
@@ -69,5 +69,8 @@ export default {
   /deep/ .bscroll-vertical-scrollbar{
     width: 4px !important;
   }
+  // /deep/ .bscroll-indicator{
+  //   border: none !important;
+  // }
 }
 </style>

@@ -26,7 +26,7 @@
           </div>
         </div>
          <div class="name-p">   
-          <info-list :noclick="true" :data="1"/>  
+          <info-list :noclick="true" :list_data="1"/>  
         </div>
       </div>
     </scroll-list>

@@ -15,10 +15,18 @@
       </div>
     </div>
     <scroll-list class="list-wrap"  :data="list_data" ref="list_p">
-      <info-list :data="7"/>
+      <info-list :list_data="5" @select="selectInfo"/>
+      <div class="loading" v-if="isloading">
+        <loading type="spinner" />
+      </div> 
     </scroll-list>
     <div class="footer">
-      <div class="btn-next active" @click="goActive">下一步
+      <div class="btn-prev active" @click="goback">
+        <span class="icon">
+          <van-icon name="arrow-left" />
+        </span>
+      </div>  
+      <div class="btn-next" :class="{active: is_partner}" @click="goActive">下一步
         <span class="icon">
           <van-icon name="arrow" />
         </span>
@@ -44,7 +52,8 @@
 import VCity from 'com/city'
 import InfoList from 'com/partner/info-list'
 import scrollList from "com/scroll-list"
-import { Picker , Popup} from 'vant';
+import { Picker , Popup} from 'vant'
+import { getPartner } from 'api'
 
 export default {
   data() {
@@ -53,9 +62,11 @@ export default {
       show_picker: false,
       columns: ['杭州', '宁波', '温州', '嘉兴', '湖州'],
       partner_data: {
-        address: '广东省-深圳市',
+        address: '',
         info_type: '举升机'
       },
+      info_item: null,
+      isloading: false,
       list_data: [],
       show_type: false
     };
@@ -67,14 +78,47 @@ export default {
     'v-picker': Picker,
     'v-pop': Popup
   },
+  computed: {
+    is_partner() {
+      return this.info_item
+    }
+  },
+  mounted() {
+    const p_data = this.$store.state.install_info
+    if (p_data) {
+      this.partner_data.address = p_data.address
+      this.partner_data.info_type = p_data.select_info.device_name
+      this.getPartnerList()
+    }
+  },
   methods: {
+    async getPartnerList() {
+      this.isloading = true
+      const p_str = this.partner_data.address.split('-')
+      const data = await getPartner(p_str[0], p_str[1])
+      if (data) {
+        if (data.length == 0) this.$toast('暂无数据')
+        this.isloading = false
+      }
+    },
     getCity(arr) {
       console.log(arr)
       this.partner_data.address = arr.join('-')
     },
     goActive() {
-      this.$emit("go_ative", 2, 'release');
-      this.$store.commit('install_info', [{partner_data: this.partner_data}])
+      if (!this.info_item) return this.$toast('请选择合伙人')
+      // 上一页数据合并
+      const assign_obj = Object.assign(this.$store.state.install_info, {partner_info : this.info_item})
+      this.$emit("go_ative", 2, 'release')
+      // 储存数据
+      this.$store.commit('install_info', assign_obj)
+    },
+    goback() { //返回上一页
+      this.$emit("go_ative", 1, 'info')
+    },
+    selectInfo(item) {
+      console.log(item)
+      this.info_item = item
     },
     onConfirm() {
 
@@ -86,6 +130,9 @@ export default {
 <style lang="scss" scoped>
 .partner-container {
   // padding: size(10) size(60);
+  .loading{
+    padding: size(200) 0;
+  }
   .header{
     position: fixed;
     width: 100%;
@@ -126,13 +173,15 @@ export default {
     width: 100%;
     bottom: 0;
     background: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     // border-radius: size(30) size(30) 0 0;
     height: size(200);
     .btn-next{
       position: relative;
-      margin: size(40) auto;
       border-radius: size(30);
-      width: size(440);
+      width: size(300);
       height: size(110);
       line-height: size(110);
       background: #EBEDF0;
@@ -157,6 +206,11 @@ export default {
           color: #2BA69F;
         }
       }
+    }
+    .btn-prev{
+      @extend .btn-next;
+      width: size(110);
+      margin-right: size(20);
     }
   }
   

@@ -8,7 +8,11 @@
           @scrollToEnd="loadData" 
           class="list-container" 
         > 
-          <v-order-list :list_data="list_data"/>  
+          <v-order-list :list_data="list_data"/>
+          <div class="loading" v-if="isloading">
+            <van-loading size="24px">加载中...</van-loading>    
+          </div>
+          <div class="no_data" v-if="is_no_data">暂无数据</div>  
         </scroll-list>
       </v-tab>
     </v-tabs> 
@@ -19,6 +23,7 @@
 import scrollList from "com/scroll-list"
 import { Tab, Tabs } from 'vant';
 import VOrderList from 'com/order/order-list'
+import {getOrderList} from 'api'
 
 export default {
   components: {
@@ -30,20 +35,39 @@ export default {
   },
   data() {
     return{
-      list_data: 7,
+      list_data: [],
       active: 0,
-      isloading: true,
+      isloading: false,
+      is_no_data: false, 
       list: ['设备服务', '维修服务']
     }
   },
+  mounted() {
+    this.getList(1)
+  },
   methods: {
+    async getList(index) {
+      this.list_data = []
+      this.isloading = true
+      this.is_no_data = false
+      const data = await getOrderList(index)
+      console.log(data)
+      if(data) {
+        this.isloading = false
+        if (data.length == 0) return this.is_no_data = true
+        this.list_data.concat(data)
+        
+      }
+    },
     loadData() {
       console.log('滚动到底')
       this.isloading = true
     },
-    tabChange(name, t) {
-      // this.list_data = []
+    tabChange(i, t) {
+      this.list_data = []
       console.log(name, t)
+      const index = i == 0 ? 1 : 2 
+      this.getList(index)
     }
   }
 }
@@ -61,6 +85,13 @@ export default {
     top: size(100);
     bottom: size(1);
     overflow: hidden;
+    .no_data{
+      padding: size(200) 0;
+      color: #ccc;
+    }
+    .loading{
+      padding: size(50);
+    }
   }
 }
 </style>

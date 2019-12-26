@@ -4,8 +4,8 @@
       <div class="main">  
         <div class="s-info" v-if="info_select_data" @click="toSelect">
             <div class="des">已选设备</div>
-            <div class="name">{{info_select_data.t}}</div>
-            <div class="type">型号：{{info_select_data.type}}</div>
+            <div class="name">{{info_select_data.device_name}}</div>
+            <div class="type">型号：{{info_select_data.device_model}}</div>
             <div class="icon">
               <van-icon name="arrow" />
             </div>  
@@ -15,8 +15,8 @@
           <div class="title">基本资料</div>
           <div class="det">
             <van-cell-group>
-              <van-field v-model="form_data.name" placeholder="请输入用户名" />
-              <van-field v-model="form_data.phone" placeholder="请输入手机号" />
+              <van-field required v-model="form_data.name" placeholder="请输入用户名" />
+              <van-field required v-model="form_data.phone" placeholder="请输入手机号" />
             </van-cell-group>
           </div>
         </div>
@@ -25,7 +25,7 @@
             <div class="title">安装日期</div>
             <div class="det" @click="show_time = true">
               <van-cell-group>
-                <van-field v-model="form_data.time" placeholder="请选择安装日期" readonly right-icon="arrow" @click="getDate" />
+                <van-field required v-model="form_data.time" placeholder="请选择安装日期" readonly right-icon="arrow" />
               </van-cell-group>
             </div>
           </div>
@@ -33,7 +33,7 @@
             <div class="title">所在地区</div>
             <div class="det">
               <van-cell-group>
-                <van-field v-model="form_data.address" placeholder="请选择地址" readonly right-icon="arrow" @click="$refs.selAddr.show()"/>
+                <van-field required v-model="form_data.address" placeholder="请选择地址" readonly right-icon="arrow" @click="$refs.selAddr.show()"/>
               </van-cell-group>
             </div>
           </div>
@@ -42,7 +42,7 @@
           <div class="title">详细地址</div>
           <div class="det">
             <van-cell-group>
-              <van-field v-model="form_data.f_address" placeholder="请填写详细地址" />
+              <van-field required v-model="form_data.f_address" placeholder="请填写详细地址" />
             </van-cell-group>
           </div>
         </div>
@@ -54,7 +54,7 @@
             </van-cell-group>
           </div>
         </div>
-        <div class="btn-next active" @click="goActive">下一步
+        <div class="btn-next needsclick" :class="{active: is_from}" @click="goActive">下一步
           <span class="icon">
             <van-icon name="arrow" />
           </span>
@@ -72,40 +72,59 @@
         @confirm="confirm_time"
       />
     </v-popup>
+    <div>
+      <select-device 
+        :list_data="list_data"
+        :nav_data="nav_data"
+        :show="show_select" 
+        @selectChange="changeItem"  
+        @close="close"
+        @selectId="getList"
+      />
+    </div>
   </div>
 </template>
 
 <script>
 import VCity from 'com/city'
 import scrollList from "com/scroll-list"
+import SelectDevice from './select-device'
 import { DatetimePicker, Popup } from 'vant'
+import {getDeviceList} from 'api'
 
 export default {
   data() {
     return {
       form_data: {},
       addr: [],
+      list_data: [],
+      nav_data: [],
       show_time: false,
+      show_select: false,
       min_date: new Date(),
       info_select_data: null,
       currentDate: new Date()
-    };
+    }
   },
   components: {
     scrollList,
+    SelectDevice,
     VCity,
     'v-datetime-picker': DatetimePicker,
     'v-popup': Popup
   },
   mounted() {
-    let store_info = this.$store.state.select_info
-    if (store_info) this.info_select_data = store_info
-
+    const form_data = JSON.parse(localStorage.getItem('form_data'))
+    if (form_data && form_data.select_info) this.info_select_data = form_data.select_info
+    if (form_data) this.form_data = form_data
+  },
+  computed: {
+    is_from() {
+      const f_data = this.form_data
+      return this.info_select_data && f_data.name && f_data.phone && f_data.time && f_data.address && f_data.f_address 
+    }
   },
   methods: {
-    getDate() {
-      console.log(this.form_data.phone);
-    },
     confirm_time() {
       this.form_data.time = this._formatTime(this.currentDate)
       this.show_time = false
@@ -123,19 +142,61 @@ export default {
       console.log(arr)
       this.form_data.address = arr.join('-')
     },
-    toSelect() {
-      this.$router.push('select_device')
+    async getList(id, type) {
+      const cid = type ? '' : id
+      const data = await getDeviceList(cid)
+      const arr = []
+      if (data) {
+        const nav_arr = []
+        data.map(item => {
+          nav_arr.push({
+            device_type_id: item.device_type_id,
+            deviceTypeName: item.deviceTypeName
+          })
+        })
+        if(type) {
+          this.nav_data = nav_arr
+          this.getList(nav_arr[0].device_type_id)
+          return
+        }
+        if(id){
+          data.map(v => [
+            v.deviceRes.map(s => {
+              arr.push(s)
+            }) 
+          ])
+          this.list_data = arr
+        } 
+      } 
     },
-    getAddress() {
-
+    toSelect() {
+      this.show_select = true
+      this.$emit('hidden', true)
+      if(this.nav_data.length == 0) {
+        this.getList(0, 'init')
+      }    
+    },
+    close() {
+      this.show_select = false
+      this.$emit('hidden', false)
+    },
+    changeItem(query) {
+      this.info_select_data = query
+      this.show_select = false
+      this.$emit('hidden', false)
     },
     goActive() {
-      let arr = []
+      const reg = /^[1]([3-9])[0-9]{9}$/
+      if (!this.is_from) {
+        return this.toast('*号项不能为空')
+      }
+      if (!this.form_data.phone || !reg.test(this.form_data.phone)) {
+        return this.$toast('手机号不能为空或格式不正确')
+      }
       this.$emit("go_ative", 1, 'partner')
-      arr.push({
-        form_data: this.form_data
-      })
-      this.$store.commit('install_info', arr)
+      this.form_data.select_info = this.info_select_data
+      localStorage.setItem('form_data', JSON.stringify(this.form_data))
+      this.$store.commit('install_info', this.form_data)
     }
   }
 };
@@ -217,6 +278,7 @@ export default {
         color: #939FB2;
         input{
           background: transparent;
+          padding-left: size(10);
         }
       }
     }
