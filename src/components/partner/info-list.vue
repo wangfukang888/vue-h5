@@ -1,20 +1,20 @@
 <template>
-<div>
+<div v-if="list_data">
   <div class="list" :class="{'select': selelctIndex == index}" v-for="(item,index) in list_data" :key="index" @click="selectItem(index, item)"> 
     <div class="left">
-
+      <img :src="item.headimage" alt="">
     </div>
     <div class="right">
       <div class="info info-t">
-        <div class="name">金雷雷</div>
+        <div class="name">{{item.realname}}</div>
         <div class="lip">服务合伙人</div>
       </div>
       <div class="info info-e">
-        <div class="num">服务次数： <b>10次</b></div>
-        <div class="score">评分： <b>5.0分</b></div>
+        <div class="num">服务次数： <b>{{item.servicenums}}次</b></div>
+        <div class="score">评分： <b>{{item.servicescore.toFixed(1)}}分</b></div>
       </div>
       <div class="info info-b">
-        <div class="address">服务地区： <b>广东省-深圳市</b></div>
+        <div class="address">服务地区： <b>{{item.serviceaddr}}</b></div>
       </div>
     </div>
   </div>
@@ -24,7 +24,7 @@
 <script>
 export default{
   props: {
-    list_data: Number,
+    list_data: Array,
     noclick: {
       type: Boolean,
       default: false
@@ -65,6 +65,7 @@ export default{
     background: #ccc;
     border-radius: 50%;
     margin-right: size(30);
+    overflow: hidden;
   } 
   .right{
     flex: 1;

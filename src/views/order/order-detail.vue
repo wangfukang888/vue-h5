@@ -1,44 +1,45 @@
 <template>
   <div class="order-detail">
-    <scroll-list class="detail-m">
-      <div class="container">
-        <div class="hd">待服务</div>
+    <scroll-list class="detail-m" :list_data="listdata">
+      <div class="container" v-if="info">
+        <div class="hd" :class="status(info.serviceStatus)">{{info.serviceStatus}}</div>
         <div class="g-order-info info">
           <div class="item">
             <div class="l">服务类型:</div>
-            <div class="r">现场安装</div>
+            <div class="r">{{info.serviceType}}</div>
           </div>
           <div class="item">
             <div class="l">设备名称:</div>
-            <div class="r">hhjd举升机</div>
+            <div class="r">{{info.deviceName}}</div>
           </div>
           <div class="item">
             <div class="l">设备型号:</div>
-            <div class="r">现场安装</div>
+            <div class="r">{{info.deviceModel}}</div>
           </div>
           <div class="item">
             <div class="l">服务地址:</div>
-            <div class="r">深圳市民治达到就是看手机</div>
+            <div class="r">{{info.serviceAddr.split('-').join('')}}{{info.user_address}}</div>
           </div>
           <div class="item">
             <div class="l">备注：</div>
-            <div class="r">现场安装深圳市民治达到就是看手机深圳市民治达到就是</div>
+            <div class="r">{{info.remark}}</div>
           </div>
         </div>
          <div class="name-p">   
-          <info-list :noclick="true" :list_data="1"/>  
+          <info-list :noclick="true" :list_data="listdata"/>  
         </div>
+      </div>
+      <div class="loading" v-else>
+        <van-loading type="spinner" size="24px" vertical>加载中...</van-loading>
       </div>
     </scroll-list>
     <div class="footer">
       <div class="l"></div>
       <div class="r">
         <div class="r-btn">
-          <div class="btn">取消订单</div>
-          <!-- <div class="btn">取消订单</div>
-          <div class="btn">取消订单</div> -->
-        </div>
-        
+          <v-btn class="btn" :loading="btnLoading" loading-text="取消中" type="info" @click="cancelOrder(info.task_id)">取消订单</v-btn>
+          <div class="btn btn-p" @click="getPhone(info.servicePhone)">联系服务人</div>
+        </div>   
       </div>
     </div>
   </div>
@@ -46,18 +47,81 @@
 
 <script>
 import scrollList from "com/scroll-list"
+import { Button } from 'vant';
 import InfoList from 'com/partner/info-list'
+import {getOrderDetail, getOrderCancel} from 'api'
 
 export default {
   components: {
     scrollList,
-    InfoList
+    InfoList,
+    'v-btn': Button
+  },
+  data() {
+    return{
+      listdata: [],
+      info: null,
+      isloading: false,
+      btnLoading: false
+    }
+  },
+  mounted() {
+    this.getDetail()
+  },
+  methods: {
+    async getDetail() {
+      const data = await getOrderDetail(this.$route.params.id)
+      if(data) {
+        console.log(data)
+        this.info = data
+        this.list_info(data)
+      }
+    },
+    list_info(item) {
+      this.listdata = [{
+        realname: item.serviceName,
+        // servicePhone: "13333333333",
+        headimage: item.serviceImage,
+        servicenums: item.serviceNums,
+        servicescore: item.serviceScore,
+        serviceaddr: "广东省深圳市"
+      }]
+    },
+    cancelOrder(id) {
+      this.$dialog.confirm({
+        message: '确定取消订单吗'
+      }).then((() => {
+        this.btnLoading = true
+        getOrderCancel(id).then(data => {
+          this.btnLoading = false
+          if(typeof data != 'string') return this.$toast('取消成功')
+        }) 
+      })).catch(() => {})
+    },
+    getPhone(phone) {
+      const a = document.createElement('a')
+      a.href = `tel: ${phone}`
+      a.click()
+    },
+    status(num) {
+      switch(num) {
+        case '待服务':
+          return 'status-wait'
+        break;
+        case '服务中':
+          return 'status-give'
+        break;
+      }
+    }
   }
 }
 </script>
 
 <style lang="scss" scoped>
 .order-detail{
+  .loading{
+    padding: size(300) 0;
+  }
   .detail-m{
     position: fixed;
     top:0;
@@ -68,9 +132,14 @@ export default {
       height: size(100);
       line-height: size(100);
       background: #fff; 
-      // margin-bottom: size(20);
-      background: #FA6400;
+      background: #03B097;
       color: #fff;
+      &.status-wait{
+        background: #FA6400;
+      }
+      &.status-give{
+        background: #d05392;
+      }
     }
     .name-p{
       margin-top: size(20);
@@ -101,18 +170,26 @@ export default {
       .r-btn{
         display: flex;
         padding-right: size(15);
-        justify-content: flex-end;
+        flex-direction: row-reverse;
       }
       .btn{
         display: block;
-        width: size(170);
-        padding: size(15) 0;
+        padding: 0 size(30);
+        height: size(70);
+        line-height: size(70);
         color: #666;
         font-size: size(26);
         border:1px solid #666;
         margin-right: size(20);
-        border-radius: size(30);
-        
+        border-radius: size(60); 
+        &.btn-p{
+          background: #35A1F2;
+          color: #fff;
+          border: 0;
+        }    
+      }
+      /deep/ .van-button--info{
+        background-color: transparent;
       }
     }
   }

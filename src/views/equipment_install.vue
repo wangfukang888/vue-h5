@@ -3,8 +3,14 @@
     <div class="steps-container">
       <div class="steps">
         <div class="step-item" v-for="(item,index) in step_list" :key="index">
-          <h4 class="t" :class="{'active': currentIndex == index}">{{item}}</h4>
-          <span class="icon-r" v-if="index < 2"></span>
+          <div class="step">
+            <h4 class="t" :class="{'active': currentIndex == index}">
+              {{item}}
+              <span class="icon-r" v-if="index < 2">
+                <div class="sj"></div>
+              </span>
+            </h4>
+          </div> 
         </div>
       </div>
     </div> 
@@ -68,29 +74,50 @@ export default {
     display: flex;
     .step-item{
       flex:1;
-      position: relative;
-      margin-right: 20%;
-      .t{
-        width: size(140);
-        height: size(60);
-        line-height: size(60);
-        font-size: size(24);
-        // text-align: center;  
-        color: #1F8781;
-        &.active{
-          border: size(1) solid #00EBDD;
-          color: #00EBDD;
-          border-radius: size(12);
-        }
+      align-items: center;
+      margin-right: 16%;
+      &:last-child{
+        margin-right: 0;
+      }
+      .step{
+        display: flex;
       }
       .icon-r{
         position: absolute;
         display: block;
         width: size(80);
-        left: size(150);
+        left: 110%;
         top:42%;
         height: size(4);
-        background: #1CC1B8;
+        background: #1CC1B8;  
+        .sj{
+          position: relative;
+          &:after{
+            position: absolute;
+            content: '';
+            right:-1%;
+            margin-top: -9%;
+            width:0;
+            height:0;
+            border-top:size(10) solid transparent;
+            border-bottom:size(10) solid transparent;
+            border-left:size(10) solid #1CC1B8;
+          }     
+        }
+      } 
+      .t{ 
+        position: relative;
+        width: size(160);
+        height: size(60);
+        line-height: size(60);
+        font-size: size(26);
+        text-align: center;
+        color: #1F8781; 
+        &.active{
+          border: size(1) solid #00EBDD;
+          color: #00EBDD;
+          border-radius: size(12);
+        }
       }
     }
   }
@@ -98,7 +125,7 @@ export default {
 .component{
   position: fixed;
   width: 100%;
-  top: 12%;
+  top: size(150);
   bottom: 0;
   z-index: 3;
   background: #fff;

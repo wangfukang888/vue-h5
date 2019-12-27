@@ -80,7 +80,7 @@ const routes = [
     component: () => import('../views/order/order-list.vue'),
     meta: {
       index: 5,
-      keepAlive: false,
+      keepAlive: true,
       title: '历史记录'
     }
   },
@@ -95,7 +95,7 @@ const routes = [
     }
   },
   {
-    path: '/order_ok',
+    path: '/order_ok/:id',
     name: 'order_ok',
     component: () => import('../views/order/order-success.vue'),
     meta: {

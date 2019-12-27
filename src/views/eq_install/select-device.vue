@@ -16,8 +16,8 @@
         </scroll-list>
       </div>
       <div class="r-content">
-        <scroll-list class="r-scroll">
-          <div class="wrap">
+        <scroll-list class="r-scroll" :list_data="list_data">
+          <div class="wrap" v-if="list_data && list_data.length > 0">
             <div class="item" @click="selectItem(index, item)" :class="{active: currentItem == index}" v-for="(item,index) in list_data" :key="index">
               <div class="l-img">
 
@@ -28,6 +28,9 @@
                 <div class="price">安装费： <b>¥{{item.device_price}}</b></div>
               </div>
             </div>
+          </div>
+          <div class="loading" v-else>
+            <van-loading type="spinner" size="24px" vertical>加载中...</van-loading>
           </div>
         </scroll-list>
       </div>
@@ -51,7 +54,6 @@ export default {
   data() {
     return{
       s_val:'',
-      // nav_data: ['举升机','四轮定位仪','四轮定位仪全方位','千斤顶','冷煤机'],
       currentIndex: 0,
       currentItem: -1
     }
@@ -61,6 +63,8 @@ export default {
       this.$emit('close')
     },
     selectNav(i, item) {
+      // 初始化选中索引
+      this.currentItem = -1
       this.currentIndex = i
       this.$emit('selectId', item.device_type_id)
     },
@@ -108,6 +112,10 @@ export default {
     bottom: size(100);
     display: flex;
     overflow: hidden;
+    .loading{
+      padding: size(300) 0;
+      margin-left: -16%;
+    }
     .left-nav{
       width: size(180);
       .l-scroll{

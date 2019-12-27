@@ -1,13 +1,11 @@
 import req from 'req'
 
-export function getAreaInfo(id = 0) {
-  return req.get('/apis/api/address/getArea', {
-    params: {
-      pid: id
-    }
-  })
+//grid模块
+export function getModelGridList() {
+  return req.post('/apis/api/Inter/showDataList')
 }
 
+//登录
 export function getLogin(account, password) {
   return req.post('/apis/api/User/login', { 
     account,
@@ -45,11 +43,32 @@ export function getOrderList(service_type) {
   })
 }
 
+//订单详情
+export function getOrderDetail(order_no) {
+  return req.post('/apis/api/Inter/serviceOrderDetail', { 
+    order_no
+  })
+}
+
+//取消订单
+export function getOrderCancel(task_id) {
+  return req.post('/apis/indexapp/Diagnosis/cancelOrder', { 
+    task_id
+  })
+}
+
 //发布订单
 export function getReleaseOrder(data) {
   return req.get('/apis/indexapp/Diagnosis/createDevice', { 
+    params: data
+  })
+}
+
+//发送验证码
+export function getCode(mobile) {
+  return req.get('/apis/indexapp/Sms/send', { 
     params: {
-      data
+      mobile
     }
   })
 }

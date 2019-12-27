@@ -1,10 +1,10 @@
 import axios from 'axios'
 import store from '@/store'
 import qs from 'qs'
-import {Toast } from 'vant';
-export const OK = 1
-export const SIZE = 10
+import router from '../router'
+import {Toast } from 'vant'
 
+export const OK = 0
 axios.defaults.timeout = 100000
 
 const headers = {
@@ -13,7 +13,7 @@ const headers = {
 
 // 通用参数
 const params = {
-  source_type: 'app',
+  // source_type: 'app',
   // sign: '8ea8a9b8-29de-492d-a11e-d53916ebb900'
 }
 
@@ -36,10 +36,15 @@ api.interceptors.response.use(
     const err_code = err.response.status
     switch (err_code) {
       case 401 :
-        // 登录过期 
+        // 登录过期 ,2秒后跳转
+        Toast('登录失效')
+        localStorage.clear()
+        setTimeout(() => {
+          router.push('/login')
+        },2000)     
       break; 
       case 500 :
-      Toast('服务器访问失败')
+        Toast('服务器访问失败,请刷新后重试')
       break; 
     }
   }

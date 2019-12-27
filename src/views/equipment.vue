@@ -50,7 +50,7 @@
 import VSearch from 'com/search'
 import VGrid from "com/grid-list"
 import {equipment_data} from '../mock/grid_data'
-import {queryDevice} from 'api'
+import {queryDevice, getModelGridList} from 'api'
 import {wx_scan} from '../utils/wxConfig'
 
 export default {
@@ -73,6 +73,10 @@ export default {
   },
   destroyed() {
     this.$refs.e_bs && this.$refs.e_bs.destroy()
+  },
+  async mounted() {
+    const data = await getModelGridList()
+    console.log(data)
   },
   methods: {
     async queryInfo(val) {

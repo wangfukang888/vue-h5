@@ -21,6 +21,7 @@
 
 <script>
 import VGrid from 'com/grid-list'
+import {getModelGridList} from 'api'
 import {repir_data} from '../mock/grid_data'
  
 export default {
@@ -32,6 +33,16 @@ export default {
   },
   components: {
     VGrid
+  },
+  created() {
+    this.getGridList()
+  },
+  methods: {
+    async getGridList() {
+      const data = await getModelGridList()
+      console.log(data)
+      this.grid_list = data
+    }
   }
 };
 </script>

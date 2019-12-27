@@ -4,13 +4,13 @@
       <v-tab :title="item" v-for="(item,index) in list" :key="index">
         <scroll-list 
           :data="list_data" 
-          :pullup="true" 
+          ref="s_l"
           @scrollToEnd="loadData" 
           class="list-container" 
         > 
           <v-order-list :list_data="list_data"/>
           <div class="loading" v-if="isloading">
-            <van-loading size="24px">加载中...</van-loading>    
+            <van-loading size="24px" type="spinner">加载中...</van-loading>    
           </div>
           <div class="no_data" v-if="is_no_data">暂无数据</div>  
         </scroll-list>
@@ -47,25 +47,22 @@ export default {
   },
   methods: {
     async getList(index) {
-      this.list_data = []
+      // this.list_data = []
       this.isloading = true
       this.is_no_data = false
       const data = await getOrderList(index)
-      console.log(data)
       if(data) {
         this.isloading = false
         if (data.length == 0) return this.is_no_data = true
-        this.list_data.concat(data)
-        
+        this.list_data = this.list_data.concat(data) 
       }
     },
     loadData() {
       console.log('滚动到底')
-      this.isloading = true
+      // this.isloading = true
     },
     tabChange(i, t) {
       this.list_data = []
-      console.log(name, t)
       const index = i == 0 ? 1 : 2 
       this.getList(index)
     }
@@ -90,7 +87,7 @@ export default {
       color: #ccc;
     }
     .loading{
-      padding: size(50);
+      padding: size(200) 0;
     }
   }
 }

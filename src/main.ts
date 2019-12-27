@@ -3,7 +3,7 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import 'vant/lib/index.css'
-import { NavBar, Loading, Toast, GridItem, Grid, Search, Icon, Step, Steps, Cell,  CellGroup, Field } from 'vant'
+import { NavBar, Loading, Toast, GridItem, Grid, Search, Icon, Step, Steps, Cell,  CellGroup, Field, Dialog } from 'vant'
 import container  from './components/px-container.vue'
 
 // import FastClick from 'fastclick'
@@ -18,6 +18,7 @@ Vue.use(Search).use(Icon)
 Vue.use(Step).use(Steps)
 Vue.use(Cell).use(CellGroup)
 Vue.use(Field)
+Vue.use(Dialog)
 
 Vue.config.productionTip = false
 Vue.component('nav-bar', NavBar)
@@ -26,6 +27,9 @@ Vue.component('container', container)
 
 Vue.prototype.toast = function(text: string) {
   return Toast( text )
+}
+Vue.prototype.dialog = function() {
+  return Dialog
 }
 
 router.beforeEach((to,from,next) => {

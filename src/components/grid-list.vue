@@ -1,20 +1,20 @@
 <template>
   <div class="grid-icon">
     <div class="list" v-for="(item, index) in list" :key="index">
-      <div class="title" :style="`background: linear-gradient(to right, ${item.l_bg}, ${item.r_bg})`">
-        <h2>{{item.title}}</h2>
+      <div class="title" :class="`t-${index}`" :style="`background: linear-gradient(to right, ${item.l_bg}, ${item.r_bg})`">
+        <h2>{{item.typeName}}</h2>
         <span>{{item.desc}}</span>
       </div>
       <div class="icon-grid">
         <van-grid :column-num="3" :border="false">
           <van-grid-item
-            v-for="(value, o) in item.list"
+            v-for="(value, o) in item.typeRes"
             :key="o"
-            :icon="value.icon || 'photo-o'"
+            :icon="value.link_image || 'photo-o'"
             :url="value.url"
             :to="value.path"
             @click="goGrid(value.url, value.path)"
-            :text="value.text"
+            :text="value.name"
           />
         </van-grid>
       </div>
@@ -43,6 +43,7 @@ export default {
     color: #fff;
     text-align: left;
     border-radius: size(40) size(40) 0 0;
+    background: linear-gradient(to right, #04b396, #07d6c5);
     h2 {
       margin-top: size(10);
       margin-bottom: size(20);

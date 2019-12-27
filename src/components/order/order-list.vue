@@ -1,38 +1,38 @@
 <template>
   <div class="list-section">
-    <template v-if="list_data.length == 0">
-      <div class="item" v-for="(item,index) in list_data" :key="index" @click="goDetail(index)">
+    <template v-if="list_data.length">
+      <div class="item" v-for="(item,index) in list_data" :key="index" @click="goDetail(item.order_no)">
         <div class="hd">
-          <div class="name">订单编号：<b>23444787</b></div>
-          <div class="status">已完成</div>
+          <div class="name">订单编号：<b>{{item.order_no}}</b></div>
+          <div class="status" :class="status(item.serviceStatus)">{{item.serviceStatus}}</div>
         </div>
         <div class="content">
           <div class="g-order-info info">
             <div class="item">
               <div class="l">服务类型:</div>
-              <div class="r">现场安装</div>
+              <div class="r">{{item.serviceType}}</div>
             </div>
             <div class="item">
               <div class="l">设备名称:</div>
-              <div class="r">hhjd举升机</div>
+              <div class="r">{{item.deviceName}}</div>
             </div>
             <div class="item">
               <div class="l">设备型号:</div>
-              <div class="r">现场安装</div>
+              <div class="r">{{item.deviceModel}}</div>
             </div>
             <div class="item">
               <div class="l">服务地址:</div>
-              <div class="r">深圳市民治达到就是看手机深圳市民治达到就是看手机</div>
+              <div class="r">{{item.serviceAddr}}</div>
             </div>
             <div class="item">
               <div class="l">发布日期:</div>
-              <div class="r">2019-11-28 20:45:08</div>
+              <div class="r">{{item.publishTime}}</div>
             </div>
           </div>
         </div>
         <div class="fd">
           <div class="l"></div>
-          <div class="r">安装费： <b>¥654.00</b></div>
+          <div class="r">安装费： <b>¥{{item.devicePrice.toFixed(2)}}</b></div>
         </div>
       </div>
       <!-- <div class="loading" v-if="!hasNext">
@@ -48,7 +48,8 @@ export default {
   props: {
     list_data: {
       type: Array,
-      default: []
+      default: [],
+      textStatus: ''
     }
   },
   mounted() {
@@ -62,6 +63,16 @@ export default {
           id
         }
       })
+    },
+    status(num) {
+      switch(num) {
+        case '待服务':
+          return 'status-wait'
+        break;
+        case '服务中':
+          return 'status-give'
+        break;
+      }
     }
   }
 };
@@ -102,6 +113,12 @@ export default {
         width: size(100);
         color: #03B097;
         text-align: right;
+        &.status-wait{
+          color: #FA6400;
+        }
+        &.status-give{
+          color: #d05392;
+        }
       }
     }
     .fd{

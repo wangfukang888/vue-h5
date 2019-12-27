@@ -56,7 +56,7 @@ export default {
       seconds: 60,
       timer: null,
       mobileFormSubmitting: false,
-      account: 'golo_2136380',
+      account: '590026602',
       password: '123456',
       accountFormSubmitting: false
     }
@@ -110,7 +110,7 @@ export default {
         return false
       }
       const data = await getLogin(this.account, this.password)
-      data.userinfo && this.success(data.userinfo)  
+      data && this.success(data.userinfo)  
     },
     success(info, code) {
       this.$store.commit('get_login', info)

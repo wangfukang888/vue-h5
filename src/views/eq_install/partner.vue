@@ -2,20 +2,24 @@
   <div class="partner-container">
     <div class="header">
       <div class="item" @click="$refs.sel.show()">
-        <div class="info">{{partner_data.address}}</div>
-        <div class="icon">
-          <van-icon name="arrow" />
+        <div class="info">
+          {{partner_data.address}}
+          <div class="icon">
+            <van-icon name="arrow" />
+          </div>
         </div>
       </div>
       <div class="item" @click="show_picker = true">
-        <div class="info">{{partner_data.info_type}}</div>
-        <div class="icon">
-          <van-icon name="arrow" />
+        <div class="info">
+          {{partner_data.info_type}}
+          <div class="icon">
+            <van-icon name="arrow" />
+          </div>
         </div>
       </div>
     </div>
     <scroll-list class="list-wrap"  :data="list_data" ref="list_p">
-      <info-list :list_data="5" @select="selectInfo"/>
+      <info-list :list_data="list_data" @select="selectInfo"/>
       <div class="loading" v-if="isloading">
         <loading type="spinner" />
       </div> 
@@ -97,13 +101,16 @@ export default {
       const p_str = this.partner_data.address.split('-')
       const data = await getPartner(p_str[0], p_str[1])
       if (data) {
-        if (data.length == 0) this.$toast('暂无数据')
         this.isloading = false
+        if (data.length == 0) return this.$toast('暂无数据')
+        this.list_data = data
+        console.log(data)
       }
     },
     getCity(arr) {
-      console.log(arr)
+      this.list_data = []
       this.partner_data.address = arr.join('-')
+      this.getPartnerList()
     },
     goActive() {
       if (!this.info_item) return this.$toast('请选择合伙人')
@@ -114,7 +121,7 @@ export default {
       this.$store.commit('install_info', assign_obj)
     },
     goback() { //返回上一页
-      this.$emit("go_ative", 1, 'info')
+      this.$emit("go_ative", 0, 'info')
     },
     selectInfo(item) {
       console.log(item)
@@ -147,9 +154,22 @@ export default {
       font-size: size(28);
       height: size(60);
       line-height: size(60);
+      margin-right: 10%;
+      &:last-child{ 
+        margin-right: 0;
+      }
+      .info{
+        // width: size(200);  
+        position: relative;
+        padding-right: size(40);
+        @include txt-overflow(1);
+      }
       div{
         display: inline-block;
         &.icon{
+          position: absolute;
+          top:size(1);
+          right: 0;
           margin-top: size(2);
           vertical-align: middle;
           margin-left: size(10);

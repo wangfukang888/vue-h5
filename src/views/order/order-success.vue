@@ -5,7 +5,7 @@
       <div class="text">发布成功，等待接单！</div>
     </div>
     <div class="footer">
-      <div class="btn" @click="goBack('order_detail')">查看订单详情</div>
+      <div class="btn" @click="goBack('order_detail', 'typeid')">查看订单详情</div>
       <div class="btn-index" @click="goBack('home')">
         <div class="btn-a">
           <van-icon name="arrow" class="icon"/>
@@ -18,13 +18,18 @@
 <script>
 export default {
   methods: {
-    goBack(p) {
+    goBack(p, type) {
+      if (type) {
+        const id = this.$route.params.id
+        this.$router.push({
+          name: 'order_detail',
+          params: {id}
+        })
+        return
+      }
       this.$router.push({
-        name: p,
-        params: {
-          id: 1
-        }
-      })
+        name: p
+      })  
     }
   }
 }

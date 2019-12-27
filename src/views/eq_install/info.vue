@@ -160,11 +160,12 @@ export default {
           return
         }
         if(id){
-          data.map(v => [
+          data.map(v => {
             v.deviceRes.map(s => {
+              s.device_type_id = v.device_type_id
               arr.push(s)
             }) 
-          ])
+          })
           this.list_data = arr
         } 
       } 
@@ -181,6 +182,7 @@ export default {
       this.$emit('hidden', false)
     },
     changeItem(query) {
+      console.log(query)
       this.info_select_data = query
       this.show_select = false
       this.$emit('hidden', false)

@@ -20,16 +20,14 @@ export default {
   watch: {
     data(val) {
       if(val) {
+        this.scrollTop()
         this.refresh()
       }
     }
   },
   mounted() {
-    setTimeout(() => {
-      this.initScroll()
-    }, 20)
     this.$nextTick(() => {
-      
+      this.initScroll()
     })
   },
   methods: {
@@ -51,6 +49,7 @@ export default {
       }
     },
     scrollTop() {
+      console.log('开启')
       this.scroll && this.scroll.scrollTo(0, 0)
     },
     refresh() {

@@ -18,7 +18,7 @@
           </div>
           <div class="item">
             <div class="l">服务地址</div>
-            <div class="r">{{r_info.address}}{{r_info.f_address}}</div>
+            <div class="r">{{r_info.address.split('-').join('')}}{{r_info.f_address}}</div>
           </div>
           <div class="item">
             <div class="l">备注：</div>
@@ -44,13 +44,14 @@
 import InfoList from 'com/partner/info-list'
 import scrollList from "com/scroll-list"
 import { Button } from 'vant'
+import {getReleaseOrder} from 'api'
 
 export default {
   data() {
     return {
       addr: [],
       r_info: null,
-      partener_info: 1,
+      partener_info: [],
       show_picker: false,
       show_type: false,
       isLoading: false
@@ -63,26 +64,48 @@ export default {
   },
   mounted() {
     let store_data = this.$store.state.install_info
+    console.log(store_data)
     if(store_data) {
-      store_data.address = store_data.address.split('-').join('')
+      // store_data.address = store_data.address
+      this.partener_info = [store_data.partner_info]
       this.r_info = store_data
     }
   },
   methods: {  
-    getCity(arr) {
-      console.log(arr)
-      this.partner_data.address = arr.join('-')
+    release_data(type) {
+      const data = this.$store.state.install_info
+      const address_info = data.address.split('-')
+      return {
+        type,
+        partner_id: data.partner_info.user_id,
+        device_id: data.select_info.id,
+        device_type_id: data.select_info.device_type_id,
+        username: data.name,
+        telephone: data.phone,
+        user_time: data.time,
+        user_address: data.f_address,
+        remark: data.remask,
+        user_province: address_info[0],
+        user_city: address_info[1]
+      }
     },
-    goActive() {
-
-    },
-    goRelease() {
+    async goRelease() {
       this.isLoading = true
-      setTimeout(() => {
+      const data = await getReleaseOrder( this.release_data(0) )
+      if(data) {
+        console.log(data)
         this.isLoading = false
-        this.$toast('发布成功')
-        this.$router.push('order_ok')
-      },5000)
+        this.$toast('模拟支付成功')
+        this.$router.push({
+          name: 'order_ok',
+          params: {
+            id: data.order_no
+          }
+        })
+        // 发起支付
+
+
+      }
     }
     
   }
