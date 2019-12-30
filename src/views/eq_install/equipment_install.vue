@@ -21,10 +21,9 @@
 </template>
 
 <script>
-import info from './eq_install/info'
-import partner from './eq_install/partner'
-import release from './eq_install/release'
-import BScroll from 'better-scroll'
+import info from 'com/eq_install/info'
+import partner from 'com/eq_install/partner'
+import release from 'com/eq_install/release'
 
 export default {
   data() {
@@ -36,15 +35,10 @@ export default {
       step_list: ['填写信息', '选择合伙人', '发布信息']
     }
   },
-  mounted() {
-    
-  },
   components: {
     info,
     partner,
     release
-  },
-  computed: {
   },
   destroyed() {
     this.$refs.e_bs && this.$refs.e_bs.destroy()

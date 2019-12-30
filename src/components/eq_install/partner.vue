@@ -9,20 +9,21 @@
           </div>
         </div>
       </div>
-      <div class="item" @click="show_picker = true">
+      <div class="item">
         <div class="info">
           {{partner_data.info_type}}
-          <div class="icon">
+          <!-- <div class="icon">
             <van-icon name="arrow" />
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
-    <scroll-list class="list-wrap"  :data="list_data" ref="list_p">
+    <scroll-list class="list-wrap"  :list_data="list_data" ref="list_p">
       <info-list :list_data="list_data" @select="selectInfo"/>
       <div class="loading" v-if="isloading">
-        <loading type="spinner" />
+        <loading vertical />
       </div> 
+      <div class="no_data" v-if="is_no_data">暂无数据</div>  
     </scroll-list>
     <div class="footer">
       <div class="btn-prev active" @click="goback">
@@ -53,9 +54,8 @@
 </template>
 
 <script>
-import VCity from 'com/city'
+import VCity from 'base/city/city'
 import InfoList from 'com/partner/info-list'
-import scrollList from "com/scroll-list"
 import { Picker , Popup} from 'vant'
 import { getPartner } from 'api'
 
@@ -70,13 +70,13 @@ export default {
         info_type: '举升机'
       },
       info_item: null,
+      is_no_data: false,
       isloading: false,
       list_data: [],
       show_type: false
     };
   },
   components: {
-    scrollList,
     VCity,
     InfoList,
     'v-picker': Picker,
@@ -98,13 +98,13 @@ export default {
   methods: {
     async getPartnerList() {
       this.isloading = true
+      this.is_no_data = false
       const p_str = this.partner_data.address.split('-')
       const data = await getPartner(p_str[0], p_str[1])
       if (data) {
         this.isloading = false
-        if (data.length == 0) return this.$toast('暂无数据')
+        if (data.length == 0) return this.is_no_data = true
         this.list_data = data
-        console.log(data)
       }
     },
     getCity(arr) {
@@ -136,10 +136,6 @@ export default {
 
 <style lang="scss" scoped>
 .partner-container {
-  // padding: size(10) size(60);
-  .loading{
-    padding: size(200) 0;
-  }
   .header{
     position: fixed;
     width: 100%;
@@ -176,7 +172,6 @@ export default {
           font-size: size(20);
         }
       }
-      // text-align: center;  
     }
   }
   .list-wrap{
@@ -186,6 +181,10 @@ export default {
     bottom: size(200);
     padding: size(0) size(60);
     overflow: hidden;
+    .no_data{
+      padding: size(200) 0;
+      color: #ccc;
+    }
   }
   .footer{
     position: fixed;
@@ -196,7 +195,6 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-    // border-radius: size(30) size(30) 0 0;
     height: size(200);
     .btn-next{
       position: relative;

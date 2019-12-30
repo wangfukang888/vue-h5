@@ -43,7 +43,7 @@
 
 <script type="text/ecmascript-6">
 import { Field } from 'vant'
-import {getLogin} from 'api'
+import {getLogin, getCode} from 'api'
 // import { sendCode, mobileLogin, accountLogin } from 'api/main'
 // import Cookies from 'js-cookie'
 // import { config } from '@/utils/request'
@@ -77,8 +77,10 @@ export default {
         this.$toast('手机号不能为空')
         return false
       }
-      const data = await sendCode(this.mobile)
-      if ( data ) {
+      const data = await getCode(this.mobile)
+      if ( data.no_status) return
+      if ( typeof data == 'string' ) {
+        this.$toast('发送成功')
         this.timer = setInterval(() => {
           this.seconds--
           if (this.seconds === 0) {
@@ -86,7 +88,7 @@ export default {
             this.timer = null
           }
         }, 1000)
-      }
+      } 
     },
     async _mobileLogin() {
       if (!this.mobile) {
@@ -97,7 +99,8 @@ export default {
         this.$toast('验证码不能为空')
         return false
       }
-      const data = _mobileLogin(this.mobile, this.code)
+      const data = await _mobileLogin(this.mobile, this.code)
+      if (data.no_status) return
       data && this.success(data.userinfo, 'code')
     },
     async _accountLogin() {
@@ -110,6 +113,7 @@ export default {
         return false
       }
       const data = await getLogin(this.account, this.password)
+      if (data.no_status) return
       data && this.success(data.userinfo)  
     },
     success(info, code) {

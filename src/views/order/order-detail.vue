@@ -1,6 +1,6 @@
 <template>
   <div class="order-detail">
-    <scroll-list class="detail-m" :list_data="listdata">
+    <div class="detail-m">
       <div class="container" v-if="info">
         <div class="hd" :class="status(info.serviceStatus)">{{info.serviceStatus}}</div>
         <div class="g-order-info info">
@@ -20,7 +20,7 @@
             <div class="l">服务地址:</div>
             <div class="r">{{info.serviceAddr.split('-').join('')}}{{info.user_address}}</div>
           </div>
-          <div class="item">
+          <div class="item" v-if="info.remark">
             <div class="l">备注：</div>
             <div class="r">{{info.remark}}</div>
           </div>
@@ -28,11 +28,9 @@
          <div class="name-p">   
           <info-list :noclick="true" :list_data="listdata"/>  
         </div>
-      </div>
-      <div class="loading" v-else>
-        <van-loading type="spinner" size="24px" vertical>加载中...</van-loading>
-      </div>
-    </scroll-list>
+      </div>  
+      <loading vertical v-else/>
+    </div>
     <div class="footer">
       <div class="l"></div>
       <div class="r">
@@ -46,14 +44,12 @@
 </template>
 
 <script>
-import scrollList from "com/scroll-list"
 import { Button } from 'vant';
 import InfoList from 'com/partner/info-list'
 import {getOrderDetail, getOrderCancel} from 'api'
 
 export default {
   components: {
-    scrollList,
     InfoList,
     'v-btn': Button
   },
@@ -71,16 +67,14 @@ export default {
   methods: {
     async getDetail() {
       const data = await getOrderDetail(this.$route.params.id)
-      if(data) {
-        console.log(data)
+      if(typeof data == 'object') {
         this.info = data
-        this.list_info(data)
+        this.list_info(data)       
       }
     },
     list_info(item) {
       this.listdata = [{
         realname: item.serviceName,
-        // servicePhone: "13333333333",
         headimage: item.serviceImage,
         servicenums: item.serviceNums,
         servicescore: item.serviceScore,
@@ -111,6 +105,7 @@ export default {
         case '服务中':
           return 'status-give'
         break;
+        default: return
       }
     }
   }
@@ -128,6 +123,7 @@ export default {
     width: 100%;
     background: #f1f1f1;
     bottom: size(100);
+    overflow: auto;
     .hd{
       height: size(100);
       line-height: size(100);

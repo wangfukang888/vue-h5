@@ -42,7 +42,6 @@
 
 <script>
 import InfoList from 'com/partner/info-list'
-import scrollList from "com/scroll-list"
 import { Button } from 'vant'
 import {getReleaseOrder} from 'api'
 
@@ -58,7 +57,6 @@ export default {
     };
   },
   components: {
-    scrollList,
     InfoList,
     'v-btn': Button
   },

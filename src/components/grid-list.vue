@@ -37,6 +37,13 @@ export default {
 
 <style scoped lang="scss">
 .list {
+  /deep/ .van-grid-item__icon{
+    font-size: size(60);
+  }
+  /deep/ .van-grid-item__text{
+    font-size: size(24);
+    font-weight: bold;
+  }
   .title {
     height: size(150);
     padding: size(20) size(30);
@@ -57,16 +64,6 @@ export default {
   .icon-grid {
     background: #fff;
     margin-bottom: size(20);
-  }
-  // &:last-child {
-  //   margin-bottom: size(20);
-  // }
-  /deep/ .van-grid-item__icon{
-    font-size: size(60);
-  }
-  /deep/ .van-grid-item__text{
-    font-size: size(24);
-    font-weight: bold;
   }
 }
 

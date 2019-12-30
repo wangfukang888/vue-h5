@@ -4,7 +4,7 @@
       <van-search
         ref="s_f"
         v-model="val"
-        placeholder="请输入序列号"
+        :placeholder="placeholder"
         show-action
         background="#eee"
         @search="onSearch"
@@ -16,6 +16,12 @@
 
 <script>
 export default {
+  props: {
+    placeholder: {
+      type: String,
+      default: '请输入序列号'
+    }
+  },
   data() {
     return{
       val: ''

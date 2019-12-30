@@ -11,18 +11,20 @@ import BScroll from 'better-scroll'
 
 export default {
   props: {
-    data: Array,
+    list_data: {
+      type: Array,
+      default: null
+    },
     pullup: {
       type: Boolean,
       default: false
     }
   },
   watch: {
-    data(val) {
-      if(val) {
-        this.scrollTop()
+    list_data() { 
+      setTimeout(() => {
         this.refresh()
-      }
+      },20)     
     }
   },
   mounted() {
@@ -34,6 +36,7 @@ export default {
     // 滚动初始化
     initScroll() {
       let scroll = this.$refs.scroll
+      if (!scroll) return   
       this.scroll = new BScroll(scroll, {
         click: true,
         scrollbar: { // 设置滚动条
@@ -49,12 +52,10 @@ export default {
       }
     },
     scrollTop() {
-      console.log('开启')
       this.scroll && this.scroll.scrollTo(0, 0)
     },
     refresh() {
       this.scroll && this.scroll.refresh()
-      console.log('更新')
     },
     destroy() {
       this.scroll && this.scroll.destroy()

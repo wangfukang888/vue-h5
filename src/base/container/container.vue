@@ -1,24 +1,28 @@
 <template>
   <div class="container">
-    <!-- <n-bar :title="text" /> -->
-    <div class="b-scroll no-bar" ref="bscroll">
+    <n-bar :title="text" v-if="show_bar"/>
+    <div class="b-scroll" :class="{'p-bar': show_bar}" ref="bscroll">
       <slot></slot>
     </div>
   </div>
 </template>
 
 <script>
-// import NBar from 'com/nav-bar'
+import {NavBar} from 'vant'
 import BScroll from 'better-scroll'
 
 export default {
-  // components: {
-  //   NBar
-  // },
+  components: {
+    'n-bar': NavBar
+  },
   props: {
     disable_scroll: {
       type: Boolean,
       default: true
+    },
+    show_bar: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -59,11 +63,11 @@ export default {
 .b-scroll{
   position: absolute;
   width: 100%;
-  top: size(92);
+  top: 0;
   bottom: 0;
   background: #f1f1f1; 
-  &.no-bar{
-    top: 0;
+  &.p-bar{
+    top: size(92);
   }
 }
 </style>

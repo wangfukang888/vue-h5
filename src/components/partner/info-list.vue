@@ -2,7 +2,7 @@
 <div v-if="list_data">
   <div class="list" :class="{'select': selelctIndex == index}" v-for="(item,index) in list_data" :key="index" @click="selectItem(index, item)"> 
     <div class="left">
-      <img :src="item.headimage" alt="">
+      <img v-lazy="item.headimage" alt="">
     </div>
     <div class="right">
       <div class="info info-t">

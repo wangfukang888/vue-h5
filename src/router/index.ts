@@ -7,7 +7,7 @@ const routes = [
   {
     path: '/',
     name: 'home',
-    component: () => import('../views/index.vue'),
+    component: () => import('../views/tab-bar/home.vue'),
     meta: {
       index: 0,
       keepAlive: true,
@@ -37,7 +37,7 @@ const routes = [
   {
     path: '/equipment',
     name: 'equipment',
-    component: () => import('../views/equipment.vue'),
+    component: () => import('../views/tab-bar/equipment.vue'),
     meta: {
       index: 1,
       keepAlive: true,
@@ -47,29 +47,19 @@ const routes = [
   {
     path: '/reqair',
     name: 'reqair',
-    component: () => import('../views/repair.vue'),
+    component: () => import('../views/tab-bar/repair.vue'),
     meta: {
       index: 2,
-      keepAlive: false,
+      keepAlive: true,
       title: '修车有问题'
-    }
-  },
-  {
-    path: '/scan',
-    name: 'scan',
-    component: () => import('../views/QrScanner.vue'),
-    meta: {
-      index: 3,
-      keepAlive: false,
-      title: '扫码'
     }
   },
   {
     path: '/eq_install',
     name: 'eq_install',
-    component: () => import('../views/equipment_install.vue'),
+    component: () => import('../views/eq_install/equipment_install.vue'),
     meta: {
-      index: 4,
+      index: 3,
       keepAlive: true,
       title: '设备安装'
     }
@@ -79,7 +69,7 @@ const routes = [
     name: 'order_list',
     component: () => import('../views/order/order-list.vue'),
     meta: {
-      index: 5,
+      index: 4,
       keepAlive: true,
       title: '历史记录'
     }
@@ -89,7 +79,7 @@ const routes = [
     name: 'order_detail',
     component: () => import('../views/order/order-detail.vue'),
     meta: {
-      index: 7,
+      index: 5,
       keepAlive: false,
       title: '订单详情'
     }

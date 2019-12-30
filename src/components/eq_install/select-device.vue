@@ -20,7 +20,7 @@
           <div class="wrap" v-if="list_data && list_data.length > 0">
             <div class="item" @click="selectItem(index, item)" :class="{active: currentItem == index}" v-for="(item,index) in list_data" :key="index">
               <div class="l-img">
-
+                <img :src="item.device_image" alt="">
               </div>
               <div class="r">
                 <h4>{{item.device_name}}</h4>
@@ -30,7 +30,7 @@
             </div>
           </div>
           <div class="loading" v-else>
-            <van-loading type="spinner" size="24px" vertical>加载中...</van-loading>
+            <loading vertical />
           </div>
         </scroll-list>
       </div>
@@ -40,12 +40,7 @@
 </template>
 
 <script>
-import scrollList from 'com/scroll-list'
-
 export default {
-  components: {
-    scrollList
-  },
   props: {
     show: Boolean,
     list_data: Array,
@@ -113,7 +108,6 @@ export default {
     display: flex;
     overflow: hidden;
     .loading{
-      padding: size(300) 0;
       margin-left: -16%;
     }
     .left-nav{

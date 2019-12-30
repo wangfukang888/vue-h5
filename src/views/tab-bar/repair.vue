@@ -22,13 +22,12 @@
 <script>
 import VGrid from 'com/grid-list'
 import {getModelGridList} from 'api'
-import {repir_data} from '../mock/grid_data'
  
 export default {
   data() {
     return {
       text: "修车有问题",
-      grid_list: repir_data || []
+      grid_list: []
     }
   },
   components: {
@@ -40,7 +39,6 @@ export default {
   methods: {
     async getGridList() {
       const data = await getModelGridList()
-      console.log(data)
       this.grid_list = data
     }
   }

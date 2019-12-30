@@ -47,11 +47,11 @@
 </template>
 
 <script>
-import VSearch from 'com/search'
+import VSearch from 'base/search/search'
 import VGrid from "com/grid-list"
-import {equipment_data} from '../mock/grid_data'
-import {queryDevice, getModelGridList} from 'api'
-import {wx_scan} from '../utils/wxConfig'
+import {equipment_data} from '../../mock/grid_data'
+import {queryDevice} from 'api'
+import {wx_scan} from '../../utils/wxConfig'
 
 export default {
   components: {
@@ -69,22 +69,16 @@ export default {
       grid_list: equipment_data || []
     }
   },
-  computed: {
-  },
   destroyed() {
     this.$refs.e_bs && this.$refs.e_bs.destroy()
-  },
-  async mounted() {
-    const data = await getModelGridList()
-    console.log(data)
   },
   methods: {
     async queryInfo(val) {
       const data = await queryDevice(val)
       let arr = []
-      if (data) {
-        this.search_info = data
-        let files = data.deviceFile
+      if (data.no_status) {
+        this.search_info = data.data
+        let files = data.data.deviceFile
         for (let i in files) {
           arr.push(files[i])
         }

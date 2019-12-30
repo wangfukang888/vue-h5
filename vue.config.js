@@ -44,7 +44,8 @@ module.exports = {
         'img': path.resolve(__dirname, './src/assets/img'),
         'css': path.resolve(__dirname, './src/assets/css'),
         'req': path.resolve(__dirname, './src/fetch'),
-        'api': path.resolve(__dirname, './src/api')
+        'api': path.resolve(__dirname, './src/api'),
+        'base': path.resolve(__dirname, './src/base'),
       }
     }
   },

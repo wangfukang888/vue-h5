@@ -28,13 +28,18 @@ api.interceptors.response.use(
   (response) => {
     const res = response.data
     if (res.code != OK) {
-      Toast(res.msg || '')
-    }
+      Toast(res.msg || '获取数据失败，请刷新重试')  
+      res.no_status = 'NO_CODE'   
+      return res
+    }  
     return res.data
   },
   err => {
     const err_code = err.response.status
     switch (err_code) {
+      case 304:
+        console.log('缓存成功')
+      break;
       case 401 :
         // 登录过期 ,2秒后跳转
         Toast('登录失效')

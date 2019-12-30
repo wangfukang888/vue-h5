@@ -86,9 +86,8 @@
 </template>
 
 <script>
-import VCity from 'com/city'
-import scrollList from "com/scroll-list"
-import SelectDevice from './select-device'
+import VCity from 'base/city/city'
+import SelectDevice from 'com/eq_install/select-device'
 import { DatetimePicker, Popup } from 'vant'
 import {getDeviceList} from 'api'
 
@@ -107,7 +106,6 @@ export default {
     }
   },
   components: {
-    scrollList,
     SelectDevice,
     VCity,
     'v-datetime-picker': DatetimePicker,

@@ -26,8 +26,8 @@
 
 <script>
 import showHide from '@/mixins/show-hide'
-import {getAreaInfo} from '../api'
-import area from '../utils/area'
+import {getAreaInfo} from '@/api'
+import area from '@/utils/area'
 
 export default {
   mixins: [showHide],

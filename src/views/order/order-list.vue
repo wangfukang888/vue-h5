@@ -3,15 +3,14 @@
    <v-tabs v-model="active" color="#03B097" swipeable @change="tabChange">
       <v-tab :title="item" v-for="(item,index) in list" :key="index">
         <scroll-list 
-          :data="list_data" 
+          :list_data="list_data" 
           ref="s_l"
+          :pullup="true"
           @scrollToEnd="loadData" 
           class="list-container" 
         > 
-          <v-order-list :list_data="list_data"/>
-          <div class="loading" v-if="isloading">
-            <van-loading size="24px" type="spinner">加载中...</van-loading>    
-          </div>
+          <v-order-list :list_data="list_data" :hasNext="hasNext"/>
+          <loading vertical v-if="isloading"/>
           <div class="no_data" v-if="is_no_data">暂无数据</div>  
         </scroll-list>
       </v-tab>
@@ -20,14 +19,12 @@
 </template>
 
 <script>
-import scrollList from "com/scroll-list"
 import { Tab, Tabs } from 'vant';
 import VOrderList from 'com/order/order-list'
 import {getOrderList} from 'api'
 
 export default {
   components: {
-    scrollList,
     VOrderList,
     'v-tab': Tab,
     'v-tabs': Tabs
@@ -38,20 +35,23 @@ export default {
       list_data: [],
       active: 0,
       isloading: false,
+      hasNext: false,
       is_no_data: false, 
       list: ['设备服务', '维修服务']
     }
   },
-  mounted() {
+  created() {
+    this.page = 1
     this.getList(1)
   },
   methods: {
     async getList(index) {
-      // this.list_data = []
       this.isloading = true
       this.is_no_data = false
       const data = await getOrderList(index)
+      if(data.no_status) return this.isloading = false
       if(data) {
+        this.hasNext = false
         this.isloading = false
         if (data.length == 0) return this.is_no_data = true
         this.list_data = this.list_data.concat(data) 
@@ -59,7 +59,12 @@ export default {
     },
     loadData() {
       console.log('滚动到底')
+      this.hasNext = true
+      if(this.page == 1) {
+        this.hasNext = false
+      }
       // this.isloading = true
+      // this.list_data = this.list_data.concat(this.list_data)
     },
     tabChange(i, t) {
       this.list_data = []
@@ -85,9 +90,6 @@ export default {
     .no_data{
       padding: size(200) 0;
       color: #ccc;
-    }
-    .loading{
-      padding: size(200) 0;
     }
   }
 }

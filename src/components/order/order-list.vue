@@ -35,10 +35,8 @@
           <div class="r">安装费： <b>¥{{item.devicePrice.toFixed(2)}}</b></div>
         </div>
       </div>
-      <!-- <div class="loading" v-if="!hasNext">
-        <van-loading size="24px">加载中...</van-loading>    
-      </div>
-      <div class="no-data" v-else>没有更多数据了～</div> -->
+      <loading class="loading" title="拼命加载中..." size="16px" v-if="hasNext"/> 
+      <div class="no-data" v-else>没有更多数据了～</div>
     </template>
   </div>
 </template>
@@ -48,8 +46,11 @@ export default {
   props: {
     list_data: {
       type: Array,
-      default: [],
-      textStatus: ''
+      default: []
+    },
+    hasNext: {
+      type: Boolean,
+      default: false
     }
   },
   mounted() {
@@ -88,6 +89,7 @@ export default {
     color:#888;
   }
   .loading{
+    padding: 0;
     @extend .no-data; 
   }
   .item{
