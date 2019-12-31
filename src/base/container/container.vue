@@ -65,6 +65,7 @@ export default {
   width: 100%;
   top: 0;
   bottom: 0;
+  overflow: auto;
   background: #f1f1f1; 
   &.p-bar{
     top: size(92);

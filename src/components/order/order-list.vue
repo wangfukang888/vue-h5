@@ -7,7 +7,7 @@
           <div class="status" :class="status(item.serviceStatus)">{{item.serviceStatus}}</div>
         </div>
         <div class="content">
-          <div class="g-order-info info">
+          <div class="g-order-info info"> 
             <div class="item">
               <div class="l">服务类型:</div>
               <div class="r">{{item.serviceType}}</div>
@@ -35,8 +35,6 @@
           <div class="r">安装费： <b>¥{{item.devicePrice.toFixed(2)}}</b></div>
         </div>
       </div>
-      <loading class="loading" title="拼命加载中..." size="16px" v-if="hasNext"/> 
-      <div class="no-data" v-else>没有更多数据了～</div>
     </template>
   </div>
 </template>
@@ -47,10 +45,6 @@ export default {
     list_data: {
       type: Array,
       default: []
-    },
-    hasNext: {
-      type: Boolean,
-      default: false
     }
   },
   mounted() {
@@ -91,6 +85,11 @@ export default {
   .loading{
     padding: 0;
     @extend .no-data; 
+    &.load-down{
+      /deep/ .van-loading__text{
+        font-size: size(24);
+      }
+    }
   }
   .item{
     background: #fff;

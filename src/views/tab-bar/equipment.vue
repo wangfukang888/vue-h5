@@ -75,10 +75,10 @@ export default {
   methods: {
     async queryInfo(val) {
       const data = await queryDevice(val)
-      let arr = []
-      if (data.no_status) {
-        this.search_info = data.data
-        let files = data.data.deviceFile
+      const arr = []
+      if (data instanceof Object) {
+        this.search_info = data
+        let files = data.deviceFile
         for (let i in files) {
           arr.push(files[i])
         }

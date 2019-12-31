@@ -12,7 +12,8 @@
           <div class="btn">下载APP</div>
         </div>
         <div class="grid-m">
-          <v-grid :list="grid_list"></v-grid>
+          <v-grid :list="grid_list" v-if="grid_list"></v-grid>
+          <loading v-else/>
         </div>
       </div>
     </div>
@@ -39,7 +40,7 @@ export default {
   methods: {
     async getGridList() {
       const data = await getModelGridList()
-      this.grid_list = data
+      if (data instanceof Array) this.grid_list = data      
     }
   }
 };
@@ -96,6 +97,13 @@ export default {
       font-size: size(26);
       border: size(1) solid #fff;
     }
+  }
+  .grid-m{
+    /deep/ .title{
+      &.t-1{
+        background: linear-gradient(to right, #024374, #096bb4);
+      }
+    }  
   }
 }
 </style>

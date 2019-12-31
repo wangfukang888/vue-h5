@@ -88,7 +88,7 @@ export default {
         this.btnLoading = true
         getOrderCancel(id).then(data => {
           this.btnLoading = false
-          if(typeof data != 'string') return this.$toast('取消成功')
+          if(data) this.$toast('取消成功')
         }) 
       })).catch(() => {})
     },

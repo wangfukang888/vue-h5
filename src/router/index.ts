@@ -80,7 +80,7 @@ const routes = [
     component: () => import('../views/order/order-detail.vue'),
     meta: {
       index: 5,
-      keepAlive: false,
+      keepAlive: true,
       title: '订单详情'
     }
   },

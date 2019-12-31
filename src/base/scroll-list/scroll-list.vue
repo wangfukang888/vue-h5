@@ -18,6 +18,10 @@ export default {
     pullup: {
       type: Boolean,
       default: false
+    },
+    pullDown: {
+      type: Boolean,
+      default: false
     }
   },
   watch: {
@@ -39,6 +43,7 @@ export default {
       if (!scroll) return   
       this.scroll = new BScroll(scroll, {
         click: true,
+        probeType: 1,  
         scrollbar: { // 设置滚动条
           fade: true 
         }
@@ -49,6 +54,17 @@ export default {
             this.$emit('scrollToEnd')
           }
         })
+      }
+
+      if (this.pullDown) {
+        this.scroll.on('scroll', (pos) => {
+          if ( pos.y > 30) {
+            this.$emit('scrollDown', pos.y)
+          }
+        })
+        this.scroll.on('touchEnd',(pos) =>{ 
+          this.$emit('touchEnd', pos.y)   
+        })       
       }
     },
     scrollTop() {

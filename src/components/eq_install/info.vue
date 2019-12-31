@@ -275,6 +275,7 @@ export default {
         margin: size(20) 0;
         background: #EBEDF0;
         border-radius: size(30);
+        padding-right: size(15);
         color: #939FB2;
         input{
           background: transparent;

@@ -37,9 +37,11 @@ export function queryDevice(deviceSn) {
 }
 
 //历史记录
-export function getOrderList(service_type) {
+export function getOrderList(service_type, page, size=5) {
   return req.post('/apis/api/Inter/serviceOrderList', { 
-    service_type
+    service_type,
+    page,
+    size
   })
 }
 
@@ -65,10 +67,19 @@ export function getReleaseOrder(data) {
 }
 
 //发送验证码
-export function getCode(mobile) {
+export function getCode(mobile, event='mobilelogin') {
   return req.get('/apis/indexapp/Sms/send', { 
     params: {
-      mobile
+      mobile,
+      event
     }
+  })
+}
+
+//验证码登录
+export function mobileLogin(mobile, captcha) {
+  return req.post('/apis/api/User/mobilelogin', { 
+    mobile,
+    captcha
   })
 }
