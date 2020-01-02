@@ -17,7 +17,7 @@
         <div class="search-info" v-if="search_info">
           <div class="header">
             <div class="left-img">
-              <img :src="search_info.deviceimage" alt="">
+              <img v-lazy="search_info.deviceimage" alt="">
             </div>
             <div class="info">
               <div class="title">{{search_info.devicename}}</div>
@@ -152,7 +152,6 @@ export default {
     .left-img{
       width: size(150);
       height: size(150);
-      background: #ccc;
       border-radius: size(5);
     }
     .info{

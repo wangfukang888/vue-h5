@@ -3,10 +3,12 @@
     <div class="top">
       <div class="left"></div>
       <div class="right" @click="goback('order_list')">历史记录</div>
-    </div>
+    </div>   
     <div class="content">
-      <div class="bg bg-e" @click="goback('equipment')"></div>
-      <div class="bg bg-r" @click="goback('reqair')"></div>
+      <lazy-component>
+        <div class="bg bg-e" @click="goback('equipment')"></div>
+        <div class="bg bg-r" @click="goback('reqair')"></div>
+      </lazy-component>
     </div>  
   </div>
 </template>

@@ -11,6 +11,11 @@ module.exports = {
   // 输出文件目录`
   devServer: {
     proxy: {
+      // '/api': {
+      //   target: GOLO_URL,
+      //   ws: true,
+      //   changeOrigin: true
+      // },
       '/apis/': {
         target: GOLO_URL,
         ws: true,

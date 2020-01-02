@@ -47,9 +47,6 @@ export default {
       default: []
     }
   },
-  mounted() {
-
-  },
   methods: {
     goDetail(id) {
       this.$router.push({

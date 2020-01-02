@@ -1,24 +1,21 @@
 <template>
   <div class="order-list">
-   <v-tabs v-model="active" color="#03B097" swipeable @change="tabChange">
-      <v-tab :title="item" v-for="(item,index) in list" :key="index">
-        <list 
-          :list_data="list_data" 
-          pullup
-          pullDown
-          :hasLoading="isloading"
-          :hasNext="hasNext"
-          :downText="downText"
-          :isRefresh="isRefresh"
-          @scrollToEnd="loadData"
-          @downRefresh="downRefresh" 
-          @downTouchEnd="touchEnd"
-          class="list-container" 
-        > 
-          <v-order-list :list_data="list_data"/>
-        </list>
-      </v-tab>
-    </v-tabs> 
+   <v-tabs color="#03B097" swipeable @change="tabChange">
+    <v-tab :title="item" v-for="(item,index) in nav_list" :key="index">
+      <list 
+        pulldown
+        pullup
+        :list_data="list_data" 
+        :hasNext="hasNext"
+        :isRefresh="isRefresh"
+        @pullUpLoad="loadData"
+        @pullDownRefresh="downRefresh"
+        class="list-container" 
+      > 
+        <v-order-list :list_data="list_data"/>
+      </list>
+    </v-tab>
+  </v-tabs> 
   </div>
 </template>
 
@@ -39,12 +36,9 @@ export default {
   data() {
     return{
       list_data: [],
-      active: 0,
-      isloading: false,
-      downText: '',
       isRefresh: false,
       hasNext: true,
-      list: ['设备服务', '维修服务']
+      nav_list: ['设备服务', '维修服务']
     }
   },
   created() {
@@ -55,22 +49,18 @@ export default {
   },
   methods: {
     async getList(index, type) {
-      this.isloading = true
       this.index = index
       const data = await getOrderList(index, this.page, this.pageSize)
       if (data instanceof Array) {
         this.isRefresh = false
-        this.isloading = false
-        if (data.length == 0 && this.page == 1) {
-          this.hasNext = false
-          return
-        }
-        if (type) {
-          return this.list_data = data
-        }
+        if (data.length == 0 && this.page == 1) return this.hasNext = false
+        if (type) return this.list_data = data 
         if (data.length < this.pageSize) this.hasNext = false
         this.list_data = this.list_data.concat(data) 
+        return 
       }
+      // 数据返回错误，也需要关闭
+      this.hasNext = false
     },
     loadData() {
       console.log('滚动到底')
@@ -79,22 +69,11 @@ export default {
       this.page++
       this.getList(this.index)
     },
-    touchEnd(y) {
-      const scrollY = parseInt(y)
-      if (scrollY > 50) {
-        this.page = 1
-        this.isRefresh = true
-        this.getList(this.index, 'down')
-        this.hasNext = true
-      } 
-      this.downText = ''
-    },
-    downRefresh(y) {
-      let scrollY = parseInt(y) 
-      this.downText = '下拉刷新'
-      if ( scrollY > 50) {
-        this.downText = '释放即可刷新' 
-      }
+    downRefresh() {
+      this.page = 1
+      this.isRefresh = true
+      this.getList(this.index, 'down')
+      this.hasNext = true   
     },
     tabChange(i, t) {
       this.list_data = []

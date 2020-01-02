@@ -9,18 +9,18 @@
     </div>
     <section>
        <div class="left-nav">
-        <scroll-list class="l-scroll" ref="l_s">
+        <scroll-view class="l-scroll" ref="l_s">
           <div class="item" :class="{active: currentIndex == index}" v-for="(item,index) in nav_data" :key="index" @click="selectNav(index, item)">
             {{item.deviceTypeName}}
           </div>
-        </scroll-list>
+        </scroll-view>
       </div>
       <div class="r-content">
-        <scroll-list class="r-scroll" :list_data="list_data">
+        <scroll-view class="r-scroll" :list_data="list_data">
           <div class="wrap" v-if="list_data && list_data.length > 0">
             <div class="item" @click="selectItem(index, item)" :class="{active: currentItem == index}" v-for="(item,index) in list_data" :key="index">
               <div class="l-img">
-                <img :src="item.device_image" alt="">
+                <img v-lazy="item.device_image" alt="">
               </div>
               <div class="r">
                 <h4>{{item.device_name}}</h4>
@@ -32,7 +32,7 @@
           <div class="loading" v-else>
             <loading vertical />
           </div>
-        </scroll-list>
+        </scroll-view>
       </div>
     </section>
     <div class="footer" @click="close">关闭</div>
@@ -159,13 +159,12 @@ export default {
             }
             .l-img{
               width: size(120);
-              height: size(120);
               background: #fff;
             }
             .r{
+              flex: 1;
               padding: 0 size(20);
               text-align: left;
-              // display: flex;
               h4{
                 font-size: size(30);
                 margin-bottom: size(12);

@@ -1,6 +1,6 @@
 <template>
   <div class="release-container">
-    <scroll-list class="release-wrap" ref="list_p">
+    <scroll-view class="release-wrap" ref="list_p">
       <div class="main" v-if="r_info">
         <div class="title">诊断详情</div>
         <div class="g-order-info info">
@@ -28,7 +28,7 @@
         <div class="title">合伙人详情</div>
         <info-list :noclick="true" :list_data="partener_info"/>
       </div>
-    </scroll-list>
+    </scroll-view>
     <div class="footer" v-if="r_info">
       <div class="left">
         安装费：¥ {{r_info.select_info.device_price.toFixed(2)}}
@@ -62,9 +62,7 @@ export default {
   },
   mounted() {
     let store_data = this.$store.state.install_info
-    console.log(store_data)
     if(store_data) {
-      // store_data.address = store_data.address
       this.partener_info = [store_data.partner_info]
       this.r_info = store_data
     }
@@ -91,8 +89,6 @@ export default {
       this.isLoading = true
       const data = await getReleaseOrder( this.release_data(0) )
       if(data) {
-        console.log(data)
-        this.isLoading = false
         this.$toast('模拟支付成功')
         this.$router.push({
           name: 'order_ok',
@@ -101,9 +97,8 @@ export default {
           }
         })
         // 发起支付
-
-
       }
+      this.isLoading = false
     }
     
   }

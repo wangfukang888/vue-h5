@@ -1,9 +1,9 @@
 <template>
   <div class="list-component">
-    <scroll-list 
+    <scroll-view 
       :list_data="list_data" 
-      pullup
-      pullDown
+      :pullup="pullup"
+      :pullDown="pulldown"
       @scrollToEnd="loadData"
       @scrollDown="downRefresh" 
       @touchEnd="touchEnd"
@@ -11,14 +11,19 @@
     > 
       <div class="list-section" v-if="list_data.length > 0">
         <div class="down-text" v-if="downText && !isRefresh">{{downText}}</div>
-        <loading class="down-text load-down" title="刷新中..." size="14px" v-if="isRefresh"/>
+        <loading class="down-text load-down" :title="pullDownText[2]" size="14px" v-if="isRefresh"/>
         <slot /> 
-        <loading class="loading" title="拼命加载中..." size="16px" v-if="hasNext"/> 
-        <div class="no-data" v-else>没有更多数据了～</div>
+        <template v-if="pullup">
+          <loading class="loading" title="拼命加载中..." size="16px" v-if="hasNext"/> 
+          <div class="no-data" v-else>没有更多数据了～</div>
+        </template>  
       </div> 
-      <loading vertical v-if="hasLoading"/>
-      <div class="no_datas" v-if="!hasNext && list_data.length == 0">暂无数据</div>  
-    </scroll-list>
+      <!-- 首次加载数据 -->
+      <template v-else>
+        <div class="no_datas" v-if="!hasNext && list_data.length == 0">暂无数据</div> 
+        <loading vertical v-else/> 
+      </template> 
+    </scroll-view>
   </div>
 </template>
 
@@ -32,18 +37,16 @@ export default {
     pullup: {
       type: Boolean,
       default: false
-    },
-    downText: {
-      type: String,
-      default: ''
-    },
-    pullDown: {
+    }, 
+    pulldown: {
       type: Boolean,
       default: false
     },
-    hasLoading: {
-      type: Boolean,
-      default: false
+    pullDownText: {
+      type: Array,
+      default: () => {
+        return ['下拉刷新', '释放即可刷新', '刷新中...']
+      }
     },
     isRefresh: {
       type: Boolean,
@@ -54,15 +57,29 @@ export default {
       default: false
     }
   },
+  data() {
+    return{
+      downText: ''
+    }
+  },
   methods: {
     loadData() {
-      this.$emit('scrollToEnd')
+      this.$emit('pullUpLoad')
     },
     downRefresh(y) {
-      this.$emit('downRefresh', y)
+      const scrollY = parseInt(y) 
+      const text = this.pullDownText
+      this.downText = text[0] || '下拉刷新'
+      if ( scrollY > 50) {
+        this.downText = text[1] || '释放即可刷新'
+      }
     },
     touchEnd(y) {
-      this.$emit('downTouchEnd', y)
+      const Y = parseInt(y) 
+      if( Y > 50) {
+        this.$emit('pullDownRefresh')
+      }
+      this.downText = ''
     }
   }
 }

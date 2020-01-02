@@ -18,13 +18,13 @@
         </div>
       </div>
     </div>
-    <scroll-list class="list-wrap"  :list_data="list_data" ref="list_p">
+    <scroll-view class="list-wrap"  :list_data="list_data" ref="list_p">
       <info-list :list_data="list_data" @select="selectInfo"/>
       <div class="loading" v-if="isloading">
         <loading vertical />
       </div> 
       <div class="no_data" v-if="is_no_data">暂无数据</div>  
-    </scroll-list>
+    </scroll-view>
     <div class="footer">
       <div class="btn-prev active" @click="goback">
         <span class="icon">

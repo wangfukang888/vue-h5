@@ -55,10 +55,9 @@ export default {
           }
         })
       }
-
       if (this.pullDown) {
         this.scroll.on('scroll', (pos) => {
-          if ( pos.y > 30) {
+          if ( pos.y > 5) {
             this.$emit('scrollDown', pos.y)
           }
         })

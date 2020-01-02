@@ -60,10 +60,17 @@ api.interceptors.response.use(
     }
   }
 )
+// 生产环境代理处理
+function proxy_handle(url: any) {
+  const pathArr = url.split('/')
+  pathArr.splice(1,1)
+  return pathArr.join('/')
+}
 
 // 请求拦截
 api.interceptors.request.use(
   function (config) {
+    if (process.env.NODE_ENV == 'production') config.url = proxy_handle(config.url)
     if (config.url === '/app/user/getuserinfo') {
       // 获取用户信息的时候不能写token
     } else {

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <scroll-list class="info-container">
+    <scroll-view class="info-container">
       <div class="main">  
         <div class="s-info" v-if="info_select_data" @click="toSelect">
             <div class="des">已选设备</div>
@@ -60,7 +60,7 @@
           </span>
         </div>
       </div> 
-    </scroll-list>
+    </scroll-view>
     <v-city v-model="addr" ref="selAddr" @input="getCityName"/>
     <v-popup v-model="show_time" position="bottom">
       <v-datetime-picker
