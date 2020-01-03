@@ -1,12 +1,12 @@
 <template>
   <div class="select-container" :class="{active: show}">
-    <div class="header">
+    <!-- <div class="header">
       <div class="search">
         <form action="/">
           <van-search placeholder="请输入搜索关键词" v-model="s_val" />
         </form>
       </div>
-    </div>
+    </div> -->
     <section>
        <div class="left-nav">
         <scroll-view class="l-scroll" ref="l_s">
@@ -16,9 +16,9 @@
         </scroll-view>
       </div>
       <div class="r-content">
-        <scroll-view class="r-scroll" :list_data="list_data">
-          <div class="wrap" v-if="list_data && list_data.length > 0">
-            <div class="item" @click="selectItem(index, item)" :class="{active: currentItem == index}" v-for="(item,index) in list_data" :key="index">
+        <scroll-view class="r-scroll" :list_data="list_datas">
+          <div class="wrap" v-if="list_datas && list_datas.length > 0">
+            <div class="item" @click="selectItem(index, item)" :class="{active: currentItem == index}" v-for="(item,index) in list_datas" :key="index">
               <div class="l-img">
                 <img v-lazy="item.device_image" alt="">
               </div>
@@ -49,6 +49,7 @@ export default {
   data() {
     return{
       s_val:'',
+      list_datas: [],
       currentIndex: 0,
       currentItem: -1
     }
@@ -59,9 +60,22 @@ export default {
     },
     selectNav(i, item) {
       // 初始化选中索引
+      const data = this.list_data
       this.currentItem = -1
       this.currentIndex = i
-      this.$emit('selectId', item.device_type_id)
+      this._dataInit(item)
+    },
+    _dataInit(item, datas) {
+      let arr = []
+      const data = datas ? datas : this.list_data 
+      data.map(v => {
+        if(v.device_type_id == item.device_type_id) {
+          v.deviceRes.map( s => {
+            arr.push(s)
+          })
+        }
+      })
+      this.list_datas = arr
     },
     selectItem(i, item) {
       this.currentItem = i
@@ -103,7 +117,7 @@ export default {
   section{
     position: fixed;
     width: 100%;
-    top: size(100);
+    top: size(0);
     bottom: size(100);
     display: flex;
     overflow: hidden;
@@ -114,6 +128,7 @@ export default {
       width: size(180);
       .l-scroll{
         position: absolute;
+        z-index: 11;
         width: size(180);
         top:0;
         bottom: 0;

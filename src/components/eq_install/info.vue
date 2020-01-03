@@ -74,12 +74,12 @@
     </v-popup>
     <div>
       <select-device 
+        ref="s_device"
         :list_data="list_data"
         :nav_data="nav_data"
         :show="show_select" 
         @selectChange="changeItem"  
         @close="close"
-        @selectId="getList"
       />
     </div>
   </div>
@@ -94,7 +94,9 @@ import {getDeviceList} from 'api'
 export default {
   data() {
     return {
-      form_data: {},
+      form_data: {
+        address: ''
+      },
       addr: [],
       list_data: [],
       nav_data: [],
@@ -129,22 +131,26 @@ export default {
     },
     _formatTime(date) {
       const year = date.getFullYear()
-      const month = date.getMonth() + 1
-      const day = date.getDate()
+      let month = date.getMonth() + 1
+      let day = date.getDate()
+      month = this._zero_num(month)
+      day = this._zero_num(day)
       // const hour = date.getHours()
       // const minute = date.getMinutes()
       // const second = date.getSeconds()
       return `${year}-${month}-${day}`
     },
+    _zero_num(num) {
+      return num < 10 ? '0' + num : num
+    },
     getCityName(arr) {
-      console.log(arr)
       this.form_data.address = arr.join('-')
     },
     async getList(id, type) {
       const cid = type ? '' : id
       const data = await getDeviceList(cid)
       const arr = []
-      if (data) {
+      if (data instanceof Array) {
         const nav_arr = []
         data.map(item => {
           nav_arr.push({
@@ -152,35 +158,24 @@ export default {
             deviceTypeName: item.deviceTypeName
           })
         })
-        if(type) {
-          this.nav_data = nav_arr
-          this.getList(nav_arr[0].device_type_id)
-          return
-        }
-        if(id){
-          data.map(v => {
-            v.deviceRes.map(s => {
-              s.device_type_id = v.device_type_id
-              arr.push(s)
-            }) 
-          })
-          this.list_data = arr
-        } 
+        this.nav_data = nav_arr   
+        this.list_data = data
+        // 初始进入
+        this.list_data && this.$refs.s_device._dataInit(this.nav_data[0], this.list_data)
       } 
     },
     toSelect() {
       this.show_select = true
       this.$emit('hidden', true)
-      if(this.nav_data.length == 0) {
-        this.getList(0, 'init')
-      }    
+      if( this.list_data.length == 0 ) {
+        this.getList()
+      }
     },
     close() {
       this.show_select = false
       this.$emit('hidden', false)
     },
     changeItem(query) {
-      console.log(query)
       this.info_select_data = query
       this.show_select = false
       this.$emit('hidden', false)

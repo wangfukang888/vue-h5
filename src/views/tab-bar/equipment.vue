@@ -31,7 +31,7 @@
           </div>
           <div class="bottom">
             <van-grid :column-num="3" :border="false">
-              <van-grid-item v-for="(item, index) in search_grid" :key="index" :text="item.name" :icon="item.url || 'photo-o'" />
+              <van-grid-item v-for="(item, index) in search_grid" :key="index" :url="item.url" :text="item.name" :icon="item.imgUrl || 'photo-o'" />
             </van-grid>
           </div>
         </div>
@@ -49,7 +49,7 @@
 <script>
 import VSearch from 'base/search/search'
 import VGrid from "com/grid-list"
-import {equipment_data} from '../../mock/grid_data'
+import {equipment_data, querydeviceimg} from '../../mock/grid_data'
 import {queryDevice} from 'api'
 import {wx_scan} from '../../utils/wxConfig'
 
@@ -62,6 +62,7 @@ export default {
     return {
       text: "设备有问题",
       search_val: '',
+      imgdata: querydeviceimg || [],
       is_loading: false,
       show_search: false,
       search_info: null,
@@ -76,13 +77,21 @@ export default {
     async queryInfo(val) {
       const data = await queryDevice(val)
       const arr = []
+      const newArr = []
       if (data instanceof Object) {
         this.search_info = data
         let files = data.deviceFile
+        //后台字段设计坑，我只是想拿线上图片
         for (let i in files) {
           arr.push(files[i])
         }
-        this.search_grid = arr
+        arr.forEach((item,i) => {
+          newArr.push(Object.assign(item, {
+            imgUrl: this.imgdata[i]
+          }))
+        })
+        console.log(newArr)
+        this.search_grid = newArr
       }
       this.is_loading = false
     },
@@ -103,7 +112,7 @@ export default {
       this.search_info = ''
       this.search_val = val
       this.is_loading = true
-      this.queryInfo(624590081900)
+      this.queryInfo(val)
     }
   }
 };

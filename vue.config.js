@@ -1,4 +1,5 @@
 const path = require('path')
+const assetsDir = 'static_pro'
 
 const GOLO_URL = 'https://partner.golodata.com/'
 // 线上
@@ -7,15 +8,10 @@ const GOLO_URL = 'https://partner.golodata.com/'
 module.exports = {
   productionSourceMap: true,
   filenameHashing: true,
-  assetsDir: 'static_pro', // 后台使用绝对路径 注意。
+  assetsDir, // 后台使用绝对路径 注意。
   // 输出文件目录`
   devServer: {
     proxy: {
-      // '/api': {
-      //   target: GOLO_URL,
-      //   ws: true,
-      //   changeOrigin: true
-      // },
       '/apis/': {
         target: GOLO_URL,
         ws: true,
@@ -24,12 +20,12 @@ module.exports = {
           '^/apis/':'/' 
         }
       },
-      '/tp/': {
-        target: 'http://eq.test.x431.com/',
+      '/tps/': {
+        target: 'http://eq.x431.com',
         ws: true,
         changeOrigin: true,
         pathRewrite: {
-          '^/tp/':'/' 
+          '^/tps/':'/' 
         }
       }
     }
@@ -43,6 +39,9 @@ module.exports = {
   },
   lintOnSave: process.env.NODE_ENV !== 'production',
   configureWebpack: {
+    output: {
+
+    },
     resolve: {
       alias: {
         'com': path.resolve(__dirname, './src/components'),

@@ -7,6 +7,8 @@ import {Toast } from 'vant'
 export const OK = 0
 axios.defaults.timeout = 100000
 
+const is_production = process.env.NODE_ENV == 'production' 
+
 const headers = {
   'Content-Type': 'application/x-www-form-urlencoded'
 }
@@ -29,7 +31,8 @@ api.interceptors.response.use(
     const res = response.data
     const url : any = response.config.url
     // 匹配不同的接口url, 处理返回code不一样带来的差异
-    if(url.split('/')[1] == 'tp') {
+    const newurl = is_production ? url == '/api/Device/getInfo' : url.split('/')[1] == 'tps'
+    if(newurl) {
       if( res.code == 1) {
         return res.data
       } else {
@@ -60,6 +63,7 @@ api.interceptors.response.use(
     }
   }
 )
+
 // 生产环境代理处理
 function proxy_handle(url: any) {
   const pathArr = url.split('/')
@@ -70,14 +74,10 @@ function proxy_handle(url: any) {
 // 请求拦截
 api.interceptors.request.use(
   function (config) {
-    if (process.env.NODE_ENV == 'production') config.url = proxy_handle(config.url)
-    if (config.url === '/app/user/getuserinfo') {
-      // 获取用户信息的时候不能写token
-    } else {
-      // 注入token
-      let t: any = store.state
-      config.params.token = t.token
-    }
+    if (is_production) config.url = proxy_handle(config.url)    
+    // 注入token
+    let t: any = store.state
+    config.params.token = t.token  
     if(config.method == 'post' ) {
       config.data = qs.stringify(config.data)
     }
