@@ -31,7 +31,7 @@ api.interceptors.response.use(
     const res = response.data
     const url : any = response.config.url
     // 匹配不同的接口url, 处理返回code不一样带来的差异
-    const newurl = is_production ? url == '/api/Device/getInfo' : url.split('/')[1] == 'tps'
+    const newurl = is_production ? url == '/api/Inter/queryDevice' : url == '/apis/api/Inter/queryDevice'
     if(newurl) {
       if( res.code == 1) {
         return res.data

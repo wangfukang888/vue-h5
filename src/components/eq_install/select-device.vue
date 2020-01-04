@@ -71,7 +71,9 @@ export default {
       data.map(v => {
         if(v.device_type_id == item.device_type_id) {
           v.deviceRes.map( s => {
-            arr.push(s)
+            arr.push(Object.assign(s, {
+              device_type_id: item.device_type_id
+            }))
           })
         }
       })

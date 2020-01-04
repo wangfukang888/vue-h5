@@ -2,7 +2,7 @@
   <div class="order-detail">
     <div class="detail-m">
       <div class="container" v-if="info">
-        <div class="hd" :class="status(info.serviceStatus)">{{info.serviceStatus}}</div>
+        <div class="g-order-status hd" :class="status(info.serviceStatus)">{{info.serviceStatus}}</div>
         <div class="g-order-info info">
           <div class="item">
             <div class="l">服务类型:</div>
@@ -18,14 +18,22 @@
           </div>
           <div class="item">
             <div class="l">服务地址:</div>
-            <div class="r">{{info.serviceAddr.split('-').join('')}}{{info.user_address}}</div>
+            <div class="r">{{info.user_address}}</div>
+          </div>
+          <div class="item">
+            <div class="l">发布时间:</div>
+            <div class="r">{{info.user_time}}</div>
           </div>
           <div class="item" v-if="info.remark">
             <div class="l">备注：</div>
             <div class="r">{{info.remark}}</div>
           </div>
         </div>
-         <div class="name-p">   
+        <div class="ft">
+          <div class="l"></div>
+          <div class="r">安装费： <span>¥</span> <b>{{info.devicePrice.toFixed(2) || '0.00'}}</b></div>
+        </div>
+        <div class="name-p">   
           <info-list :noclick="true" :list_data="listdata"/>  
         </div>
       </div>  
@@ -34,11 +42,17 @@
     <div class="footer">
       <div class="l"></div>
       <div class="r">
-        <div class="r-btn">
-          <v-btn class="btn" :loading="btnLoading" loading-text="取消中" type="info" @click="cancelOrder(info.task_id)">取消订单</v-btn>
+        <div class="r-btn" v-if="info">
+          <v-btn v-if="info.serviceStatus == '待服务'" class="btn" :loading="btnLoading" loading-text="取消中" type="info" @click="cancelOrder(info.task_id)">取消订单</v-btn>
+          <v-btn class="btn" v-if="!appeal_data" :loading="btnLoading" loading-text="取消中" type="info" @click="show_appeal">发起申诉</v-btn>
+          <v-btn class="btn" v-else type="info" @click="goAppeal">申诉详情</v-btn>
+          <!-- <v-btn class="btn btn-ok" :loading="btnLoading" loading-text="取消中" type="info" @click="appeal(info.task_id)">确认服务</v-btn> -->
           <div class="btn btn-p" @click="getPhone(info.servicePhone)">联系服务人</div>
         </div>   
       </div>
+    </div>
+    <div v-show="appeal_show">
+      <v-appeal ref="appeal" :show="appeal_show" @close="appeal_show = false" @submit="appealSubmit"/>
     </div>
   </div>
 </template>
@@ -46,30 +60,54 @@
 <script>
 import { Button } from 'vant';
 import InfoList from 'com/partner/info-list'
+import VAppeal from 'com/order/order-appeal'
+import {order_status_type} from 'mixin/order-mixin'
 import {getOrderDetail, getOrderCancel} from 'api'
 
 export default {
+  mixins: [order_status_type],
   components: {
     InfoList,
+    VAppeal,
     'v-btn': Button
   },
   data() {
     return{
       listdata: [],
       info: null,
-      isloading: false,
+      appeal_data: null,
+      appeal_show: false,
       btnLoading: false
     }
   },
-  mounted() {
+  activated() {
+    this.appeal_show = false
+    this.appeal_data = JSON.parse(sessionStorage.getItem('appeal_data')) || null
     this.getDetail()
   },
+  // beforeRouteLeave(to, from, next) {
+  //   console.log(to,from)
+  //   if(to.name == 'order_appeal') {
+  //     from.meta.keepAlive = false
+  //   } else {
+  //     from.meta.keepAlive = true
+  //   }
+  //   next()
+  // },
+  deactivated() {
+    this.$refs.appeal && this.$refs.appeal.init()
+    // sessionStorage.clear()
+  },
+
   methods: {
     async getDetail() {
+      this.info = null
       const data = await getOrderDetail(this.$route.params.id)
       if(typeof data == 'object') {
-        this.info = data
-        this.list_info(data)       
+        setTimeout(() => {
+          this.info = data
+          this.list_info(data)      
+        }, 2000);    
       }
     },
     list_info(item) {
@@ -78,7 +116,7 @@ export default {
         headimage: item.serviceImage,
         servicenums: item.serviceNums,
         servicescore: item.serviceScore,
-        serviceaddr: "广东省深圳市"
+        serviceaddr: item.serviceAddr
       }]
     },
     cancelOrder(id) {
@@ -92,21 +130,25 @@ export default {
         }) 
       })).catch(() => {})
     },
+    show_appeal() {   
+      this.appeal_show = true
+      document.title = '发起申诉'
+    },
+    goAppeal() {
+      this.$router.push({
+        name: 'order_appeal',
+        id: 1
+      })
+    },
+    appealSubmit() {
+      this.appeal_show = false
+      this.$toast('待开发中, 仅提供模拟')
+      this.appeal_data = JSON.parse(sessionStorage.getItem('appeal_data')) || null
+    },
     getPhone(phone) {
       const a = document.createElement('a')
       a.href = `tel: ${phone}`
       a.click()
-    },
-    status(num) {
-      switch(num) {
-        case '待服务':
-          return 'status-wait'
-        break;
-        case '服务中':
-          return 'status-give'
-        break;
-        default: return
-      }
     }
   }
 }
@@ -114,9 +156,6 @@ export default {
 
 <style lang="scss" scoped>
 .order-detail{
-  .loading{
-    padding: size(300) 0;
-  }
   .detail-m{
     position: fixed;
     top:0;
@@ -124,17 +163,38 @@ export default {
     background: #f1f1f1;
     bottom: size(100);
     overflow: auto;
+    .container{
+      line-height: size(400);
+    }
     .hd{
-      height: size(100);
-      line-height: size(100);
+      height: size(80);
+      line-height: size(80);
       background: #fff; 
-      background: #03B097;
-      color: #fff;
-      &.status-wait{
-        background: #FA6400;
+      @include border('bottom');    
+    }
+    .ft{
+      display: flex;
+      text-align: right;
+      align-items: center;
+      background: #fff;
+      font-size: size(26);
+      @include border('top');
+      .l{
+        width: size(200);
       }
-      &.status-give{
-        background: #d05392;
+      .r{
+        flex: 1;
+        height: size(80);
+        line-height: size(80);
+        padding-right: size(60);
+        // color: #818181;
+        span{
+          color: #E31436;
+        }
+        b{
+          color: #E31436;
+          font-size: size(32);
+        }
       }
     }
     .name-p{
@@ -145,6 +205,11 @@ export default {
       background: #fff;
       padding: size(40) size(60);
       text-align: left;
+      .item{
+        &:last-child{
+          margin-bottom: 0;
+        }
+      }
     }
   }
   .footer{
@@ -182,7 +247,11 @@ export default {
           background: #35A1F2;
           color: #fff;
           border: 0;
-        }    
+        }   
+        &.btn-ok{
+          @extend .btn-p;
+          background: #03B097;
+        }     
       }
       /deep/ .van-button--info{
         background-color: transparent;

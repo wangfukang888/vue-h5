@@ -25,14 +25,15 @@
 </template>
 
 <script>
-import showHide from '@/mixins/show-hide'
+// import showHide from 'mixin/show-hide'
 import {getAreaInfo} from '@/api'
 import area from '@/utils/area'
 
 export default {
-  mixins: [showHide],
+  // mixins: [showHide],
   data() {
     return {
+      isShow: false,
       step: 0,
       // 省
       province: [],
@@ -57,6 +58,9 @@ export default {
     }
   },
   methods: {
+    hide() {
+      this.isShow = false
+    },
     show() {
       let arr = []
       this.isShow = true

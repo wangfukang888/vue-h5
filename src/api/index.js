@@ -30,7 +30,7 @@ export function getPartner(provice, city) {
 
 //查询序列号
 export function queryDevice(deviceSn) {
-  return req.post('/tps/api/device/getInfo', { 
+  return req.post('/apis/api/Inter/queryDevice', { 
     deviceSn,
     lan: 'cn'
   })  

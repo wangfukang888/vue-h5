@@ -98,5 +98,21 @@ body, html {
       font-weight: 500;
     }
   }
+
+  .g-order-status{
+    color: #03B097;
+    &.status-wait{
+      color: #FA6400;
+    }
+    &.status-give{
+      color: #d05392;
+    }
+    &.status-appeal{
+      color: #a5a09e;
+    }
+    &.status-cancel{
+      color: #a5a09e;
+    }
+  }
   
   

@@ -4,7 +4,7 @@
       <div class="item" v-for="(item,index) in list_data" :key="index" @click="goDetail(item.order_no)">
         <div class="hd">
           <div class="name">订单编号：<b>{{item.order_no}}</b></div>
-          <div class="status" :class="status(item.serviceStatus)">{{item.serviceStatus}}</div>
+          <div class="g-order-status status" :class="status(item.serviceStatus)">{{item.serviceStatus}}</div>
         </div>
         <div class="content">
           <div class="g-order-info info"> 
@@ -25,7 +25,7 @@
               <div class="r">{{item.serviceAddr}}</div>
             </div>
             <div class="item">
-              <div class="l">发布日期:</div>
+              <div class="l">发布时间:</div>
               <div class="r">{{item.publishTime}}</div>
             </div>
           </div>
@@ -40,7 +40,10 @@
 </template>
 
 <script>
+import {order_status_type} from 'mixin/order-mixin'
+
 export default {
+  mixins: [order_status_type],
   props: {
     list_data: {
       type: Array,
@@ -55,16 +58,6 @@ export default {
           id
         }
       })
-    },
-    status(num) {
-      switch(num) {
-        case '待服务':
-          return 'status-wait'
-        break;
-        case '服务中':
-          return 'status-give'
-        break;
-      }
     }
   }
 };
@@ -109,14 +102,7 @@ export default {
       }
       .status{
         width: size(100);
-        color: #03B097;
         text-align: right;
-        &.status-wait{
-          color: #FA6400;
-        }
-        &.status-give{
-          color: #d05392;
-        }
       }
     }
     .fd{

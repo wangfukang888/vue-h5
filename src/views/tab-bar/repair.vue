@@ -9,7 +9,7 @@
           <div class="code">
             <img src="~img/code.png" alt="">
           </div>
-          <div class="btn">下载APP</div>
+          <div class="btn" @click="downloadApp">下载APP</div>
         </div>
         <div class="grid-m">
           <v-grid :list="grid_list" v-if="grid_list"></v-grid>
@@ -41,6 +41,28 @@ export default {
     async getGridList() {
       const data = await getModelGridList()
       if (data instanceof Array) this.grid_list = data      
+    },
+    downloadApp() {
+      const type = this._detect()
+      if ( type == 'ios') {
+        window.location.href='https://www.hao123.com'
+      } else {
+        window.location.href='https://www.baidu.com'
+      }
+    },
+    _detect() {
+      var equipmentType = ""
+      var agent = navigator.userAgent.toLowerCase()
+      var android = agent.indexOf("android")
+      var iphone = agent.indexOf("iphone")
+      var ipad = agent.indexOf("ipad")
+      if(android != -1){
+          equipmentType = "android"
+      }
+      if(iphone != -1 || ipad != -1){
+          equipmentType = "ios"
+      }
+      return equipmentType;
     }
   }
 };
@@ -86,6 +108,7 @@ export default {
       top: size(150);
       width: size(138);
       height: size(137);
+      z-index: 8;
     }
     .btn{
       position: absolute;

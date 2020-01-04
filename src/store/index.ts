@@ -2,7 +2,6 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 
 Vue.use(Vuex)
-// ea28b23ef404a553b9b226f1994ea977
 const str = localStorage.getItem('userInfo')
 const userObj = str ? JSON.parse(str) : null
 const token = userObj ? userObj.token : ''

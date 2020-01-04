@@ -85,6 +85,16 @@ const routes = [
     }
   },
   {
+    path: '/order_appeal/:id',
+    name: 'order_appeal',
+    component: () => import('../views/order/order-appeal.vue'),
+    meta: {
+      index: 7,
+      keepAlive: true,
+      title: '申请详情'
+    }
+  },
+  {
     path: '/order_ok/:id',
     name: 'order_ok',
     component: () => import('../views/order/order-success.vue'),

@@ -137,9 +137,7 @@ export default {
 <style lang="scss" scoped>
 .partner-container {
   .header{
-    position: fixed;
     width: 100%;
-    top: 13.5%;
     height: size(80);
     display: flex;
     padding: size(10) size(60);
@@ -177,7 +175,7 @@ export default {
   .list-wrap{
     position: absolute;
     width: 100%;
-    top:size(100);
+    top:size(80);
     bottom: size(200);
     padding: size(0) size(60);
     overflow: hidden;
@@ -201,12 +199,15 @@ export default {
       border-radius: size(30);
       width: size(300);
       height: size(110);
+      text-align: left;
+      padding-left: size(80);
       line-height: size(110);
       background: #EBEDF0;
       .icon{
         position: absolute;
         top: size(20);
         right:size(20);
+        text-align: center;
         display: inline-block;
         width: size(70);
         height: size(70);

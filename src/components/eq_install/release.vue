@@ -17,10 +17,10 @@
             <div class="r">{{r_info.select_info.device_model}}</div>
           </div>
           <div class="item">
-            <div class="l">服务地址</div>
+            <div class="l">服务地址:</div>
             <div class="r">{{r_info.address.split('-').join('')}}{{r_info.f_address}}</div>
           </div>
-          <div class="item">
+          <div class="item" v-if="r_info.remark">
             <div class="l">备注：</div>
             <div class="r">{{r_info.remask}}</div>
           </div>
@@ -119,7 +119,10 @@ export default {
     .title{
       color: #202020;
       font-size: size(34);
-      padding: size(40) 0;
+      padding: size(30) 0;
+    }
+    .info{
+      padding-top: 0;
     }
   }
   .footer{

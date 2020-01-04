@@ -12,14 +12,6 @@ module.exports = {
   // 输出文件目录`
   devServer: {
     proxy: {
-      '/apis/': {
-        target: GOLO_URL,
-        ws: true,
-        changeOrigin: true,
-        pathRewrite: {
-          '^/apis/':'/' 
-        }
-      },
       '/tps/': {
         target: 'http://eq.x431.com',
         ws: true,
@@ -27,7 +19,15 @@ module.exports = {
         pathRewrite: {
           '^/tps/':'/' 
         }
-      }
+      },
+      '/apis/': {
+        target: GOLO_URL,
+        ws: true,
+        changeOrigin: true,
+        pathRewrite: {
+          '^/apis/':'/' 
+        }
+      }   
     }
   },
   css: {  // 一次配置，全局使用，这个scss 因为每个文件都要引入
@@ -50,6 +50,7 @@ module.exports = {
         'req': path.resolve(__dirname, './src/fetch'),
         'api': path.resolve(__dirname, './src/api'),
         'base': path.resolve(__dirname, './src/base'),
+        'mixin': path.resolve(__dirname, './src/mixins')
       }
     }
   },
