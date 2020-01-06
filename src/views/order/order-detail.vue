@@ -75,39 +75,38 @@ export default {
     return{
       listdata: [],
       info: null,
+      is_cache: false,
       appeal_data: null,
       appeal_show: false,
       btnLoading: false
     }
   },
   activated() {
+    console.log('缓存')
     this.appeal_show = false
     this.appeal_data = JSON.parse(sessionStorage.getItem('appeal_data')) || null
-    this.getDetail()
+    // 没有缓存信息才重新请求
+    if(!this.is_cache)  this.getDetail()
   },
-  // beforeRouteLeave(to, from, next) {
-  //   console.log(to,from)
-  //   if(to.name == 'order_appeal') {
-  //     from.meta.keepAlive = false
-  //   } else {
-  //     from.meta.keepAlive = true
-  //   }
-  //   next()
-  // },
+  beforeRouteLeave(to, from, next) {
+    // 清除缓存, 初始化状态
+    if( to.name == 'order_list') {
+      this.$store.commit('cache_data', false) 
+    }
+    this.is_cache = this.$store.state.is_cache_data
+    next()
+  },
   deactivated() {
-    this.$refs.appeal && this.$refs.appeal.init()
-    // sessionStorage.clear()
+    this.$refs.appeal && this.$refs.appeal.init() 
   },
-
   methods: {
     async getDetail() {
       this.info = null
       const data = await getOrderDetail(this.$route.params.id)
-      if(typeof data == 'object') {
-        setTimeout(() => {
-          this.info = data
-          this.list_info(data)      
-        }, 2000);    
+      if (typeof data == 'object') {     
+        this.info = data
+        this.list_info(data)   
+        this.$store.commit('cache_data', true)   
       }
     },
     list_info(item) {

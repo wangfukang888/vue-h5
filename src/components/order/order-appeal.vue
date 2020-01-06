@@ -60,8 +60,7 @@ export default {
     submit() {
       if( this.fileList.length == 0) return this.$toast('请上传申诉图片')
       if( !this.message) return this.$toast('请填写申诉说明')
-      console.log(this.fileList)
-       let obj = {
+      let obj = {
         fileList: this.fileList,
         message: this.message
       }

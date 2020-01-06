@@ -3,7 +3,7 @@
     <div class="img-section">
       <div class="text">申诉图片</div>
       <div class="file">
-        <v-uploader v-model="fileList" multiple disabled :deletable="false"/>
+        <v-uploader v-model="fileList" multiple disabled :deletable="false" :max-count="fileList.length"/>
       </div> 
     </div>  
     <div class="img-section desc">
@@ -12,6 +12,7 @@
         <v-field
           v-model="message"
           rows="3"
+          disabled
           autosize
           type="textarea"
           maxlength="100"
@@ -20,7 +21,7 @@
         />
       </div>
     </div>
-    <!-- <div class="btn-submit" @click="submit">确认提交</div> -->
+    <div class="btn-submit" @click="submit">取消申诉</div>
   </div>
   
 </template>
@@ -39,6 +40,12 @@ export default {
       message: ''
     }
   },
+  activated() {
+    console.log('进入缓存')
+  },
+  deactivated() {
+    console.log('离开')
+  },
   mounted() {
     const data = JSON.parse(sessionStorage.getItem('appeal_data'))
     console.log(data)
@@ -55,9 +62,9 @@ export default {
       document.title = '订单详情'
     },
     submit() {
-      if( this.fileList.length == 0) return this.$toast('请上传申诉图片')
-      if( !this.message) return this.$toast('请填写申诉说明')
-      console.log(this.fileList)
+      // if( this.fileList.length == 0) return this.$toast('请上传申诉图片')
+      // if( !this.message) return this.$toast('请填写申诉说明')
+     
     }
   }
 }
@@ -101,7 +108,7 @@ export default {
     }
   }
   .btn-submit{
-    background: #03B097;
+    background: rgb(114, 99, 99);
     height: size(80);
     width: size(400);
     line-height: size(80);

@@ -37,13 +37,15 @@
         <v-btn color="#2BA69F" :loading="isLoading" type="info" loading-text="发布中..." @click="goRelease">立即发布</v-btn>
       </div>
     </div>
+    <pay-pop ref="pay_pop"/>
   </div>
 </template>
 
 <script>
 import InfoList from 'com/partner/info-list'
 import { Button } from 'vant'
-import {getReleaseOrder} from 'api'
+import PayPop from 'com/order/pay-pop'
+import {getReleaseOrder, pay} from 'api'
 
 export default {
   data() {
@@ -58,6 +60,7 @@ export default {
   },
   components: {
     InfoList,
+    PayPop,
     'v-btn': Button
   },
   mounted() {
@@ -88,15 +91,19 @@ export default {
     async goRelease() {
       this.isLoading = true
       const data = await getReleaseOrder( this.release_data(0) )
-      if(data) {
-        this.$toast('模拟支付成功')
-        this.$router.push({
-          name: 'order_ok',
-          params: {
-            id: data.order_no
-          }
-        })
-        // 发起支付
+      if(data instanceof Object) {
+        window.location.href= data.url
+        // this.$refs.pay_pop && this.$refs.pay_pop.init()
+        // this.$router.push({
+        //   name: 'order_ok',
+        //   params: {
+        //     id: data.order_no
+        //   }
+        // })
+        // // 发起支付
+        // const pay_data = await pay(data.order_no)
+        // console.log(pay_data)
+        
       }
       this.isLoading = false
     }
@@ -107,7 +114,6 @@ export default {
 
 <style lang="scss" scoped>
 .release-container {
-  // padding: size(10) size(60);
   .release-wrap{
     position: absolute;
     width: 100%;

@@ -54,7 +54,7 @@ export default {
       seconds: 60,
       timer: null,
       mobileFormSubmitting: false,
-      account: '590026602',
+      account: '18802683587',
       password: '123456',
       accountFormSubmitting: false
     }

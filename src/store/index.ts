@@ -10,9 +10,10 @@ export default new Vuex.Store({
   state: {
     token,
     nav_bar_t: '',
-    userInfo: userObj,
+    userInfo: userObj, // 登录的信息
+    is_cache_data: false, // 是否缓存数据
     wx_info: {},
-    install_info: new Array()
+    install_info: new Array() // 暂存的安装信息
   },
   mutations: {
     get_login(state, userinfo) {
@@ -21,6 +22,9 @@ export default new Vuex.Store({
     },
     get_bar(state, text) {
       state.nav_bar_t = text
+    },
+    cache_data(state, boolan) {
+      state.is_cache_data = boolan
     },
     install_info(state, arr) {
       state.install_info = arr

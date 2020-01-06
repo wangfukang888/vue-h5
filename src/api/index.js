@@ -83,3 +83,13 @@ export function mobileLogin(mobile, captcha) {
     captcha
   })
 }
+
+//支付
+export function pay(order_no, pay_type=1) {
+  return req.get('/apis/indexapp/Diagnosis/paymentAct', { 
+    params: {
+      order_no,
+      pay_type
+    }
+  })
+}
