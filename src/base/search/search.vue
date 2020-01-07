@@ -14,7 +14,7 @@
     <div class="history" v-if="list_history.length > 0">
       <div class="t">搜索历史</div>
       <div class="list">
-        <div class="item" v-for="(item,index) in list_history" :key="index" @click="onSearch(item)">{{item}}</div>
+        <div class="item" v-for="(item,index) in list_history" :key="index" @click.stop="search_history(item)">{{item}}</div>
       </div>
     </div>
   </div>
@@ -37,14 +37,16 @@ export default {
   methods: {
     f() {
       this.$refs.s_f && this.$refs.s_f.querySelector('input').focus()  
-      const list_data = JSON.parse(localStorage.getItem('history_list') ) || []
+      this.cache_list = localStorage.getItem('history_list') && JSON.parse(localStorage.getItem('history_list') ) || []
       // 去重
-      let arr = list_data.filter( (item,index) => list_data.indexOf(item) == index )
+      let arr =  this.cache_list.filter( (item,index) =>  this.cache_list.indexOf(item) == index )
       this.list_history = arr
     },
-    onSearch(val) {
-      const arr = localStorage.getItem('history_list') ? JSON.parse(localStorage.getItem('history_list')) : []
-      this.$emit('search', val || this.val, arr)
+    onSearch() {
+      this.$emit('search', this.val, this.cache_list, true)
+    },
+    search_history(val) {
+      this.$emit('search', val, this.cache_list, false)
     },
     onCancel() {    
       this.$emit('cancel')
