@@ -18,7 +18,8 @@ export default new Vuex.Store({
   mutations: {
     get_login(state, userinfo) {
       localStorage.setItem('userInfo', JSON.stringify(userinfo))
-      state.token = userinfo.token
+      state.token = userinfo.token || ''
+      state.userInfo = userinfo
     },
     get_bar(state, text) {
       state.nav_bar_t = text

@@ -12,7 +12,7 @@
           <div class="btn" @click="downloadApp">下载APP</div>
         </div>
         <div class="grid-m">
-          <v-grid :list="grid_list" v-if="grid_list"></v-grid>
+          <v-grid :list="grid_list" v-if="grid_list.length"></v-grid>
           <loading v-else/>
         </div>
       </div>
@@ -40,7 +40,9 @@ export default {
   methods: {
     async getGridList() {
       const data = await getModelGridList()
-      if (data instanceof Array) this.grid_list = data      
+      if (data instanceof Array) {
+        this.grid_list = data   
+      }  
     },
     downloadApp() {
       const type = this._detect()

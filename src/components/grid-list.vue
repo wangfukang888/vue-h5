@@ -6,13 +6,11 @@
         <span>{{item.desc}}</span>
       </div>
       <div class="icon-grid">
-        <van-grid :column-num="3" :border="false">
+        <van-grid :column-num="3" :border="false" clickable>
           <van-grid-item
             v-for="(value, o) in item.typeRes"
             :key="o"
             :icon="value.link_image || 'photo-o'"
-            :url="value.url"
-            :to="value.path"
             @click="goGrid(value.url, value.path)"
             :text="value.name"
           />
@@ -29,7 +27,10 @@ export default {
   },
   methods: {
     goGrid(url, path) {
-      !(url || path) && this.$toast('暂未开通此功能')
+      if ( !(url || path) ) return this.$toast('暂未开通此功能')    
+      if (!this.$store.state.token) return this.$router.push('/login')    
+      if (url) return window.location.href = url
+      if (path) return this.$router.push(path)
     }
   }
 };

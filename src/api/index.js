@@ -61,9 +61,7 @@ export function getOrderCancel(task_id) {
 
 //发布订单
 export function getReleaseOrder(data) {
-  return req.get('/apis/indexapp/Diagnosis/createDevice', { 
-    params: data
-  })
+  return req.post('/apis/indexapp/Diagnosis/createDevice', data)
 }
 
 //发送验证码

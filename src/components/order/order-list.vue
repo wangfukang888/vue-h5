@@ -32,7 +32,7 @@
         </div>
         <div class="fd">
           <div class="l"></div>
-          <div class="r">安装费： <b>¥{{item.devicePrice.toFixed(2)}}</b></div>
+          <div class="r">安装费： <b>¥{{item.devicePrice ? item.devicePrice.toFixed(2) : ''}}</b></div>
         </div>
       </div>
     </template>

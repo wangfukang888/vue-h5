@@ -10,7 +10,7 @@
               <van-icon name="arrow" />
             </div>  
         </div>
-        <div class="btn-select" v-else @click="toSelect">选择设备</div>
+        <div class="btn btn-select" v-else @click="toSelect">选择设备</div>
         <div class="desc">
           <div class="title">基本资料</div>
           <div class="det">

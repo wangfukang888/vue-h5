@@ -10,6 +10,7 @@ import ScrollView from 'base//scroll-view/scroll-view.vue'
 // import FastClick from 'fastclick'
 // let f : any = FastClick
 // f.attach(document.body)
+document.body.addEventListener('touchstart',  () => {})
 
 // 懒加载配置
 Vue.use(Lazyload, {
@@ -30,6 +31,12 @@ Vue.component('loading', Loading)
 Vue.component('container', Container)
 Vue.component('scroll-view', ScrollView)
 
+Vue.filter('formatPhone', function (p : string) {
+  if(p){
+    return p.substring(0,3) + '****' + p.substring(p.length-4);
+  }
+})
+
 Vue.prototype.toast = function(text: string) {
   return Toast( text )
 }
@@ -38,13 +45,13 @@ Vue.prototype.dialog = function() {
 }
 
 router.beforeEach((to,from,next) => {
-  // 防止找不到Promise router引发错误
-  if (from.path == '/login') {
-    return next()
-  }
-  if (to.path == '/' && !store.state.token){
-    return next('/login')
-  } 
+  // // 防止找不到Promise router引发错误
+  // if (from.path == '/login') {
+  //   return next()
+  // }
+  // if (to.path == '/' && !store.state.token){
+  //   return next('/login')
+  // } 
   next()
 })
 

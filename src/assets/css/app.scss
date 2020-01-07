@@ -115,4 +115,8 @@ body, html {
     }
   }
   
+  .btn:active, a:active{
+    opacity: 0.5;
+    -webkit-tap-highlight-color: transparent;
+  }
   

@@ -11,6 +11,12 @@
         @cancel="onCancel"
       />
     </form>
+    <div class="history" v-if="list_history.length > 0">
+      <div class="t">搜索历史</div>
+      <div class="list">
+        <div class="item" v-for="(item,index) in list_history" :key="index" @click="onSearch(item)">{{item}}</div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -24,22 +30,26 @@ export default {
   },
   data() {
     return{
-      val: ''
+      val: '',
+      list_history: []
     }
   },
   methods: {
     f() {
-      this.$refs.s_f && this.$refs.s_f.querySelector('input').focus()   
+      this.$refs.s_f && this.$refs.s_f.querySelector('input').focus()  
+      const list_data = JSON.parse(localStorage.getItem('history_list') ) || []
+      // 去重
+      let arr = list_data.filter( (item,index) => list_data.indexOf(item) == index )
+      this.list_history = arr
     },
-    onSearch() {
-      this.$emit('search', this.val)
+    onSearch(val) {
+      const arr = localStorage.getItem('history_list') ? JSON.parse(localStorage.getItem('history_list')) : []
+      this.$emit('search', val || this.val, arr)
     },
-    onCancel() {
+    onCancel() {    
       this.$emit('cancel')
     }
   }
-
-  
 }
 </script>
 
@@ -55,5 +65,29 @@ export default {
   /deep/ .van-search__content{
     border-radius: size(40);
   }
+  .history{
+    margin-top: size(30);
+    padding: 0 size(40);
+    color: #888;
+    .t{
+      text-align: left;
+      font-size: size(28);
+    }
+    .list{
+      margin-top: size(20);
+      display: flex;
+      font-size: size(26);
+      flex-wrap: wrap;
+      .item{
+        padding: 0 size(20);
+        height: size(70);
+        margin-right: size(20);
+        line-height: size(70);
+        border-radius: size(40);
+        border: size(1) solid #ccc;
+      }
+    }
+  }
 }
+
 </style>

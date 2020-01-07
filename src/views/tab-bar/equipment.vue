@@ -74,7 +74,7 @@ export default {
     this.$refs.e_bs && this.$refs.e_bs.destroy()
   },
   methods: {
-    async queryInfo(val) {
+    async queryInfo(val, arrs) {
       const data = await queryDevice(val)
       const arr = []
       const newArr = []
@@ -90,7 +90,7 @@ export default {
             imgUrl: this.imgdata[i]
           }))
         })
-        console.log(newArr)
+        localStorage.setItem('history_list', JSON.stringify(arrs) )
         this.search_grid = newArr
       }
       this.is_loading = false
@@ -107,12 +107,15 @@ export default {
     cancel() {
       this.show_search = false
     },
-    search(val) {
+    search(val, arr) {
+      console.log(val, arr)
+      let arrs = arr || []
       this.show_search = false
       this.search_info = ''
       this.search_val = val
-      this.is_loading = true
-      this.queryInfo(val)
+      this.is_loading = true  
+      arrs.push(val)
+      this.queryInfo(val, arrs)
     }
   }
 };

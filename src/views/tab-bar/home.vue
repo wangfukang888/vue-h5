@@ -1,12 +1,12 @@
 <template>
   <div class="home">
     <div class="top">
-      <div class="left"></div>
+      <div class="left" @click="goback('fit')"></div>
       <div class="right" @click="goback('order_list')">历史记录</div>
     </div>   
     <div class="content">    
-      <div class="bg bg-e" @click="goback('equipment')"></div>
-      <div class="bg bg-r" @click="goback('reqair')"></div>   
+      <div class="bg bg-r" @click="goback('reqair')"></div>  
+      <div class="bg bg-e" @click="goback('equipment')"></div> 
     </div>  
   </div>
 </template>

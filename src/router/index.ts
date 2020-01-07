@@ -15,6 +15,16 @@ const routes = [
     }
   },
   {
+    path: '/fit',
+    name: 'fit',
+    component: () => import('../views/user/fit.vue'),
+    meta: {
+      index: 3,
+      keepAlive: true,
+      title: '设置'
+    }
+  },
+  {
     path: '*',
     name: 'notfound',
     component: () => import('../views/notfound.vue'),

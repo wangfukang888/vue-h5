@@ -35,7 +35,7 @@
         </scroll-view>
       </div>
     </section>
-    <div class="footer" @click="close">关闭</div>
+    <div class="btn footer" @click="close">关闭</div>
   </div>
 </template>
 

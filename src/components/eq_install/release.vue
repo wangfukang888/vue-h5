@@ -33,7 +33,7 @@
       <div class="left">
         安装费：¥ {{r_info.select_info.device_price.toFixed(2)}}
       </div>
-      <div class="r-btn">
+      <div class="btn r-btn">
         <v-btn color="#2BA69F" :loading="isLoading" type="info" loading-text="发布中..." @click="goRelease">立即发布</v-btn>
       </div>
     </div>
@@ -43,8 +43,8 @@
 
 <script>
 import InfoList from 'com/partner/info-list'
-import { Button } from 'vant'
 import PayPop from 'com/order/pay-pop'
+import { Button } from 'vant'
 import {getReleaseOrder, pay} from 'api'
 
 export default {
@@ -92,22 +92,11 @@ export default {
       this.isLoading = true
       const data = await getReleaseOrder( this.release_data(0) )
       if(data instanceof Object) {
+        this.$toast('支付发起成功，正在跳转支付...')
         window.location.href= data.url
-        // this.$refs.pay_pop && this.$refs.pay_pop.init()
-        // this.$router.push({
-        //   name: 'order_ok',
-        //   params: {
-        //     id: data.order_no
-        //   }
-        // })
-        // // 发起支付
-        // const pay_data = await pay(data.order_no)
-        // console.log(pay_data)
-        
       }
       this.isLoading = false
     }
-    
   }
 };
 </script>
