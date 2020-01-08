@@ -6,7 +6,7 @@
     <div class="img-section">
       <div class="text">上传申诉图片</div>
       <div class="file">
-        <v-uploader v-model="fileList" multiple />
+        <v-uploader v-model="fileList" multiple :max-count="3" upload-text="最多上传3张"/>
       </div> 
     </div>  
     <div class="img-section desc">
@@ -60,12 +60,15 @@ export default {
     submit() {
       if( this.fileList.length == 0) return this.$toast('请上传申诉图片')
       if( !this.message) return this.$toast('请填写申诉说明')
+      let arr = []
+      this.fileList.map(v => {
+        arr.push(v.file.name)
+      })
       let obj = {
-        fileList: this.fileList,
+        fileList: arr,
         message: this.message
       }
-      sessionStorage.setItem('appeal_data', JSON.stringify(obj))
-      this.$emit('submit')
+      this.$emit('submit', obj)
     }
   }
 }

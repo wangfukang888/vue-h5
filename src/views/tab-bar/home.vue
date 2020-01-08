@@ -64,13 +64,12 @@ export default {
 }
 .bg{
   width: 100%;
-  height: size(600);
+  height: size(750);
   &-e{
-    @include bg('~img/problem1.png');
+    @include bg('~img/problem2.png');
   }
   &-r{
-    height: size(700);
-    @include bg('~img/problem2.png');
+    @include bg('~img/problem1.png');
   }
 }
 

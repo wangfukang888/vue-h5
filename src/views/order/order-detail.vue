@@ -2,32 +2,37 @@
   <div class="order-detail">
     <div class="detail-m">
       <div class="container" v-if="info">
-        <div class="g-order-status hd" :class="status(info.serviceStatus)">{{info.serviceStatus}}</div>
-        <div class="g-order-info info">
-          <div class="item">
-            <div class="l">服务类型:</div>
-            <div class="r">{{info.serviceType}}</div>
+        <div class="g-order-status hd">
+          <div class="l">
+            <div class="status-text">{{info.serviceStatus}}</div>
+            <div class="time">发布时间: {{info.user_time}}</div>
           </div>
-          <div class="item">
-            <div class="l">设备名称:</div>
-            <div class="r">{{info.deviceName}}</div>
+          <div class="r"></div>
+        </div>
+        <div class="address-container">
+          <div class="l">
+            <div class="icon">
+              <van-icon name="location" class="icon"/>
+            </div>
           </div>
-          <div class="item">
-            <div class="l">设备型号:</div>
-            <div class="r">{{info.deviceModel}}</div>
+          <div class="r">
+            <div class="address">{{info.user_address}}</div>
+            <div class="user-info">{{info.username}}  {{info.telephone | formatPhone}}</div>
           </div>
-          <div class="item">
-            <div class="l">服务地址:</div>
-            <div class="r">{{info.user_address}}</div>
+        </div>
+        <div class="goods-container">
+          <div class="l">
+            <img v-lazy="info.deviceImg" alt="">
           </div>
-          <div class="item">
-            <div class="l">发布时间:</div>
-            <div class="r">{{info.user_time}}</div>
+          <div class="r">
+            <div class="name">{{info.deviceName}}</div>
+            <div class="item">设备型号：{{info.deviceModel}}</div>
+            <div class="item">服务类型：{{info.serviceType}}</div>
           </div>
-          <div class="item" v-if="info.remark">
-            <div class="l">备注：</div>
-            <div class="r">{{info.remark}}</div>
-          </div>
+        </div>
+        <div class="remask-container" v-if="info.remask">
+          <div class="l">备注：</div>
+          <div class="r">{{info.remask}}</div>
         </div>
         <div class="ft">
           <div class="l"></div>
@@ -35,7 +40,11 @@
         </div>
         <div class="name-p">   
           <info-list :noclick="true" :list_data="listdata"/>  
+          <div class="icon" @click="getPhone(info.servicePhone)">
+            <van-icon name="phone" class="icon-phone"/>
+          </div>
         </div>
+        <!-- <service-detail /> -->
       </div>  
       <loading vertical v-else/>
     </div>
@@ -44,10 +53,9 @@
       <div class="r">
         <div class="r-btn" v-if="info">
           <v-btn v-if="info.serviceStatus == '待服务'" class="btn" :loading="btnLoading" loading-text="取消中" type="info" @click="cancelOrder(info.task_id)">取消订单</v-btn>
-          <v-btn class="btn" v-if="!appeal_data" :loading="btnLoading" loading-text="取消中" type="info" @click="show_appeal">发起申诉</v-btn>
-          <v-btn class="btn" v-else type="info" @click="goAppeal">申诉详情</v-btn>
-          <!-- <v-btn class="btn btn-ok" :loading="btnLoading" loading-text="取消中" type="info" @click="appeal(info.task_id)">确认服务</v-btn> -->
-          <div class="btn btn-p" @click="getPhone(info.servicePhone)">联系服务人</div>
+          <v-btn v-if="info.serviceStatus == '完成服务'" class="btn" type="info" @click="show_appeal">发起申诉</v-btn>
+          <v-btn v-if="info.serviceStatus == '申诉中'" class="btn" type="info" @click="goAppeal">申诉详情</v-btn>
+          <v-btn class="btn btn-ok" type="info" @click="appeal(info.task_id)">确认完成</v-btn>
         </div>   
       </div>
     </div>
@@ -60,15 +68,17 @@
 <script>
 import { Button } from 'vant';
 import InfoList from 'com/partner/info-list'
+import ServiceDetail from 'com/order/service-detail'
 import VAppeal from 'com/order/order-appeal'
 import {order_status_type} from 'mixin/order-mixin'
-import {getOrderDetail, getOrderCancel} from 'api'
+import {getOrderDetail, getOrderCancel, getAppeal} from 'api'
 
 export default {
   mixins: [order_status_type],
   components: {
     InfoList,
     VAppeal,
+    ServiceDetail,
     'v-btn': Button
   },
   data() {
@@ -82,7 +92,6 @@ export default {
     }
   },
   activated() {
-    console.log('缓存')
     this.appeal_show = false
     this.appeal_data = JSON.parse(sessionStorage.getItem('appeal_data')) || null
     // 没有缓存信息才重新请求
@@ -139,10 +148,10 @@ export default {
         id: 1
       })
     },
-    appealSubmit() {
+    async appealSubmit(item) {
+      const data = await getAppeal(this.info.task_id, item.fileList, item.message)
+      if (data) this.$toast('申诉提交成功')
       this.appeal_show = false
-      this.$toast('待开发中, 仅提供模拟')
-      this.appeal_data = JSON.parse(sessionStorage.getItem('appeal_data')) || null
     },
     getPhone(phone) {
       const a = document.createElement('a')
@@ -162,14 +171,92 @@ export default {
     background: #f1f1f1;
     bottom: size(100);
     overflow: auto;
-    .container{
-      line-height: size(400);
-    }
     .hd{
-      height: size(80);
-      line-height: size(80);
-      background: #fff; 
-      @include border('bottom');    
+      height: size(180);
+      background:#2BA69F; 
+      display: flex;
+      text-align: left;
+      color: #fff;
+      @include border('bottom');   
+      .l{
+        flex: 1;
+        padding: size(60) 0 0 size(60);
+        .status-text{
+          font-size: size(40);
+          font-weight: 500;
+          margin-bottom: size(20);
+        }
+        .time{
+          font-size: size(26);
+          color: #83D7D2;
+        }
+      } 
+      .r{
+        width: size(200);
+      }
+    }
+    .address-container{
+      display: flex;
+      height: size(150);
+      background: #fff;
+      text-align: left;
+      align-items: center;
+      padding: size(20) size(60);
+      margin-bottom: size(20);
+      .l{
+        width: size(60);
+        .icon{
+          color: #2BA69F;
+        }
+      }
+      .r{
+        flex: 1;
+        .address{
+          font-size: size(30);
+          margin-bottom: size(20);
+        }
+        .user-info{
+          font-size: size(26);
+          color: #bbb;
+        }
+      }
+    }
+    .goods-container{
+      display: flex;
+      align-items: center;
+      padding: size(30) size(60);
+      background: #fff;
+      .l{
+        width: size(120);
+        margin-right: size(30);
+      }
+      .r{
+        flex: 1;
+        text-align: left;
+        line-height: size(32);
+        .name{
+          font-size: size(30);
+          margin-bottom: size(18);
+        }
+        .item{
+          font-size: size(23);
+          color: #bbb;
+        }
+      }
+    }
+    .remask-container{
+      display: flex;
+      align-items: center;
+      background: #fff;
+      padding: size(20) size(60);
+      color: #888;
+      font-size: size(24);
+      .r{
+        flex: 1;
+        padding-left: size(20);
+        line-height: size(32);
+        text-align: left;
+      }
     }
     .ft{
       display: flex;
@@ -186,23 +273,30 @@ export default {
         height: size(80);
         line-height: size(80);
         padding-right: size(60);
-        // color: #818181;
-        span{
-          color: #E31436;
-        }
+        color: #818181;
         b{
-          color: #E31436;
+          color: #333;
           font-size: size(32);
         }
       }
     }
     .name-p{
+      position: relative;
       margin-top: size(20);
-      /deep/ .list{background: #fff;padding: size(30) size(60);}
+      background: #fff;
+      /deep/ .list{background: #fff;padding: size(30) size(60);}      
+      .icon{
+        position: absolute;
+        right: 5%;
+        top:30%;
+        padding: size(20);
+        color: #2BA69F;
+        font-size: size(36);
+      }   
     }
     .info{ 
       background: #fff;
-      padding: size(40) size(60);
+      padding: size(20) size(60);
       text-align: left;
       .item{
         &:last-child{
@@ -220,7 +314,7 @@ export default {
     display: flex;
     align-items: center;
     height: size(100);
-    border-top: size(1) solid #eee;
+    box-shadow: 1px 1px 5px #ddd;
     .l{
       width: size(100);
     }
@@ -249,7 +343,7 @@ export default {
         }   
         &.btn-ok{
           @extend .btn-p;
-          background: #03B097;
+          background: #2BA69F;
         }     
       }
       /deep/ .van-button--info{

@@ -101,7 +101,6 @@ export default {
         }
       }
       .status{
-        width: size(100);
         text-align: right;
       }
     }

@@ -55,6 +55,9 @@ export default{
   align-items: center;
   border-radius: size(10);
   margin-bottom: size(20);
+  &:last-child{
+    margin-bottom: 0;
+  }
   &.select{
     background: #fff;
     border:1px solid #2BA69F;
@@ -94,7 +97,7 @@ export default{
       }
       &.info-e, &.info-b{
         font-size: size(24);
-        color: #666;
+        color: #888;
       }
       &.info-e{
         .num{

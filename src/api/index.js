@@ -91,3 +91,12 @@ export function pay(order_no, pay_type=1) {
     }
   })
 }
+
+//发起申诉
+export function getAppeal(task_id, apply_img, content) {
+  return req.post('/apis/indexapp/Diagnosis/explain', { 
+    task_id,
+    apply_img,
+    content
+  })
+}
