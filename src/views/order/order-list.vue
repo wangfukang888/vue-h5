@@ -47,6 +47,13 @@ export default {
     this.pageSize = 6
     this.getList(1)
   },
+  activated() {
+    if (this.$store.state.is_refresh) {
+      console.log('重新刷新')
+      this.getList(this.index)
+      this.$store.commit('get_refresh', false)
+    }
+  },
   methods: {
     async getList(index, type) {
       this.index = index
@@ -63,7 +70,6 @@ export default {
       this.hasNext = false
     },
     loadData() {
-      console.log('滚动到底')
       if ( !this.hasNext ) return
       if (this.list_data.length == 0) return
       this.page++

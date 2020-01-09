@@ -12,6 +12,7 @@ export default new Vuex.Store({
     nav_bar_t: '',
     userInfo: userObj, // 登录的信息
     is_cache_data: false, // 是否缓存数据
+    is_refresh: false, // 是否需要刷新数据
     wx_info: {},
     install_info: new Array() // 暂存的安装信息
   },
@@ -26,6 +27,9 @@ export default new Vuex.Store({
     },
     cache_data(state, boolan) {
       state.is_cache_data = boolan
+    },
+    get_refresh(state, refresh) {
+      state.is_refresh = refresh
     },
     install_info(state, arr) {
       state.install_info = arr

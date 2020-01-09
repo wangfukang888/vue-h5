@@ -1,6 +1,6 @@
 <template>
   <div class="order-detail">
-    <div class="detail-m">
+    <scroll-view class="detail-m">
       <div class="container" v-if="info">
         <div class="g-order-status hd">
           <div class="l">
@@ -44,18 +44,19 @@
             <van-icon name="phone" class="icon-phone"/>
           </div>
         </div>
-        <!-- <service-detail /> -->
+        <service-detail v-if="info.serviceImg"/>
       </div>  
       <loading vertical v-else/>
-    </div>
+    </scroll-view>
     <div class="footer">
       <div class="l"></div>
       <div class="r">
         <div class="r-btn" v-if="info">
           <v-btn v-if="info.serviceStatus == '待服务'" class="btn" :loading="btnLoading" loading-text="取消中" type="info" @click="cancelOrder(info.task_id)">取消订单</v-btn>
-          <v-btn v-if="info.serviceStatus == '完成服务'" class="btn" type="info" @click="show_appeal">发起申诉</v-btn>
-          <v-btn v-if="info.serviceStatus == '申诉中'" class="btn" type="info" @click="goAppeal">申诉详情</v-btn>
-          <v-btn class="btn btn-ok" type="info" @click="appeal(info.task_id)">确认完成</v-btn>
+          <v-btn v-if="info.serviceStatus == '申诉中'" class="btn" type="info" @click="show_appeal">发起申诉</v-btn>
+          <v-btn v-if="info.serviceStatus == '申诉中'" class="btn" type="info" @click="goAppeal(info.task_id)">申诉详情</v-btn>
+          <v-btn v-if="info.serviceStatus == '完成服务' ||  info.serviceStatus == '申诉中'"  class="btn btn-ok" :loading="btnLoading" loading-text="确认中" type="info" @click="confirmSuc(info.task_id)">确认完成</v-btn>
+          <v-btn v-if="info.serviceStatus == '已完成'" class="btn btn-ok" type="info" @click="show_evaluate = true">评价</v-btn>
         </div>   
       </div>
     </div>
@@ -71,7 +72,7 @@ import InfoList from 'com/partner/info-list'
 import ServiceDetail from 'com/order/service-detail'
 import VAppeal from 'com/order/order-appeal'
 import {order_status_type} from 'mixin/order-mixin'
-import {getOrderDetail, getOrderCancel, getAppeal} from 'api'
+import {getOrderDetail, getOrderCancel, getAppeal, confirmService} from 'api'
 
 export default {
   mixins: [order_status_type],
@@ -87,7 +88,8 @@ export default {
       info: null,
       is_cache: false,
       appeal_data: null,
-      appeal_show: false,
+      appeal_show: false, // 申诉
+      show_evaluate: false, // 评价
       btnLoading: false
     }
   },
@@ -134,7 +136,10 @@ export default {
         this.btnLoading = true
         getOrderCancel(id).then(data => {
           this.btnLoading = false
-          if(data) this.$toast('取消成功')
+          if(data) {
+            this.$toast('取消成功')
+            this.refresh_data()
+          }
         }) 
       })).catch(() => {})
     },
@@ -142,16 +147,39 @@ export default {
       this.appeal_show = true
       document.title = '发起申诉'
     },
-    goAppeal() {
+    confirmSuc(id) {
+      this.$dialog.confirm({
+        message: '确定完成了服务吗'
+      }).then((() => {
+        this.btnLoading = true
+        confirmService(id).then(data => {
+          this.btnLoading = false
+          if(data) {
+            this.$toast('确认成功')
+            this.refresh_data()
+          }
+        }) 
+      })).catch(() => {})
+    },
+    goAppeal(id) {
       this.$router.push({
         name: 'order_appeal',
-        id: 1
+        params: {
+          id
+        }
       })
     },
     async appealSubmit(item) {
       const data = await getAppeal(this.info.task_id, item.fileList, item.message)
-      if (data) this.$toast('申诉提交成功')
+      if (data) {
+        this.$toast('申诉提交成功')
+        this.refresh_data()
+      }
       this.appeal_show = false
+    },
+    refresh_data() {
+      this.getDetail()
+      this.$store.commit('get_refresh', true)
     },
     getPhone(phone) {
       const a = document.createElement('a')
@@ -170,7 +198,6 @@ export default {
     width: 100%;
     background: #f1f1f1;
     bottom: size(100);
-    overflow: auto;
     .hd{
       height: size(180);
       background:#2BA69F; 
@@ -202,7 +229,6 @@ export default {
       text-align: left;
       align-items: center;
       padding: size(20) size(60);
-      margin-bottom: size(20);
       .l{
         width: size(60);
         .icon{
@@ -225,6 +251,7 @@ export default {
       display: flex;
       align-items: center;
       padding: size(30) size(60);
+      padding-top: size(10);
       background: #fff;
       .l{
         width: size(120);
@@ -328,7 +355,7 @@ export default {
       }
       .btn{
         display: block;
-        padding: 0 size(30);
+        padding: 0 size(40);
         height: size(70);
         line-height: size(70);
         color: #666;

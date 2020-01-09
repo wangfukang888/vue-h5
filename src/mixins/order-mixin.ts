@@ -11,7 +11,7 @@ export const order_status_type = {
         case '申诉中':
           return 'status-appeal'
         break;
-        case '已取消':
+        case '取消订单':
           return 'status-cancel'
         break;
         default: return ''

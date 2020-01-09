@@ -6,7 +6,7 @@
     </div>   
     <div class="content">    
       <div class="bg bg-r" @click="goback('reqair')"></div>  
-      <div class="bg bg-e" @click="goback('equipment')"></div> 
+      <div class="bg bg-e" @click="goback('equipment', $route.query.serial_no)"></div> 
     </div>  
   </div>
 </template>
@@ -21,8 +21,13 @@ export default {
     }
   },
   methods: {
-    goback(url) {
-      this.$router.push(url)
+    goback(url, params) {
+      this.$router.push({
+        name: url,
+        query: {
+          query_no: params
+        }
+      })
     }
   }
 }

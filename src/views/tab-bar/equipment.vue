@@ -73,7 +73,24 @@ export default {
   destroyed() {
     this.$refs.e_bs && this.$refs.e_bs.destroy()
   },
+  mounted() {
+    const query_no = this.$route.query.query_no
+    if (query_no) this.appQuery(query_no)
+  },
   methods: {
+    // 外部携带获取
+    appQuery(no) {
+      const history_list = JSON.parse(localStorage.getItem('history_list') )
+      // 是否存在搜索历史
+      let is_history
+      if (!history_list) is_history = true
+      if (history_list) {
+        history_list.map( v => {
+          if(v == no) is_history = false
+        })
+      }
+      this.search(no, history_list, is_history)
+    },
     async queryInfo(val, arrs, type) {
       const data = await queryDevice(val)
       const arr = []

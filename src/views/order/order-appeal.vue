@@ -3,7 +3,10 @@
     <div class="img-section">
       <div class="text">申诉图片</div>
       <div class="file">
-        <v-uploader v-model="fileList" multiple disabled :deletable="false" :max-count="fileList.length"/>
+        <div class="img" v-for="(item, index) in fileList" :key="index">
+          <img v-lazy="item" alt="">
+        </div>
+        <!-- <v-uploader v-model="fileList" multiple disabled :deletable="false" :max-count="3"/> -->
       </div> 
     </div>  
     <div class="img-section desc">
@@ -28,6 +31,7 @@
 
 <script>
 import { Uploader, Field } from 'vant'
+import {appealDetail} from 'api'
 
 export default {
   components: {
@@ -47,12 +51,27 @@ export default {
     console.log('离开')
   },
   mounted() {
-    const data = JSON.parse(sessionStorage.getItem('appeal_data'))
-    console.log(data)
-    this.fileList = data.fileList
-    this.message = data.message
+    // this.fileList = data.fileList
+    // this.message = data.message
+    this.getList()
   },
   methods: {
+    async getList() {
+      const data = await appealDetail(this.$route.params.id)
+      let arr = []
+      this.fileList = data.img
+      this.message = data.content
+    },
+    getBase64Image(img) {
+      var canvas = document.createElement("canvas")
+      canvas.width = img.width
+      canvas.height = img.height
+      var ctx = canvas.getContext("2d")
+      ctx.drawImage(img, 0, 0, img.width, img.height)
+      var ext = img.src.substring(img.src.lastIndexOf(".") + 1).toLowerCase()
+      var dataURL = canvas.toDataURL("image/" + ext)
+      return dataURL
+    },
     init() {
       this.fileList = []
       this.message = ''
@@ -93,11 +112,16 @@ export default {
     }
     .file{
       padding: size(20);
+      display: flex;
+      justify-content: center;
       /deep/ .van-uploader__wrapper{
         justify-content: center;
       }
       /deep/ .van-uploader__preview{
         margin-bottom: size(30);
+      }
+      .img{
+        width: size(200);
       }
     }
   }

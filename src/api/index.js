@@ -54,7 +54,7 @@ export function getOrderDetail(order_no) {
 
 //取消订单
 export function getOrderCancel(task_id) {
-  return req.post('/apis/indexapp/Diagnosis/cancelOrder', { 
+  return req.post('/apis/indexapp/Diagnosis/userCancelOrder', { 
     task_id
   })
 }
@@ -92,11 +92,32 @@ export function pay(order_no, pay_type=1) {
   })
 }
 
+//上传图片
+export function uploadImg(file) {
+  return req.post('/apis/indexapp/Uploader/upload', file, {
+    headers: {'Content-Type': 'multipart/form-data'} 
+  })
+}
+
 //发起申诉
 export function getAppeal(task_id, apply_img, content) {
   return req.post('/apis/indexapp/Diagnosis/explain', { 
     task_id,
     apply_img,
     content
+  })
+}
+
+//申诉详情
+export function appealDetail(task_id) {
+  return req.post('/apis/api/Inter/applyDetail', {     
+    task_id
+  })
+}
+
+//确认服务
+export function confirmService(task_id) {
+  return req.post('/apis/indexapp/Diagnosis/confirmService', {     
+    task_id
   })
 }

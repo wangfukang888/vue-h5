@@ -6,7 +6,13 @@
     <div class="img-section">
       <div class="text">上传申诉图片</div>
       <div class="file">
-        <v-uploader v-model="fileList" multiple :max-count="3" upload-text="最多上传3张"/>
+        <v-uploader 
+          v-model="fileList" 
+          :multiple="false"
+          :after-read="afterRead"
+          :max-count="3" 
+          upload-text="最多上传3张"
+        />
       </div> 
     </div>  
     <div class="img-section desc">
@@ -30,6 +36,7 @@
 
 <script>
 import { Uploader, Field } from 'vant'
+import {uploadImage} from '../../utils/upload'
 
 export default {
   props: {
@@ -45,7 +52,8 @@ export default {
   data() {
     return{
       fileList: [],
-      message: ''
+      message: '',
+      loadList: []
     }
   },
   methods: {
@@ -57,15 +65,16 @@ export default {
       this.$emit('close')
       document.title = '订单详情'
     },
-    submit() {
+    afterRead(file) {
+      uploadImage(file).then(data => {
+        if (data) this.loadList.push(data)
+      })  
+    },
+    async submit() {
       if( this.fileList.length == 0) return this.$toast('请上传申诉图片')
       if( !this.message) return this.$toast('请填写申诉说明')
-      let arr = []
-      this.fileList.map(v => {
-        arr.push(v.file.name)
-      })
       let obj = {
-        fileList: arr,
+        fileList: this.loadList,
         message: this.message
       }
       this.$emit('submit', obj)
@@ -92,7 +101,7 @@ export default {
     height: size(100);
     line-height: size(100);
     color: #666;
-    background: #c9cec9;
+    background: #e2e2e2;
     @include border(bottom);
   }
   .img-section{

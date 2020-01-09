@@ -1,6 +1,6 @@
 <template>
   <div class="detail-service">
-    <div class="title">服务详情</div>
+    <div class="title">服务完成情况</div>
     <div class="img">
       <div class="file">
         <v-uploader v-model="fileList" multiple disabled :deletable="false" :max-count="3"/>
