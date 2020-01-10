@@ -1,21 +1,28 @@
+import { order_status } from '@/common/config'
+
 export const order_status_type = {
   methods: {
     status(num : string) {
-      switch(num) {
-        case '待服务':
+      let m = Number(num)
+      switch(m) {
+        case 0:
           return 'status-wait'
         break;
-        case '服务中':
+        case 1:
           return 'status-give'
         break;
-        case '申诉中':
+        case 3:
           return 'status-appeal'
         break;
-        case '取消订单':
+        case 4:
           return 'status-cancel'
         break;
         default: return ''
       }
+    },
+    status_text(num : string) {
+      let n = Number(num)
+      return order_status[n]
     }
   }
 }

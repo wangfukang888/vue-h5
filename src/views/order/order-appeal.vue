@@ -1,20 +1,16 @@
 <template>
   <div class="file-container">
-    <div class="img-section">
+    <div class="img-section" v-if="fileList.length">
       <div class="text">申诉图片</div>
       <div class="file">
-        <div class="img" v-for="(item, index) in fileList" :key="index">
-          <img v-lazy="item" alt="">
-        </div>
-        <!-- <v-uploader v-model="fileList" multiple disabled :deletable="false" :max-count="3"/> -->
+        <v-uploader v-model="fileList" multiple disabled :deletable="false" :max-count="fileList.length"/>
       </div> 
     </div>  
     <div class="img-section desc">
       <div class="text">申诉说明</div>
       <div class="textarea">
-        <v-field
+        <v-field  
           v-model="message"
-          rows="3"
           disabled
           autosize
           type="textarea"
@@ -32,6 +28,7 @@
 <script>
 import { Uploader, Field } from 'vant'
 import {appealDetail} from 'api'
+import {toBase64Image} from '../../utils/img64'
 
 export default {
   components: {
@@ -45,32 +42,30 @@ export default {
     }
   },
   activated() {
-    console.log('进入缓存')
+    if (this.$store.state.is_refresh) {
+      this.getList()
+    }   
   },
   deactivated() {
     console.log('离开')
   },
   mounted() {
-    // this.fileList = data.fileList
-    // this.message = data.message
     this.getList()
   },
   methods: {
     async getList() {
       const data = await appealDetail(this.$route.params.id)
       let arr = []
-      this.fileList = data.img
       this.message = data.content
-    },
-    getBase64Image(img) {
-      var canvas = document.createElement("canvas")
-      canvas.width = img.width
-      canvas.height = img.height
-      var ctx = canvas.getContext("2d")
-      ctx.drawImage(img, 0, 0, img.width, img.height)
-      var ext = img.src.substring(img.src.lastIndexOf(".") + 1).toLowerCase()
-      var dataURL = canvas.toDataURL("image/" + ext)
-      return dataURL
+      data && data.img.map(v => {
+        toBase64Image(v).then(data => {
+          arr.push({
+            file: '',
+            content: data
+          })
+        }) 
+      })
+      this.fileList = arr
     },
     init() {
       this.fileList = []
@@ -132,7 +127,7 @@ export default {
     }
   }
   .btn-submit{
-    background: rgb(114, 99, 99);
+    background: #a7a4a4;
     height: size(80);
     width: size(400);
     line-height: size(80);

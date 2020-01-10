@@ -1,4 +1,5 @@
 import axios from 'axios'
+import {is_production, proxy_handle} from '../common/config'
 import {Toast} from 'vant'
 
 const _config = {
@@ -20,9 +21,21 @@ axios.interceptors.response.use(response => {
   return Promise.reject(error)
 })
 
-export function uploadImage(file) {
-  const url = 'apis/indexapp/Uploader/upload'
+axios.interceptors.request.use(
+   config => {
+    if (is_production) config.url = proxy_handle(config.url)    
+    return config
+  },
+  err => {
+    Toast('服务器响应超时')
+    return Promise.reject(err)
+  }
+)
+
+export function uploadImage(file: any) {
+  const url = '/apis/indexapp/Uploader/upload'
   let fd = new FormData()
   fd.append('file', file.file)
   return axios.post(url, fd, _config)
 }
+

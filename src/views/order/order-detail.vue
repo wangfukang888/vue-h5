@@ -1,10 +1,10 @@
 <template>
   <div class="order-detail">
     <scroll-view class="detail-m">
-      <div class="container" v-if="info">
+      <div class="container" v-if="!info">
         <div class="g-order-status hd">
           <div class="l">
-            <div class="status-text">{{info.serviceStatus}}</div>
+            <div class="status-text">{{ status_text(info.taskstatus) }}</div>
             <div class="time">发布时间: {{info.user_time}}</div>
           </div>
           <div class="r"></div>
@@ -34,40 +34,57 @@
           <div class="l">备注：</div>
           <div class="r">{{info.remask}}</div>
         </div>
-        <div class="ft">
+        <div class="ft" v-if="info.devicePrice">
           <div class="l"></div>
           <div class="r">安装费： <span>¥</span> <b>{{info.devicePrice.toFixed(2) || '0.00'}}</b></div>
         </div>
         <div class="name-p">   
           <info-list :noclick="true" :list_data="listdata"/>  
-          <div class="icon" @click="getPhone(info.servicePhone)">
+          <div v-if="info.servicePhone" class="icon" @click="getPhone(info.servicePhone)">
             <van-icon name="phone" class="icon-phone"/>
           </div>
         </div>
-        <service-detail v-if="info.serviceImg"/>
+        <service-detail v-if="info.serviceDetail" :info="info.serviceDetail"/>
       </div>  
       <loading vertical v-else/>
     </scroll-view>
-    <div class="footer">
+    <div class="footer" :class="{hide: info && info.taskstatus == 4}">
       <div class="l"></div>
       <div class="r">
         <div class="r-btn" v-if="info">
-          <v-btn v-if="info.serviceStatus == '待服务'" class="btn" :loading="btnLoading" loading-text="取消中" type="info" @click="cancelOrder(info.task_id)">取消订单</v-btn>
-          <v-btn v-if="info.serviceStatus == '申诉中'" class="btn" type="info" @click="show_appeal">发起申诉</v-btn>
-          <v-btn v-if="info.serviceStatus == '申诉中'" class="btn" type="info" @click="goAppeal(info.task_id)">申诉详情</v-btn>
-          <v-btn v-if="info.serviceStatus == '完成服务' ||  info.serviceStatus == '申诉中'"  class="btn btn-ok" :loading="btnLoading" loading-text="确认中" type="info" @click="confirmSuc(info.task_id)">确认完成</v-btn>
-          <v-btn v-if="info.serviceStatus == '已完成'" class="btn btn-ok" type="info" @click="show_evaluate = true">评价</v-btn>
+          <v-btn v-if="info.taskstatus == 0" class="btn" :loading="btnLoading" loading-text="取消中" type="info" @click="cancelOrder(info.task_id)">取消订单</v-btn>
+          <v-btn v-if="info.taskstatus == 2" class="btn" type="info" @click="show_appeal">发起申诉</v-btn>
+          <v-btn v-if="info.taskstatus == 3" class="btn" type="info" @click="goAppeal(info.task_id)">申诉详情</v-btn>
+          <v-btn v-if="info.taskstatus == 2 ||  info.taskstatus == 3"  class="btn btn-ok" :loading="btnLoading" loading-text="确认中" type="info" @click="confirmSuc(info.task_id)">确认完成</v-btn>
+          <v-btn v-if="info.taskstatus == 6" class="btn btn-ok" type="info" @click="show_evaluate = true">评价</v-btn>
         </div>   
       </div>
     </div>
     <div v-show="appeal_show">
       <v-appeal ref="appeal" :show="appeal_show" @close="appeal_show = false" @submit="appealSubmit"/>
     </div>
+    <v-pop class="evaluate-m" v-model="show_evaluate" round closeable position="bottom">
+      <div class="hd">评价</div>
+      <div class="content">
+        <div class="rate">
+          <div class="l">综合评价</div>
+          <div class="r">
+            <v-rate v-model="rate_num" color="#FD4F02" />
+          </div>
+        </div>
+        <div class="textarea">
+          <textarea v-model="textarea_val" placeholder="说点什么吧" rows="5"></textarea>
+        </div>
+      </div>
+      <div class="ft">
+        <v-btn class="btn btn-ok" :loading="btnLoading" loading-text="提交中" type="info" @click="rateSubmit">提交</v-btn>
+      </div>
+    </v-pop>
   </div>
 </template>
 
 <script>
-import { Button } from 'vant';
+import { Button, Popup, Rate } from 'vant'
 import InfoList from 'com/partner/info-list'
 import ServiceDetail from 'com/order/service-detail'
 import VAppeal from 'com/order/order-appeal'
@@ -80,7 +97,9 @@ export default {
     InfoList,
     VAppeal,
     ServiceDetail,
-    'v-btn': Button
+    'v-btn': Button,
+    'v-rate': Rate,
+    'v-pop': Popup
   },
   data() {
     return{
@@ -88,6 +107,8 @@ export default {
       info: null,
       is_cache: false,
       appeal_data: null,
+      rate_num: 3,
+      textarea_val: '',
       appeal_show: false, // 申诉
       show_evaluate: false, // 评价
       btnLoading: false
@@ -128,6 +149,9 @@ export default {
         servicescore: item.serviceScore,
         serviceaddr: item.serviceAddr
       }]
+    },
+    rateSubmit() {
+      console.log(this.rate_num, this.textarea_val)
     },
     cancelOrder(id) {
       this.$dialog.confirm({
@@ -172,6 +196,7 @@ export default {
     async appealSubmit(item) {
       const data = await getAppeal(this.info.task_id, item.fileList, item.message)
       if (data) {
+        this.$refs.appeal && this.$refs.appeal.closeloading()
         this.$toast('申诉提交成功')
         this.refresh_data()
       }
@@ -342,6 +367,10 @@ export default {
     align-items: center;
     height: size(100);
     box-shadow: 1px 1px 5px #ddd;
+    &.hide{
+      background: #f1f1f1;
+      box-shadow: 0 0 0;
+    }
     .l{
       width: size(100);
     }
@@ -375,6 +404,58 @@ export default {
       }
       /deep/ .van-button--info{
         background-color: transparent;
+      }
+    }
+  }
+  .evaluate-m{
+    .hd{
+      height: size(100);
+      line-height: size(100);
+      font-weight: 500;
+      @include border('bottom');
+    }
+    .content{
+      padding:size(30) size(70);
+      @include border('bottom');
+      .rate{
+        display: flex;
+        align-items: center;
+        color: #666;
+        .l{
+          width: size(200);
+          text-align: right;
+        }
+        .r{
+          flex: 1;
+        }
+      }
+      .textarea{
+        margin-top: size(20);
+        textarea{
+          background: #ECECEC;
+          border-radius: size(20);
+          padding: size(30);
+          font-size: size(28);
+          line-height: size(36);
+          color: #888;
+          &::placeholder{
+            color: #bbb;
+          }
+        }
+      }
+    }
+    .ft{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: size(20) 0;
+      .btn{
+        padding: 0 size(160);
+        border-radius: size(20);
+        &.btn-ok{
+          background: #2BA69F;
+          border:0;
+        }
       }
     }
   }

@@ -2,22 +2,18 @@ import axios from 'axios'
 import store from '@/store'
 import qs from 'qs'
 import router from '../router'
+import {is_production, proxy_handle} from '../common/config'
 import {Toast } from 'vant'
 
 export const OK = 0
 axios.defaults.timeout = 100000
-
-const is_production = process.env.NODE_ENV == 'production' 
 
 const headers = {
   'Content-Type': 'application/x-www-form-urlencoded'
 }
 
 // 通用参数
-const params = {
-  // source_type: 'app',
-  // sign: '8ea8a9b8-29de-492d-a11e-d53916ebb900'
-}
+const params = {}
 
 const api = axios.create({
   baseURL: '/',
@@ -63,13 +59,6 @@ api.interceptors.response.use(
     }
   }
 )
-
-// 生产环境代理处理
-function proxy_handle(url: any) {
-  const pathArr = url.split('/')
-  pathArr.splice(1,1)
-  return pathArr.join('/')
-}
 
 // 请求拦截
 api.interceptors.request.use(

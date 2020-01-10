@@ -4,7 +4,7 @@
       <div class="l">用户手机号:</div>
       <div class="r">{{userinfo.mobile | formatPhone}}</div>
     </div>
-    <!-- <v-btn class="btn" type="default" plain hairline loading-type="spinner" @click="loginout">退出登录</v-btn> -->
+    <v-btn class="btn" type="default" plain hairline loading-type="spinner" @click="loginout">退出登录</v-btn>
   </div>
 </template>
 

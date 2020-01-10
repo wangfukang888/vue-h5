@@ -3,28 +3,54 @@
     <div class="title">服务完成情况</div>
     <div class="img">
       <div class="file">
-        <v-uploader v-model="fileList" multiple disabled :deletable="false" :max-count="3"/>
+        <v-uploader v-model="fileList" multiple disabled :deletable="false" :max-count="fileList.length"/>
       </div> 
     </div>
     <div class="message">
       <div class="l">备注:</div>
-      <div class="r">加急处理安装 17:00完成</div>
+      <div class="r">{{info.content || '无'}}</div>
     </div>
   </div>
 </template>
 
 <script>
 import { Uploader, Field } from 'vant'
+import {toBase64Image} from '../../utils/img64'
 
 export default {
   components: {
     'v-uploader': Uploader
   },
+  props: {
+    info: {
+      type: Object,
+      default: null
+    }
+  },
+  mounted() {
+    this.getFile()
+  },
+  methods: {
+    getFile() {
+      const list = this.info.serviceImg
+      let arr = []
+      list && list.map( v => {
+        toBase64Image(v).then(data => {
+          arr.push({
+            file: '',
+            content: data
+          })
+        }) 
+      })
+      this.fileList = arr
+    }
+  },
   data() {
     return{
       fileList: []
     }
-  }
+  },
+
 }
 </script>
 

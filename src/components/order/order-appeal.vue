@@ -10,6 +10,7 @@
           v-model="fileList" 
           :multiple="false"
           :after-read="afterRead"
+          @oversize="oversize"
           :max-count="3" 
           upload-text="最多上传3张"
         />
@@ -29,13 +30,14 @@
         />
       </div>
     </div>
-    <div class="btn-submit" @click="submit">确认提交</div>
+    <div class="btn-t">
+      <v-btn class="btn-submit btn" :loading="subLoading"  loading-text="提交中" type="info" @click="submit">确认提交</v-btn>
+    </div>
   </div>
-  
 </template>
 
 <script>
-import { Uploader, Field } from 'vant'
+import { Uploader, Field, Button } from 'vant'
 import {uploadImage} from '../../utils/upload'
 
 export default {
@@ -47,13 +49,15 @@ export default {
   },
   components: {
     'v-uploader': Uploader,
-    'v-field': Field
+    'v-field': Field,
+    'v-btn': Button
   },
   data() {
     return{
       fileList: [],
       message: '',
-      loadList: []
+      loadList: [],
+      subLoading: false
     }
   },
   methods: {
@@ -65,10 +69,15 @@ export default {
       this.$emit('close')
       document.title = '订单详情'
     },
-    afterRead(file) {
-      uploadImage(file).then(data => {
-        if (data) this.loadList.push(data)
-      })  
+    async afterRead(file) {
+      const data = await uploadImage(file)
+      data && this.loadList.push(data)    
+    },
+    oversize() {
+      this.$toast('文件大小不能超过20M')
+    },
+    closeloading() {
+      this.subLoading = false
     },
     async submit() {
       if( this.fileList.length == 0) return this.$toast('请上传申诉图片')
@@ -77,10 +86,12 @@ export default {
         fileList: this.loadList,
         message: this.message
       }
+      this.subLoading = true
       this.$emit('submit', obj)
     }
   }
 }
+
 </script>
 
 <style lang="scss" scoped>
@@ -132,14 +143,15 @@ export default {
       background: transparent;
     }
   }
+  .btn-t{
+     margin-top: size(100);
+  }
   .btn-submit{
     background: #03B097;
-    height: size(80);
-    width: size(400);
-    line-height: size(80);
-    margin: size(50) auto;
+    padding: 0 size(60);
     border-radius: size(40);
     color: #fff;
+    border: 0;
   }
 }
 </style>

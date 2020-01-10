@@ -51,7 +51,6 @@ import VSearch from 'base/search/search'
 import VGrid from "com/grid-list"
 import {equipment_data, querydeviceimg} from '../../mock/grid_data'
 import {queryDevice} from 'api'
-import {wx_scan} from '../../utils/wxConfig'
 
 export default {
   components: {
@@ -113,7 +112,7 @@ export default {
       this.is_loading = false
     },
     getScan() {
-      wx_scan(wx)
+      // wx_scan(wx)
     },
     goSearch() {
       this.show_search = true

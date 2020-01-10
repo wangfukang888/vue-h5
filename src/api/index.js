@@ -92,13 +92,6 @@ export function pay(order_no, pay_type=1) {
   })
 }
 
-//上传图片
-export function uploadImg(file) {
-  return req.post('/apis/indexapp/Uploader/upload', file, {
-    headers: {'Content-Type': 'multipart/form-data'} 
-  })
-}
-
 //发起申诉
 export function getAppeal(task_id, apply_img, content) {
   return req.post('/apis/indexapp/Diagnosis/explain', { 
