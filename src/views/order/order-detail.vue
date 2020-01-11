@@ -1,7 +1,7 @@
 <template>
   <div class="order-detail">
     <scroll-view class="detail-m">
-      <div class="container" v-if="!info">
+      <div class="container" v-if="info">
         <div class="g-order-status hd">
           <div class="l">
             <div class="status-text">{{ status_text(info.taskstatus) }}</div>
@@ -56,7 +56,7 @@
           <v-btn v-if="info.taskstatus == 2" class="btn" type="info" @click="show_appeal">发起申诉</v-btn>
           <v-btn v-if="info.taskstatus == 3" class="btn" type="info" @click="goAppeal(info.task_id)">申诉详情</v-btn>
           <v-btn v-if="info.taskstatus == 2 ||  info.taskstatus == 3"  class="btn btn-ok" :loading="btnLoading" loading-text="确认中" type="info" @click="confirmSuc(info.task_id)">确认完成</v-btn>
-          <v-btn v-if="info.taskstatus == 6" class="btn btn-ok" type="info" @click="show_evaluate = true">评价</v-btn>
+          <v-btn v-if="info.taskstatus == 6" class="btn btn-ok" type="info" @click="show_evaluate = true">{{info.rateDetail ? '追加评价' : '评价'}}</v-btn>
         </div>   
       </div>
     </div>
@@ -77,19 +77,19 @@
         </div>
       </div>
       <div class="ft">
-        <v-btn class="btn btn-ok" :loading="btnLoading" loading-text="提交中" type="info" @click="rateSubmit">提交</v-btn>
+        <v-btn class="btn btn-ok" :loading="btnLoading" loading-text="提交中" type="info" @click="rateSubmit($route.params.id)">提交</v-btn>
       </div>
     </v-pop>
   </div>
 </template>
 
 <script>
-import { Button, Popup, Rate } from 'vant'
+import { Button, Popup, Rate, Toast } from 'vant'
 import InfoList from 'com/partner/info-list'
 import ServiceDetail from 'com/order/service-detail'
 import VAppeal from 'com/order/order-appeal'
 import {order_status_type} from 'mixin/order-mixin'
-import {getOrderDetail, getOrderCancel, getAppeal, confirmService} from 'api'
+import {getOrderDetail, getOrderCancel, getAppeal, confirmService, getRate} from 'api'
 
 export default {
   mixins: [order_status_type],
@@ -137,6 +137,11 @@ export default {
       const data = await getOrderDetail(this.$route.params.id)
       if (typeof data == 'object') {     
         this.info = data
+        const rate_info = data.rateDetail
+        if (rate_info) {
+          this.rate_num = rate_info.ratenum
+          this.textarea_val = rate_info.content
+        }
         this.list_info(data)   
         this.$store.commit('cache_data', true)   
       }
@@ -150,8 +155,14 @@ export default {
         serviceaddr: item.serviceAddr
       }]
     },
-    rateSubmit() {
-      console.log(this.rate_num, this.textarea_val)
+    async rateSubmit(id) {
+      if(this.textarea_val == '') return Toast('多少说一点吧')
+      const data = await getRate(id, this.rate_num, this.textarea_val)
+      if (data) {
+        this.$toast('评价成功')
+        this.show_evaluate = false
+        this.getDetail()
+      }
     },
     cancelOrder(id) {
       this.$dialog.confirm({

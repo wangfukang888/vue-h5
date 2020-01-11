@@ -25,7 +25,7 @@
             <div class="title">安装日期</div>
             <div class="det" @click="show_time = true">
               <van-cell-group>
-                <van-field required v-model="form_data.time" placeholder="请选择安装日期" readonly right-icon="arrow" />
+                <van-field required v-model="form_data.time" placeholder="选择日期" readonly right-icon="arrow" />
               </van-cell-group>
             </div>
           </div>
@@ -247,6 +247,10 @@ export default {
     .desc{
       flex: 1;
       margin-right: size(50);
+      &:first-child{
+        width: size(260);
+        flex: none;
+      }
       &:last-child{
         margin-right: 0;
       }
@@ -266,12 +270,20 @@ export default {
     }
     .det{
       margin: size(20) 0;
+      /deep/ .van-cell-group{
+        &::after{
+          border: 0;
+        }
+      }
       /deep/ .van-cell{
         margin: size(20) 0;
         background: #EBEDF0;
         border-radius: size(30);
         padding-right: size(15);
         color: #939FB2;
+        &::after{
+          border-bottom: 0;
+        }
         input{
           background: transparent;
           padding-left: size(10);

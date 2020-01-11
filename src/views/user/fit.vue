@@ -4,12 +4,13 @@
       <div class="l">用户手机号:</div>
       <div class="r">{{userinfo.mobile | formatPhone}}</div>
     </div>
-    <v-btn class="btn" type="default" plain hairline loading-type="spinner" @click="loginout">退出登录</v-btn>
+    <v-btn class="btn" type="default" plain hairline loading-type="spinner" @click="logout">退出登录</v-btn>
   </div>
 </template>
 
 <script>
 import { Button } from 'vant'
+import {getLogout} from 'api'
 
 export default {
   components: {
@@ -28,10 +29,14 @@ export default {
     this.userinfo = userinfo
   },
   methods: {
-    loginout() {
-      this.$store.commit('get_login', null)
-      localStorage.clear()
-      this.$router.replace('/')
+    async logout() {
+      const data = await getLogout(this.$store.state.token)
+      if (data) {
+        this.$toast('退出登录成功')
+        this.$store.commit('get_login', null)
+        localStorage.clear()
+        this.$router.replace('/')
+      }
     }
   }
 }

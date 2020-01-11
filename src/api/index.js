@@ -13,6 +13,13 @@ export function getLogin(account, password) {
   })
 }
 
+//退出登录
+export function getLogout(token) {
+  return req.post('/apis/api/Inter/logout', { 
+    token
+  })
+}
+
 // 选择设备列表
 export function getDeviceList(device_type_id='') {
   return req.post('/apis/api/Inter/chooseDevice', { 
@@ -112,5 +119,14 @@ export function appealDetail(task_id) {
 export function confirmService(task_id) {
   return req.post('/apis/indexapp/Diagnosis/confirmService', {     
     task_id
+  })
+}
+
+//评价
+export function getRate(order_no, star, content) {
+  return req.post('/apis/api/Inter/userAppraise', {     
+    order_no,
+    star,
+    content
   })
 }

@@ -19,7 +19,7 @@ export default new Vuex.Store({
   mutations: {
     get_login(state, userinfo) {
       localStorage.setItem('userInfo', JSON.stringify(userinfo))
-      state.token = userinfo.token || ''
+      state.token = userinfo ? userinfo.token : ''
       state.userInfo = userinfo
     },
     get_bar(state, text) {
@@ -33,7 +33,6 @@ export default new Vuex.Store({
     },
     install_info(state, arr) {
       state.install_info = arr
-      console.log(state.install_info)
     }
   },
   actions: {

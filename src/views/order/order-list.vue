@@ -38,7 +38,7 @@ export default {
       list_data: [],
       isRefresh: false,
       hasNext: true,
-      nav_list: ['设备服务', '维修服务']
+      nav_list: ['设备服务']
     }
   },
   created() {

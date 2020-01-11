@@ -25,12 +25,16 @@
 </template>
 
 <script>
-// import showHide from 'mixin/show-hide'
 import {getAreaInfo} from '@/api'
 import area from '@/utils/area'
 
 export default {
-  // mixins: [showHide],
+  props: {
+    isArea: {
+      type: Boolean,
+      default: false
+    }
+  },
   data() {
     return {
       isShow: false,
@@ -95,21 +99,37 @@ export default {
       }
       this.city = arr
     },
-    async selC(c) {
+    selC(c) {
       this.goTop()
+      // console.log(c)
       this.result[1] = c.areaname
-      this.step = 2
+      this.step = 2   
+      // 如果有区  
+      let arr = []
+      if(this.isArea) {
+        // 检索id对应的区级元素  
+        for( let i in area.county_list) {
+          let item = area.county_list
+          if( i.substring(0,4) == c.id.substring(0,4) ) {
+            arr.push({
+              id: i,
+              areaname: item[i]
+            })
+          }
+        }
+        this.area = arr
+        return
+      }
       this.$emit('input', this.result)
-      this.hide()
-      // 暂时不用
+      this.hide()  
     },
-    // selA(a) {
-    //   this.result[2] = a
-    //   this.step = 3
-    //   // console.log(this.result.map(d => d.areaname))
-    //   this.$emit('input', this.result.map(d => d.areaname))
-    //   this.hide()
-    // },
+    selA(a) {
+      this.result[2] = a.areaname
+      this.step = 3
+      this.$emit('input', this.result)
+      console.log(this.result)
+      this.hide()
+    },
     goTop() {
       this.$refs.list.scrollTop = 0
     }
