@@ -45,7 +45,6 @@
           title="安装类型"
           :columns="columns"
           @cancel="show_picker = false"
-          @confirm="onConfirm"
         />
       </v-pop>
     </div>
@@ -124,11 +123,7 @@ export default {
       this.$emit("go_ative", 0, 'info')
     },
     selectInfo(item) {
-      console.log(item)
       this.info_item = item
-    },
-    onConfirm() {
-
     }
   }
 };

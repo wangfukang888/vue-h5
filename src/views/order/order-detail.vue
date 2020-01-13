@@ -157,9 +157,11 @@ export default {
     },
     async rateSubmit(id) {
       if(this.textarea_val == '') return Toast('多少说一点吧')
+      this.btnLoading = true
       const data = await getRate(id, this.rate_num, this.textarea_val)
       if (data) {
         this.$toast('评价成功')
+        this.btnLoading = false
         this.show_evaluate = false
         this.getDetail()
       }

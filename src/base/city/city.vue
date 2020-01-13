@@ -101,7 +101,6 @@ export default {
     },
     selC(c) {
       this.goTop()
-      // console.log(c)
       this.result[1] = c.areaname
       this.step = 2   
       // 如果有区  
@@ -127,7 +126,6 @@ export default {
       this.result[2] = a.areaname
       this.step = 3
       this.$emit('input', this.result)
-      console.log(this.result)
       this.hide()
     },
     goTop() {

@@ -24,7 +24,6 @@ export default {
   },
   methods: {
     init() {
-      console.log('打开')
       this.show = true
     },
     handlepay() {

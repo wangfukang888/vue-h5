@@ -46,6 +46,7 @@ api.interceptors.response.use(
       case 500 :
         Toast('服务器访问失败,请刷新后重试')
       break; 
+      default: Toast('服务器响应超时,请重试')
     }
   }
 )

@@ -49,7 +49,6 @@ export default {
   },
   activated() {
     if (this.$store.state.is_refresh) {
-      console.log('重新刷新')
       this.getList(this.index, 'down')
       this.$store.commit('get_refresh', false)
     }

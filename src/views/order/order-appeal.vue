@@ -1,11 +1,12 @@
 <template>
   <div class="file-container">
     <div class="img-section" v-if="fileList.length">
-      <div class="text">申诉图片</div>
+      <div class="text">申诉图片</div>   
       <div class="file">
         <v-uploader v-model="fileList" multiple disabled :deletable="false" :max-count="fileList.length"/>
       </div> 
     </div>  
+    <loading class="loading" v-else/>
     <div class="img-section desc">
       <div class="text">申诉说明</div>
       <div class="textarea">
@@ -46,9 +47,6 @@ export default {
       this.getList()
     }   
   },
-  deactivated() {
-    console.log('离开')
-  },
   mounted() {
     this.getList()
   },
@@ -64,8 +62,8 @@ export default {
             content: data
           })
         }) 
-      })
-      this.fileList = arr
+      })   
+      this.fileList = arr   
     },
     init() {
       this.fileList = []
@@ -93,6 +91,9 @@ export default {
   z-index: 99;
   overflow: auto;
   background:#f1f1f1;
+  .loading{
+    padding: size(50) 0;
+  }
   .img-section{
     margin: size(20);
     background: #fff;
@@ -106,7 +107,7 @@ export default {
       @include border('bottom');
     }
     .file{
-      padding: size(20);
+      // padding: size(20);
       display: flex;
       justify-content: center;
       /deep/ .van-uploader__wrapper{
