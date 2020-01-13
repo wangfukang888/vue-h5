@@ -10,6 +10,7 @@
           v-model="fileList" 
           :multiple="false"
           :after-read="afterRead"
+          :before-delete="deleteImg"
           @oversize="oversize"
           :max-count="3" 
           upload-text="最多上传3张"
@@ -38,7 +39,7 @@
 
 <script>
 import { Uploader, Field, Button } from 'vant'
-import {uploadImage} from '../../utils/upload'
+import {uploadImg} from 'api'
 
 export default {
   props: {
@@ -63,15 +64,32 @@ export default {
   methods: {
     init() {
       this.fileList = []
+      this.loadList = []
       this.message = ''
     },
     close() {
       this.$emit('close')
       document.title = '订单详情'
     },
-    async afterRead(file) {
-      const data = await uploadImage(file)
-      data && this.loadList.push(data)    
+    async afterRead(file , name) {
+      let fd = new FormData()
+      fd.append('file', file.file)
+      try {
+        const data = await uploadImg(fd)
+        // 上传失败处理
+        if( !data ) {
+          this.fileList.pop()
+        } else {
+          this.loadList.push(data)   
+        }
+      } catch (error) {
+        this.fileList.pop()
+        this.$toast('图片上传失败，可能原因网络请求超时')
+      }  
+    },
+    deleteImg(v, name) {
+      this.fileList.splice(name.index, 1)
+      this.loadList.splice(name.index, 1)
     },
     oversize() {
       this.$toast('文件大小不能超过20M')
@@ -81,13 +99,18 @@ export default {
     },
     async submit() {
       if( this.fileList.length == 0) return this.$toast('请上传申诉图片')
-      if( !this.message) return this.$toast('请填写申诉说明')
+      if( !this.message) return this.$toast('请填写申诉说明')    
       let obj = {
         fileList: this.loadList,
         message: this.message
       }
       this.subLoading = true
-      this.$emit('submit', obj)
+      if(this.fileList.length == this.loadList.length) {
+        this.$emit('submit', obj)
+      } else {
+        this.$toast('请等待图片全部上传成功后，再操作...')
+        this.subLoading = false
+      }
     }
   }
 }

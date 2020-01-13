@@ -6,7 +6,7 @@ import {is_production, proxy_handle} from '../common/config'
 import {Toast } from 'vant'
 
 export const OK = 0
-axios.defaults.timeout = 100000
+axios.defaults.timeout = 10000
 
 const headers = {
   'Content-Type': 'application/x-www-form-urlencoded'
@@ -25,17 +25,7 @@ const api = axios.create({
 api.interceptors.response.use(
   (response) => {
     const res = response.data
-    const url : any = response.config.url
-    // 匹配不同的接口url, 处理返回code不一样带来的差异
-    const newurl = is_production ? url == '/api/Inter/queryDevice' : url == '/apis/api/Inter/queryDevice'
-    if(newurl) {
-      if( res.code == 1) {
-        return res.data
-      } else {
-        Toast(res.msg || '获取数据失败，请刷新重试')
-        return ''
-      }  
-    }
+    // const url : any = response.config.url
     if (res.code != OK) {
       Toast(res.msg || '获取数据失败，请刷新重试')  
       return null
@@ -66,8 +56,9 @@ api.interceptors.request.use(
     if (is_production) config.url = proxy_handle(config.url)    
     // 注入token
     let t: any = store.state
+    const headers_pro = config.headers['Content-Type'] == 'application/x-www-form-urlencoded'
     config.params.token = t.token  
-    if(config.method == 'post' ) {
+    if(config.method == 'post' && headers_pro) {
       config.data = qs.stringify(config.data)
     }
     return config

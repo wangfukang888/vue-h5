@@ -71,6 +71,15 @@ export function getReleaseOrder(data) {
   return req.post('/apis/indexapp/Diagnosis/createDevice', data)
 }
 
+//上传图片
+export function uploadImg(file) {
+  return req.post('/apis/indexapp/Uploader/upload', file, {
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    }
+  })
+}
+
 //发送验证码
 export function getCode(mobile, event='mobilelogin') {
   return req.get('/apis/indexapp/Sms/send', { 

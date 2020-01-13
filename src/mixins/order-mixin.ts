@@ -4,21 +4,22 @@ export const order_status_type = {
   methods: {
     status(num : string) {
       let m = Number(num)
+      let text = ''
       switch(m) {
         case 0:
-          return 'status-wait'
-        break;
+          text = 'status-wait' 
+          break;
         case 1:
-          return 'status-give'
+          text = 'status-give'
         break;
         case 3:
-          return 'status-appeal'
+          text = 'status-appeal'
         break;
         case 4:
-          return 'status-cancel'
+          text = 'status-cancel'
         break;
-        default: return ''
       }
+      return text
     },
     status_text(num : string) {
       let n = Number(num)

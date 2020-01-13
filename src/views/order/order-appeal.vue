@@ -20,7 +20,7 @@
         />
       </div>
     </div>
-    <div class="btn btn-submit" @click="submit">取消申诉</div>
+    <!-- <div class="btn btn-submit" @click="submit">取消申诉</div> -->
   </div>
   
 </template>

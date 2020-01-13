@@ -101,7 +101,7 @@ const routes = [
     meta: {
       index: 7,
       keepAlive: true,
-      title: '申请详情'
+      title: '申诉详情'
     }
   },
   {
