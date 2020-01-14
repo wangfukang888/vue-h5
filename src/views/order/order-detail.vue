@@ -209,11 +209,11 @@ export default {
     async appealSubmit(item) {
       const data = await getAppeal(this.info.task_id, item.fileList, item.message)
       if (data) {
-        this.$refs.appeal && this.$refs.appeal.closeloading()
         this.$toast('申诉提交成功')
         this.refresh_data()
-      }
-      this.appeal_show = false
+        this.appeal_show = false
+      } 
+      this.$refs.appeal.closeloading()
     },
     refresh_data() {
       this.getDetail()

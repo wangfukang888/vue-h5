@@ -18,3 +18,17 @@ export const order_status : any = {
   5: '待接单',
   6: '已完成'
 }
+
+//判断是否是微信浏览器
+function isWeiXin() {
+  let ua : any = window.navigator.userAgent.toLowerCase();
+  //mozilla/5.0 (iphone; cpu iphone os 9_1 like mac os x) applewebkit/601.1.46 (khtml, like gecko)version/9.0 mobile/13b143 safari/601.1
+  if (ua.match(/MicroMessenger/i) == 'micromessenger') {
+      return true;
+  } else {
+      return false;
+  } 
+}
+ 
+
+

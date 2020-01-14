@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import { Uploader, Field, Button } from 'vant'
+import { Uploader, Field, Button, Toast } from 'vant'
 import {uploadImg} from 'api'
 
 export default {
@@ -75,6 +75,10 @@ export default {
       let fd = new FormData()
       fd.append('file', file.file)
       try {
+        Toast.loading({
+          message: '上传中...',
+          forbidClick: true
+        })
         const data = await uploadImg(fd)
         // 上传失败处理
         if( !data ) {
@@ -82,8 +86,10 @@ export default {
         } else {
           this.loadList.push(data)   
         }
+        Toast.clear()
       } catch (error) {
         this.fileList.pop()
+        Toast.clear()
         this.$toast('图片上传失败，可能原因网络请求超时')
       }  
     },
@@ -98,14 +104,14 @@ export default {
       this.subLoading = false
     },
     async submit() {
-      if( this.fileList.length == 0) return this.$toast('请上传申诉图片')
-      if( !this.message) return this.$toast('请填写申诉说明')    
+      if ( this.fileList.length == 0) return this.$toast('请上传申诉图片')
+      if ( !this.message) return this.$toast('请填写申诉说明')    
       let obj = {
         fileList: this.loadList,
         message: this.message
       }
       this.subLoading = true
-      if(this.fileList.length == this.loadList.length) {
+      if (this.fileList.length == this.loadList.length) {
         this.$emit('submit', obj)
       } else {
         this.$toast('请等待图片全部上传成功后，再操作...')

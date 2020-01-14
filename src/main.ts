@@ -10,10 +10,6 @@ import ScrollView from 'base//scroll-view/scroll-view.vue'
 
 // import VConsole from 'vconsole'
 // let vc = new VConsole()
-// import FastClick from 'fastclick'
-// let f : any = FastClick
-// f.attach(document.body)
-// document.body.addEventListener('touchstart',  () => {})
 
 // 懒加载配置
 Vue.use(Lazyload, {

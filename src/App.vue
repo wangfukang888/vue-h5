@@ -4,7 +4,7 @@
       <keep-alive v-if="is_alive">
         <router-view class="router" />
       </keep-alive>
-      <router-view class="router" v-else />
+      <router-view class="router" v-else/>
     </transition>
   </div>
 </template>
