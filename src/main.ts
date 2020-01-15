@@ -8,8 +8,8 @@ import Container  from 'base/container/container.vue'
 import Loading from 'base/loading/loading.vue'
 import ScrollView from 'base//scroll-view/scroll-view.vue'
 
-// import VConsole from 'vconsole'
-// let vc = new VConsole()
+import VConsole from 'vconsole'
+new VConsole()
 
 // 懒加载配置
 Vue.use(Lazyload, {

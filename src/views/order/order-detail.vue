@@ -56,7 +56,7 @@
           <v-btn v-if="info.taskstatus == 2" class="btn" type="info" @click="show_appeal">发起申诉</v-btn>
           <v-btn v-if="info.taskstatus == 3" class="btn" type="info" @click="goAppeal(info.task_id)">申诉详情</v-btn>
           <v-btn v-if="info.taskstatus == 2 ||  info.taskstatus == 3"  class="btn btn-ok" :loading="btnLoading" loading-text="确认中" type="info" @click="confirmSuc(info.task_id)">确认完成</v-btn>
-          <v-btn v-if="info.taskstatus == 6" class="btn btn-ok" type="info" @click="show_evaluate = true">{{info.rateDetail ? '追加评价' : '评价'}}</v-btn>
+          <v-btn v-if="info.taskstatus == 6" class="btn btn-ok" type="info" @click="show_evaluate = true">{{info.rateDetail ? '查看评价' : '评价'}}</v-btn>
         </div>   
       </div>
     </div>
@@ -76,7 +76,7 @@
           <textarea v-model="textarea_val" placeholder="说点什么吧" rows="5"></textarea>
         </div>
       </div>
-      <div class="ft">
+      <div class="ft" v-if="info && !info.rateDetail">
         <v-btn class="btn btn-ok" :loading="btnLoading" loading-text="提交中" type="info" @click="rateSubmit($route.params.id)">提交</v-btn>
       </div>
     </v-pop>

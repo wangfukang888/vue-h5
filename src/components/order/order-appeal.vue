@@ -40,6 +40,8 @@
 <script>
 import { Uploader, Field, Button, Toast } from 'vant'
 import {uploadImg} from 'api'
+import {compress} from '@/utils/imgHandle'
+import Exif from 'exif-js'
 
 export default {
   props: {
@@ -71,26 +73,42 @@ export default {
       this.$emit('close')
       document.title = '订单详情'
     },
-    async afterRead(file , name) {
-      let fd = new FormData()
-      fd.append('file', file.file)
+    afterRead(file) {
+      let Orientation
+      //去获取拍照时的信息，解决拍出来的照片旋转问题
+      Exif.getData(file.file, function() {
+        Orientation = Exif.getTag(this, 'Orientation')
+      })
+      let img = new Image()
+      img.src = file.content
+      img.onload = () => {
+        compress(img, Orientation, (file) => {
+          let fd = new FormData()
+          fd.append('file', file.file)
+          this.getToImg(fd)
+        })
+      }
+    },
+    async getToImg(file) {
       try {
         Toast.loading({
           message: '上传中...',
+          duration: 0,
           forbidClick: true
         })
-        const data = await uploadImg(fd)
+        const data = await uploadImg(file)
         // 上传失败处理
-        if( !data ) {
-          this.fileList.pop()
+        if (data) {
+          this.loadList.push(data)  
         } else {
-          this.loadList.push(data)   
+          this.fileList.pop()
         }
         Toast.clear()
-      } catch (error) {
+      } 
+      catch (error) {
         this.fileList.pop()
         Toast.clear()
-        this.$toast('图片上传失败，可能原因网络请求超时')
+        this.$toast('图片上传失败，可能原因服务器解析错误')
       }  
     },
     deleteImg(v, name) {

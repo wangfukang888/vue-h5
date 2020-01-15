@@ -25,28 +25,39 @@ const api = axios.create({
 api.interceptors.response.use(
   (response) => {
     const res = response.data
-    // const url : any = response.config.url
-    if (res.code != OK) {
-      Toast(res.msg || '获取数据失败，请刷新重试')  
+    const url : any = response.config.url
+    if (url == '/api/Inter/queryDevice' || url == '/apis/api/Inter/queryDevice') {
+      if (res.code == 1) {
+        return res.data
+      } else { 
+        Toast(res.msg || '获取数据失败，请刷新重试')  
+        return null
+      }
+    }
+    if (res.code != OK) {  
+      Toast(res.msg || '获取数据失败，请刷新重试') 
       return null
     }  
     return res.data
   },
   err => {
-    const err_code = err.response.status
-    switch (err_code) {
-      case 401 :
-        // 登录过期 ,2秒后跳转
-        Toast('登录失效')
-        localStorage.clear()
-        setTimeout(() => {
-          router.push('/login')
-        },2000)     
-      break; 
-      case 500 :
-        Toast('服务器访问失败,请刷新后重试')
-      break; 
-      default: Toast('服务器响应超时,请重试')
+    try {
+      const err_code =  err.response.status
+      switch (err_code) {
+        case 401 :
+          // 登录过期 ,2秒后跳转
+          Toast('登录失效')
+          localStorage.clear()
+          setTimeout(() => {
+            router.push('/login')
+          },2000)     
+        break; 
+        case 500 :
+          Toast('服务器访问失败,请刷新后重试')
+        break; 
+      }
+    } catch (err) {
+      Toast('服务器响应超时,请重试')
     }
   }
 )

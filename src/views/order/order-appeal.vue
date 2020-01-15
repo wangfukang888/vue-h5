@@ -29,7 +29,7 @@
 <script>
 import { Uploader, Field } from 'vant'
 import {appealDetail} from 'api'
-import {toBase64Image} from '../../utils/img64'
+import {toBase64Image} from '../../utils/imgHandle'
 
 export default {
   components: {

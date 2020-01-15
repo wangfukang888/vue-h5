@@ -38,8 +38,7 @@ export default {
   position: fixed;
   width: 100%;
   height: size(100);
-  background: #323d43;
-  // box-sizing: border-box;
+  background:rgba(0,0,0,0.5);
   z-index: 10;
   padding: size(20) 0 0 size(30);
   .left{
@@ -63,7 +62,7 @@ export default {
 .content{
   position: absolute;
   width: 100%;
-  top: size(100);
+  top: 0;
   overflow: auto;
   bottom: 0;
 }

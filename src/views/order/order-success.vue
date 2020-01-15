@@ -50,7 +50,8 @@ export default {
   .bg{
     width: size(586);
     height: size(536);
-    background: #ccc;
+    background:url('~img/success.png');
+    background-size: 100% 100%;
   }
   .text{
     margin-top: size(40);

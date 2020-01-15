@@ -39,9 +39,6 @@ module.exports = {
   },
   lintOnSave: process.env.NODE_ENV !== 'production',
   configureWebpack: {
-    output: {
-
-    },
     resolve: {
       alias: {
         'com': path.resolve(__dirname, './src/components'),
