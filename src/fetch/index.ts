@@ -9,7 +9,8 @@ export const OK = 0
 axios.defaults.timeout = 10000
 
 const headers = {
-  'Content-Type': 'application/x-www-form-urlencoded'
+  'Content-Type': 'application/x-www-form-urlencoded',
+  'Access-Control-Allow-Origin': '*'
 }
 
 // 通用参数
@@ -25,10 +26,21 @@ const api = axios.create({
 api.interceptors.response.use(
   (response) => {
     const res = response.data
-    const url : any = response.config.url
+    const url : string | undefined = response.config.url
     if (url == '/api/Inter/queryDevice' || url == '/apis/api/Inter/queryDevice') {
       if (res.code == 1) {
-        return res.data
+        return Object.assign(res.data, {
+          menu_types: [
+            {
+              typeName: '现场服务申请',
+              types: ['现场培训']
+            },
+            {
+              typeName: '设备服务申请',
+              types: ['返厂维修']
+            }
+          ]
+        })
       } else { 
         Toast(res.msg || '获取数据失败，请刷新重试')  
         return null

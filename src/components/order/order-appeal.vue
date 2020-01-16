@@ -108,7 +108,7 @@ export default {
       catch (error) {
         this.fileList.pop()
         Toast.clear()
-        this.$toast('图片上传失败，可能原因服务器解析错误')
+        this.$toast('图片上传失败，可能原因服务器响应超时')
       }  
     },
     deleteImg(v, name) {

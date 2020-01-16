@@ -3,9 +3,9 @@
     <div class="equipment">
       <template v-if="!show_search">
         <div class="top">
-          <div class="icon-code"  @click="getScan"> 
+          <!-- <div class="icon-code"  @click="getScan"> 
             <van-icon name="scan"/>
-          </div>
+          </div> -->
           <div class="search">
             <div class="icon">
               <van-icon name="search" />
@@ -31,12 +31,16 @@
           </div>
           <div class="bottom">
             <van-grid :column-num="3" :border="false">
-              <van-grid-item v-for="(item, index) in search_grid" :key="index" :url="item.url" :text="item.name" :icon="item.imgUrl || 'photo-o'" />
+              <van-grid-item v-for="(item, index) in search_grid" 
+                :key="index" 
+                :text="item.name" 
+                @click="topdf(item)"
+                :icon="item.imgUrl || 'photo-o'" />
             </van-grid>
           </div>
         </div>
         <div class="grid-eq">
-          <v-grid :list="grid_list"></v-grid>
+          <v-grid :list="grid_list" @search="goSearch"></v-grid>
         </div>
       </template>
       <template v-else>
@@ -51,6 +55,7 @@ import VSearch from 'base/search/search'
 import VGrid from "com/grid-list"
 import {equipment_data, querydeviceimg} from '../../mock/grid_data'
 import {queryDevice} from 'api'
+import {SERVICE_URL} from '@/common/config'
 
 export default {
   components: {
@@ -61,6 +66,7 @@ export default {
     return {
       text: "设备有问题",
       search_val: '',
+      pdfSrc: '',
       imgdata: querydeviceimg || [],
       is_loading: false,
       show_search: false,
@@ -95,9 +101,9 @@ export default {
       const arr = []
       const newArr = []
       if (data instanceof Object) {
+        // this._grid_handle(data.menu_types)
         this.search_info = data
         let files = data.deviceFile
-        //后台字段设计坑，我只是想拿线上图片
         for (let i in files) {
           arr.push(files[i])
         }
@@ -111,6 +117,36 @@ export default {
       }
       this.is_loading = false
     },
+    _grid_handle(data) {
+      if(!data) return
+      let new_grid_arr = []
+      let grid_arr = []
+      // 是否加入数据
+      this.flag = false
+      this.index = -1
+      var d = equipment_data.filter( v => !data.includes(v) )
+            console.log(d)
+      for ( let i = 0; i < equipment_data.length; i++) {
+        for(let j = 0; j < data.length; j++) {
+          const e_item = equipment_data[i]
+          const item = data[j]
+          if(e_item.typeName == item.typeName) {
+            
+          }
+
+        }
+      }
+      if (this.flag) {
+
+      } else {
+        console.log('s', this.index)
+        
+
+        // grid_arr.push(v)
+      }
+      console.log(new_grid_arr)
+      console.log(grid_arr)
+    },
     getScan() {
       // wx_scan(wx)
     },
@@ -119,6 +155,21 @@ export default {
       this.$nextTick(() => {
         this.$refs.f_s && this.$refs.f_s.f()
       })   
+    },
+    topdf(item) {
+      const url = item.url.split('/')
+      url.splice(0,3)
+      if (item.sourcetype == 'pdf') {
+        this.$router.push({
+          path: '/pdf',
+          query: {
+            url
+          }
+        })
+      } 
+      if (item.sourcetype == 'mp4') {
+        window.location.href = `${SERVICE_URL}${url.join('/')}`
+      } 
     },
     cancel() {
       this.show_search = false
@@ -207,6 +258,9 @@ export default {
         }
       }    
     }
+  }
+  .bottom{
+    background: #fff;
   }
 }
 .grid-eq {

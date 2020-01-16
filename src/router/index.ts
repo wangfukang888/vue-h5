@@ -55,6 +55,16 @@ const routes = [
     }
   },
   {
+    path: '/pdf',
+    name: 'pdf',
+    component: () => import('../views/plugin/pdf.vue'),
+    meta: {
+      index: 2,
+      keepAlive: false,
+      title: 'pdf预览'
+    }
+  },
+  {
     path: '/reqair',
     name: 'reqair',
     component: () => import('../views/tab-bar/repair.vue'),

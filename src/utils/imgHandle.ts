@@ -1,12 +1,12 @@
-// 图片转base64
+//图片转base64
 function getBase64Image(img: any) {
-  var canvas = document.createElement("canvas")
+  const canvas = document.createElement("canvas")
   canvas.width = img.width
   canvas.height = img.height
-  var ctx = canvas.getContext("2d")
+  const ctx = canvas.getContext("2d")
   ctx && ctx.drawImage(img, 0, 0, img.width, img.height)
-  var ext = img.src.substring(img.src.lastIndexOf(".") + 1).toLowerCase()
-  var dataURL = canvas.toDataURL("image/" + ext)
+  let ext = img.src.substring(img.src.lastIndexOf(".") + 1).toLowerCase()
+  let dataURL = canvas.toDataURL("image/" + ext)
   return dataURL
 }
 
@@ -92,7 +92,7 @@ async function getRotateImg(img: any, or: any) {
  * @param {Number} s 向指定方向旋转几步，1步为90度
  */
 
-export const rotateImg = (img: any, dir = 'right', canvas: any, s = 1) => {
+const rotateImg = (img: any, dir = 'right', canvas: any, s = 1) => {
   const MIN_STEP = 0
   const MAX_STEP = 3
 

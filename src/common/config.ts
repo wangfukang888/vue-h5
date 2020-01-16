@@ -1,6 +1,8 @@
 // 是否是生产环境
 export const is_production = process.env.NODE_ENV == 'production' 
 
+export const SERVICE_URL = 'http://eq.test.x431.com/'
+
 // 生产环境代理处理
 export function proxy_handle(url: any) {
   const pathArr = url.split('/')
