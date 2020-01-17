@@ -70,6 +70,7 @@ export default {
   .history{
     margin-top: size(30);
     padding: 0 size(40);
+    padding-right: size(20);
     color: #888;
     .t{
       text-align: left;
@@ -81,9 +82,10 @@ export default {
       font-size: size(26);
       flex-wrap: wrap;
       .item{
-        padding: 0 size(20);
+        padding: 0 size(12);
         height: size(70);
         margin-right: size(20);
+        margin-bottom: size(12);
         line-height: size(70);
         border-radius: size(40);
         border: size(1) solid #ccc;

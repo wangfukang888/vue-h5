@@ -39,15 +39,13 @@ export default {
       this.pdfurl = pdf.createLoadingTask(`${SERVICE_URL}${url.join('/')}`)
     } else {
       this.pdfurl = pdf.createLoadingTask(`tps/${url.join('/')}`)
-    }
-   
+    }  
     this.getPdf()
   },
   methods: {
     async getPdf() {  
       try {
         const pdf_data = await this.pdfurl
-        console.log(pdf_data)
         if (pdf_data instanceof Object) {
           this.totalNum = pdf_data.numPages
         }

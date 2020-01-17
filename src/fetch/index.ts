@@ -6,6 +6,7 @@ import {is_production, proxy_handle} from '../common/config'
 import {Toast } from 'vant'
 
 export const OK = 0
+
 axios.defaults.timeout = 10000
 
 const headers = {
@@ -77,7 +78,7 @@ api.interceptors.response.use(
 // 请求拦截
 api.interceptors.request.use(
   function (config) {
-    if (is_production) config.url = proxy_handle(config.url)    
+    if (is_production) config.url = proxy_handle(config.url)  
     // 注入token
     let t: any = store.state
     const headers_pro = config.headers['Content-Type'] == 'application/x-www-form-urlencoded'

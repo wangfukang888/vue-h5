@@ -13,11 +13,11 @@ module.exports = {
   devServer: {
     proxy: {
       '/tps/': {
-        target: 'https://eq.x431.com',
+        target: 'https://eq.x431.com/',
         ws: true,
         changeOrigin: true,
         pathRewrite: {
-          '^/tps/':'/' 
+          '^/tps/': '/' 
         }
       },
       '/apis/': {
