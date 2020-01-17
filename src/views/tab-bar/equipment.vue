@@ -157,20 +157,20 @@ export default {
       })   
     },
     topdf(item) {
-      const url = item.url.split('/')
-      url.splice(0,3)
-      if (item.sourcetype == 'pdf') {
-        window.location.href = `${SERVICE_URL}${url.join('/')}`
-        // this.$router.push({
-        //   path: '/pdf',
-        //   query: {
-        //     url
-        //   }
-        // })
-      } 
-      if (item.sourcetype == 'mp4') {
-        window.location.href = `${SERVICE_URL}${url.join('/')}`
-      } 
+      window.location.href = item.url
+      // const url = item.url.split('/')
+      // url.splice(0,3)
+      // if (item.sourcetype == 'pdf') {
+      //   this.$router.push({
+      //     path: '/pdf',
+      //     query: {
+      //       url
+      //     }
+      //   })
+      // } 
+      // if (item.sourcetype == 'mp4') {
+      //   window.location.href = `http://eq.test.x431.com/${url.join('/')}`
+      // } 
     },
     cancel() {
       this.show_search = false
