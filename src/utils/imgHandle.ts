@@ -40,7 +40,7 @@ export function compress(img: any, Orientation: any, fn: Function) {
   // console.log(Orientation + ' 类型')
   // 修复ios图片旋转的问题
   getRotateImg(img, Orientation).then(newImg => {
-    let originWidth = newImg.width, // 压缩后的宽
+    let originWidth = newImg.width, 
       originHeight = newImg.height,
       maxWidth = 400,
       quality = 0.9, // 压缩质量

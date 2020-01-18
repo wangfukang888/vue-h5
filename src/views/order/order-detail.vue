@@ -106,7 +106,6 @@ export default {
       listdata: [],
       info: null,
       is_cache: false,
-      appeal_data: null,
       rate_num: 3,
       textarea_val: '',
       appeal_show: false, // 申诉
@@ -116,7 +115,6 @@ export default {
   },
   activated() {
     this.appeal_show = false
-    this.appeal_data = JSON.parse(sessionStorage.getItem('appeal_data')) || null
     // 没有缓存信息才重新请求
     if(!this.is_cache)  this.getDetail()
   },
@@ -137,17 +135,17 @@ export default {
       const data = await getOrderDetail(this.$route.params.id)
       if (typeof data == 'object') {     
         this.info = data
+        this.listdata = this.list_info(data)
         const rate_info = data.rateDetail
         if (rate_info) {
           this.rate_num = rate_info.ratenum
           this.textarea_val = rate_info.content
         }
-        this.list_info(data)   
         this.$store.commit('cache_data', true)   
       }
     },
     list_info(item) {
-      this.listdata = [{
+      return [{
         realname: item.serviceName,
         headimage: item.serviceImage,
         servicenums: item.serviceNums,

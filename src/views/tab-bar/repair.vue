@@ -46,11 +46,12 @@ export default {
     },
     downloadApp() {
       const type = this._detect()
-      if ( type == 'ios') {
-        window.location.href='https://www.hao123.com'
-      } else {
-        window.location.href='https://www.baidu.com'
-      }
+      window.location.href = 'http://golo.x431.com/go/?id=53'
+      // if ( type == 'ios') {
+      //   window.location.href='https://www.hao123.com'
+      // } else {
+      //   window.location.href='https://www.baidu.com'
+      // }
     },
     _detect() {
       var equipmentType = ""
