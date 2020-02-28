@@ -6,7 +6,7 @@
           <div class="name">订单编号：<b>{{item.order_no}}</b></div>
           <div class="g-order-status status" :class="status(item.taskstatus)">{{status_text(item.taskstatus)}}</div>
         </div>
-        <div class="content">
+        <div class="content" v-if="item.service_type == 1">
           <div class="g-order-info info"> 
             <div class="item">
               <div class="l">服务类型:</div>
@@ -23,6 +23,34 @@
             <div class="item" v-if="item.serviceAddr">
               <div class="l">服务地址:</div>
               <div class="r">{{item.serviceAddr}}</div>
+            </div>
+            <div class="item">
+              <div class="l">发布时间:</div>
+              <div class="r">{{item.publishTime}}</div>
+            </div>
+          </div>
+        </div>
+        <div class="content" v-if="item.service_type == 2">
+          <div class="g-order-info info"> 
+            <div class="item">
+              <div class="l">服务类型:</div>
+              <div class="r">{{item.serviceType}}</div>
+            </div>
+            <div class="item" v-if="item.deviceName">
+              <div class="l">设备名称:</div>
+              <div class="r">{{item.deviceName}}</div>
+            </div>
+            <div class="item" v-if="item.carName">
+              <div class="l">车辆名称:</div>
+              <div class="r">{{item.carName}} {{item.carModel}}</div>
+            </div>
+            <div class="item" v-if="item.carProblem">
+              <div class="l">车辆问题:</div>
+              <div class="r">{{item.carProblem}}</div>
+            </div>
+            <div class="item" v-if="item.carHelp">
+              <div class="l">备注:</div>
+              <div class="r">{{item.carHelp}}</div>
             </div>
             <div class="item">
               <div class="l">发布时间:</div>
@@ -84,6 +112,9 @@ export default {
   .item{
     background: #fff;
     margin-bottom: size(20);
+    &:last-child{
+      margin-bottom: 0;
+    }
     .hd{
       height: size(80);
       line-height: size(80);

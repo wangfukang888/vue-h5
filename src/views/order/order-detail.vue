@@ -9,7 +9,7 @@
           </div>
           <div class="r"></div>
         </div>
-        <div class="address-container">
+        <div class="address-container" v-if="info.user_address">
           <div class="l">
             <div class="icon">
               <van-icon name="location" class="icon"/>
@@ -26,7 +26,9 @@
           </div>
           <div class="r">
             <div class="name">{{info.deviceName}}</div>
-            <div class="item">设备型号：{{info.deviceModel}}</div>
+            <div class="item" v-if="info.deviceModels">设备型号：{{info.deviceModel}}</div>
+            <div class="item" v-if="info.carName">车辆名称：{{info.carName}} {{info.carModel}}</div>
+            <div class="item" v-if="info.carName">车辆问题：{{info.carProblem}}</div>
             <div class="item">服务类型：{{info.serviceType}}</div>
           </div>
         </div>
@@ -34,11 +36,15 @@
           <div class="l">备注：</div>
           <div class="r">{{info.remask}}</div>
         </div>
-        <div class="ft" v-if="info.devicePrice">
-          <div class="l"></div>
-          <div class="r">安装费： <span>¥</span> <b>{{info.devicePrice.toFixed(2) || '0.00'}}</b></div>
+        <div class="remask-container" v-if="info.carHelp">
+          <div class="l">备注：</div>
+          <div class="r">{{info.carHelp}}</div>
         </div>
-        <div class="name-p">   
+        <div class="ft" v-if="info.serviceType == '设备服务'">
+          <div class="l"></div>
+          <div class="r">安装费： <span>¥</span> <b>{{info.devicePrice ? info.devicePrice.toFixed(2) : '0.00'}}</b></div>
+        </div>
+        <div class="name-p" v-if="info.serviceName">   
           <info-list :noclick="true" :list_data="listdata"/>  
           <div v-if="info.servicePhone" class="icon" @click="getPhone(info.servicePhone)">
             <van-icon name="phone" class="icon-phone"/>
@@ -287,7 +293,6 @@ export default {
       display: flex;
       align-items: center;
       padding: size(30) size(60);
-      padding-top: size(10);
       background: #fff;
       .l{
         width: size(120);

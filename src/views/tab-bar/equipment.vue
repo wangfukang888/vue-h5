@@ -72,7 +72,7 @@ export default {
       show_search: false,
       search_info: null,
       search_grid: [],
-      grid_list: equipment_data || []
+      grid_list:[]
     }
   },
   destroyed() {
@@ -81,6 +81,7 @@ export default {
   mounted() {
     const query_no = this.$route.query.query_no
     if (query_no) this.appQuery(query_no)
+    this.grid_list = equipment_data
   },
   methods: {
     // 外部携带获取
@@ -101,7 +102,6 @@ export default {
       const arr = []
       const newArr = []
       if (data instanceof Object) {
-        // this._grid_handle(data.menu_types)
         this.search_info = data
         let files = data.deviceFile
         for (let i in files) {
@@ -114,38 +114,25 @@ export default {
         })
         if (type) localStorage.setItem('history_list', JSON.stringify(arrs) ) 
         this.search_grid = newArr
-      }
+        this._grid_handle(data.menu_types)
+      } 
       this.is_loading = false
     },
     _grid_handle(data) {
       if(!data) return
-      let new_grid_arr = []
-      let grid_arr = []
-      // 是否加入数据
-      this.flag = false
-      this.index = -1
-      var d = equipment_data.filter( v => !data.includes(v) )
-            console.log(d)
-      for ( let i = 0; i < equipment_data.length; i++) {
-        for(let j = 0; j < data.length; j++) {
-          const e_item = equipment_data[i]
-          const item = data[j]
-          if(e_item.typeName == item.typeName) {
-            
-          }
-
-        }
-      }
-      if (this.flag) {
-
-      } else {
-        console.log('s', this.index)
-        
-
-        // grid_arr.push(v)
-      }
-      console.log(new_grid_arr)
-      console.log(grid_arr)
+      this.grid_list = []
+      equipment_data.map(v => {
+        v.typeRes.map( item => {
+          data.map(f => {
+            if(item.name == f) {
+              item.hide = true
+            } 
+          })  
+        })
+      })  
+      this.$nextTick(() => {
+        this.grid_list = equipment_data
+      })
     },
     getScan() {
       // wx_scan(wx)

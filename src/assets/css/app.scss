@@ -78,7 +78,7 @@ body, html {
   
   // 公共样式
   .g-order-info{
-    padding-top: size(20);  
+    padding: size(20) 0;  
     .item{
       display: flex;
       line-height: size(40);

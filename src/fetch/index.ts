@@ -30,17 +30,9 @@ api.interceptors.response.use(
     const url : string | undefined = response.config.url
     if (url == '/api/Inter/queryDevice' || url == '/apis/api/Inter/queryDevice') {
       if (res.code == 1) {
+        // return res.data
         return Object.assign(res.data, {
-          menu_types: [
-            {
-              typeName: '现场服务申请',
-              types: ['现场培训']
-            },
-            {
-              typeName: '设备服务申请',
-              types: ['返厂维修']
-            }
-          ]
+          menu_types: ['现场培训', '现场维修']
         })
       } else { 
         Toast(res.msg || '获取数据失败，请刷新重试')  

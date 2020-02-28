@@ -11,7 +11,7 @@
       </div>
       <div class="info info-e">
         <div class="num">服务次数： <b>{{item.servicenums}}次</b></div>
-        <div class="score">评分： <b>{{item.servicescore.toFixed(1)}}分</b></div>
+        <div class="score">评分： <b>{{item.servicescore && item.servicescore.toFixed(1)}}分</b></div>
       </div>
       <div class="info info-b">
         <div class="address">服务地区： <b>{{item.serviceaddr}}</b></div>

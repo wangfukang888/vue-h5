@@ -1,5 +1,5 @@
 <template>
-  <div class="grid-icon">
+  <div class="grid-icon" v-if="list.length">
     <div class="list" v-for="(item, index) in list" :key="index">
       <div class="title" :class="`t-${index}`" :style="`background: linear-gradient(to right, ${item.l_bg}, ${item.r_bg})`">
         <h2>{{item.typeName}}</h2>
@@ -7,11 +7,12 @@
       </div>
       <div class="icon-grid">
         <van-grid :column-num="3" :border="false" clickable>
-          <van-grid-item
+          <van-grid-item 
             v-for="(value, o) in item.typeRes"
+            :class="{hide: value.hide}"
             :key="o"
             :icon="value.link_image || 'photo-o'"
-            @click="goGrid(value.url, value.path)"
+            @click="goGrid(value.url, value.path, value.name)"
             :text="value.name"
           />
         </van-grid>
@@ -23,13 +24,19 @@
 <script>
 export default {
   props: {
-    list: Array
+    list: {
+      type: Array,
+      default: []
+    }
   },
   methods: {
-    goGrid(url, path) {
-      if(url == 'event') {
+    goGrid(url, path, name) {
+      if (url == 'event') {
         this.$emit('search')
         return
+      }
+      if (name == '返厂维修') {
+        return window.location.href = `${url}?token=${this.$store.state.token}`
       }
       if ( !(url || path) ) return this.$toast('暂未开通此功能')    
       if (!this.$store.state.token) return this.$router.push('/login')    
@@ -69,6 +76,11 @@ export default {
   .icon-grid {
     background: #fff;
     margin-bottom: size(20);
+    /deep/ .van-grid-item {
+      &.hide{
+        display: none;
+      }
+    }
   }
 }
 
