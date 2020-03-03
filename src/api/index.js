@@ -44,12 +44,19 @@ export function queryDevice(deviceSn) {
 }
 
 //历史记录
-export function getOrderList(service_type, page, size=5) {
+export function getOrderList(service_type, page, size=5) { 
   return req.post('/apis/api/Inter/serviceOrderList', { 
     service_type,
     page,
     size
-  })
+  })    
+}
+
+//验证token
+export function getToken(token) { 
+  return req.post('/apis/api/Inter/getToken', { 
+    token
+  })    
 }
 
 //订单详情

@@ -22,7 +22,7 @@
 <script>
 import { Tab, Tabs } from 'vant'
 import VOrderList from 'com/order/order-list'
-import {getOrderList} from 'api'
+import {getOrderList, getToken} from 'api'
 import List from 'base/list/list'
 
 export default {
@@ -57,14 +57,22 @@ export default {
   methods: {
     async getList(index, type) {
       this.index = index
-      const data = await getOrderList(index, this.page, this.pageSize)
-      if (data instanceof Array) {
-        this.isRefresh = false
-        if (data.length == 0 && this.page == 1) return this.hasNext = false
-        if (type) return this.list_data = data 
-        if (data.length < this.pageSize) this.hasNext = false
-        this.list_data = this.list_data.concat(data) 
-        return 
+      // 后台原因，需要先验证token
+      const _token =  await getToken(this.$store.state.token)
+      if (_token) {
+        const data = await getOrderList(index, this.page, this.pageSize)
+        if (data instanceof Array) {
+          this.isRefresh = false  
+          if (data.length == 0 && this.page == 1) return this.hasNext = false
+          if (type) return this.list_data = data 
+          if (data.length < this.pageSize) this.hasNext = false
+          this.list_data = this.list_data.concat(data) 
+        } 
+      } else {
+        localStorage.removeItem('userInfo')
+        setTimeout(() => {
+          this.$router.push('/login')
+        },2000)     
       }
       // 数据返回错误，也需要关闭
       this.hasNext = false

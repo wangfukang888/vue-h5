@@ -52,7 +52,7 @@ api.interceptors.response.use(
         case 401 :
           // 登录过期 ,2秒后跳转
           Toast('登录失效')
-          localStorage.clear()
+          localStorage.removeItem('userInfo')
           setTimeout(() => {
             router.push('/login')
           },2000)     
