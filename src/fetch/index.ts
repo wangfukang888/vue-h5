@@ -31,7 +31,7 @@ api.interceptors.response.use(
     if (url == '/api/Inter/queryDevice' || url == '/apis/api/Inter/queryDevice') {
       if (res.code == 1) {
         // return res.data
-        return Object.assign(res.data, {
+        return Object.assign(res.data || {}, {
           menu_types: ['现场培训', '现场维修']
         })
       } else { 

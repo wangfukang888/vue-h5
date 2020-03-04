@@ -89,9 +89,9 @@ export default {
     },
     async _accountLogin() {
       const data = await getLogin(this.account, this.password)
-      data instanceof Object && this.success(data.userinfo)  
+      data instanceof Object && this.success(data.userinfo)
     },
-    success(info) {
+    success(info) {   
       this.$store.commit('get_login', info)
       this.$router.back()
     }

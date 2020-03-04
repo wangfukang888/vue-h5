@@ -22,12 +22,8 @@ export default {
   },
   methods: {
     goback(url, params) {
-      this.$router.push({
-        name: url,
-        query: {
-          query_no: params
-        }
-      })
+      this.$router.push({name: url})
+      params && sessionStorage.setItem('query_no', JSON.stringify(params) )
     }
   }
 }

@@ -79,7 +79,7 @@ export default {
     this.$refs.e_bs && this.$refs.e_bs.destroy()
   },
   mounted() {
-    const query_no = this.$route.query.query_no
+    const query_no = JSON.parse(sessionStorage.getItem('query_no'))
     if (query_no) this.appQuery(query_no)
     this.grid_list = equipment_data
   },
@@ -87,15 +87,7 @@ export default {
     // 外部携带获取
     appQuery(no) {
       const history_list = JSON.parse(localStorage.getItem('history_list') )
-      // 是否存在搜索历史
-      let is_history
-      if (!history_list) is_history = true
-      if (history_list) {
-        history_list.map( v => {
-          if(v == no) is_history = false
-        })
-      }
-      this.search(no, history_list, is_history)
+      this.search(no, history_list)
     },
     async queryInfo(val, arrs, type) {
       const data = await queryDevice(val)
@@ -112,6 +104,7 @@ export default {
             imgUrl: this.imgdata[i]
           }))
         })
+        sessionStorage.setItem('query_no', JSON.stringify(val))
         if (type) localStorage.setItem('history_list', JSON.stringify(arrs) ) 
         this.search_grid = newArr
         this._grid_handle(data.menu_types)
@@ -145,29 +138,18 @@ export default {
     },
     topdf(item) {
       window.location.href = item.url
-      // const url = item.url.split('/')
-      // url.splice(0,3)
-      // if (item.sourcetype == 'pdf') {
-      //   this.$router.push({
-      //     path: '/pdf',
-      //     query: {
-      //       url
-      //     }
-      //   })
-      // } 
-      // if (item.sourcetype == 'mp4') {
-      //   window.location.href = `http://eq.test.x431.com/${url.join('/')}`
-      // } 
     },
     cancel() {
       this.show_search = false
     },
-    search(val, arr, type) {
+    search(val, arr) {
       let arrs = arr || []
+      let type 
       this.show_search = false
       this.search_info = ''
       this.search_val = val
       this.is_loading = true  
+      type = !arrs.includes(val)
       arrs.push(val)
       this.queryInfo(val, arrs, type)
     }

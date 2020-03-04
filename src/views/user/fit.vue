@@ -34,7 +34,7 @@ export default {
       if (data) {
         this.$toast('退出登录成功')
         this.$store.commit('get_login', null)
-        localStorage.clear()
+        localStorage.removeItem('userInfo')
         this.$router.replace('/')
       }
     }

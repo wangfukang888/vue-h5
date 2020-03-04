@@ -16,9 +16,9 @@
 </template>
 
 <script>
-import pdf from 'vue-pdf'
-import {is_production, SERVICE_URL} from '@/common/config'
-import { Pagination } from 'vant'
+// import pdf from 'vue-pdf'
+// import {is_production, SERVICE_URL} from '@/common/config'
+// import { Pagination } from 'vant'
 
 export default {
   components: {

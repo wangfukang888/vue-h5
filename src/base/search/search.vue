@@ -37,19 +37,28 @@ export default {
   methods: {
     f() {
       this.$refs.s_f && this.$refs.s_f.querySelector('input').focus()  
-      this.cache_list = localStorage.getItem('history_list') && JSON.parse(localStorage.getItem('history_list') ) || []
-      // 去重
-      let arr =  this.cache_list.filter( (item,index) =>  this.cache_list.indexOf(item) == index )
-      this.list_history = arr
+      this.cache_list = JSON.parse(localStorage.getItem('history_list') ) || []
+      this.list_history = this._uniq(this.cache_list)
     },
     onSearch() {
-      this.$emit('search', this.val, this.cache_list, true)
+      this.$emit('search', this.val, this.list_history)
     },
     search_history(val) {
-      this.$emit('search', val, this.cache_list, false)
+      this.$emit('search', val, this.list_history)
     },
     onCancel() {    
       this.$emit('cancel')
+    },
+    _uniq(arr){
+      for(let i=0; i<arr.length; i++){
+        for(let j=i+1; j<arr.length; j++){
+          if(arr[i] == arr[j]){ //第一个等同于第二个，splice方法删除第二个
+            arr.splice(j,1)
+            j--
+          }
+        }
+      }
+      return arr
     }
   }
 }

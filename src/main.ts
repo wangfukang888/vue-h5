@@ -3,6 +3,7 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import 'vant/lib/index.css'
+import Cookie from './utils/cookie'
 import { Toast, Lazyload, GridItem, Grid, Search, Icon, Step, Steps, Cell,  CellGroup, Field, Dialog } from 'vant'
 import Container  from 'base/container/container.vue'
 import Loading from 'base/loading/loading.vue'
@@ -10,7 +11,6 @@ import ScrollView from 'base//scroll-view/scroll-view.vue'
 
 // import VConsole from 'vconsole'
 // new VConsole()
-
 // 懒加载配置
 Vue.use(Lazyload, {
   lazyComponent: true,
@@ -24,6 +24,7 @@ Vue.use(Step).use(Steps)
 Vue.use(Cell).use(CellGroup)
 Vue.use(Field)
 Vue.use(Dialog)
+// Vue.use(Cookie)
 
 Vue.config.productionTip = false
 Vue.component('loading', Loading)
@@ -42,6 +43,7 @@ Vue.prototype.toast = function(text: string) {
 Vue.prototype.dialog = function() {
   return Dialog
 }
+Vue.prototype.$cookie = Cookie
 
 router.beforeEach((to,from,next) => {
   // // 防止找不到Promise router引发错误

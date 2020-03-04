@@ -31,15 +31,10 @@ export default {
   },
   methods: {
     goGrid(url, path, name) {
-      if (url == 'event') {
-        this.$emit('search')
-        return
-      }
-      if (name == '返厂维修') {
-        return window.location.href = `${url}?token=${this.$store.state.token}`
-      }
-      if ( !(url || path) ) return this.$toast('暂未开通此功能')    
-      if (!this.$store.state.token) return this.$router.push('/login')    
+      if (url == 'event') return this.$emit('search')
+      if (!this.$store.state.token) return this.$router.push('/login')  
+      if (name == '返厂维修') return window.location.href = `${url}?token=${this.$store.state.token}`  
+      if ( !(url || path) ) return this.$toast('暂未开通此功能')     
       if (url) return window.location.href = url
       if (path) return this.$router.push(path)
     }
