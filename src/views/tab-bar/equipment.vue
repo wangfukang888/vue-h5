@@ -7,7 +7,7 @@
             <van-icon name="scan"/>
           </div> -->
           <div class="search">
-            <div class="icon">
+            <div class="icon">      
               <van-icon name="search" />
             </div>
             <input class="needsclick" type="text" v-model="search_val" placeholder="搜索序列号" @focus="goSearch">
@@ -81,7 +81,7 @@ export default {
   mounted() {
     const query_no = JSON.parse(sessionStorage.getItem('query_no'))
     if (query_no) this.appQuery(query_no)
-    this.grid_list = equipment_data
+    this.grid_list = this.init_grid_data(equipment_data)
   },
   methods: {
     // 外部携带获取
@@ -94,8 +94,8 @@ export default {
       const arr = []
       const newArr = []
       if (data instanceof Object) {
-        this.search_info = data
-        let files = data.deviceFile
+        this.search_info = data.devicename ? data : null
+        let files = data.deviceFile || {}
         for (let i in files) {
           arr.push(files[i])
         }
@@ -107,14 +107,27 @@ export default {
         sessionStorage.setItem('query_no', JSON.stringify(val))
         if (type) localStorage.setItem('history_list', JSON.stringify(arrs) ) 
         this.search_grid = newArr
-        this._grid_handle(data.menu_types)
-      } 
+        if (this.search_info) {
+          this._grid_handle(data.menu_types)
+        } else {
+          this.grid_list = this.init_grid_data(equipment_data)
+        }
+      }     
       this.is_loading = false
+    },
+    init_grid_data() {
+      equipment_data.map(v => {
+        v.typeRes.map( item => {            
+          item.hide = false                
+        })
+      })  
+      return equipment_data
     },
     _grid_handle(data) {
       if(!data) return
       this.grid_list = []
-      equipment_data.map(v => {
+      let r = this.init_grid_data(equipment_data)
+      r.map(v => {
         v.typeRes.map( item => {
           data.map(f => {
             if(item.name == f) {
@@ -124,7 +137,7 @@ export default {
         })
       })  
       this.$nextTick(() => {
-        this.grid_list = equipment_data
+        this.grid_list = r
       })
     },
     getScan() {
@@ -149,7 +162,7 @@ export default {
       this.search_info = ''
       this.search_val = val
       this.is_loading = true  
-      type = !arrs.includes(val)
+      type = val ? !arrs.includes(val) : false
       arrs.push(val)
       this.queryInfo(val, arrs, type)
     }

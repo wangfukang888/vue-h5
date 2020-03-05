@@ -31,9 +31,11 @@ api.interceptors.response.use(
     if (url == '/api/Inter/queryDevice' || url == '/apis/api/Inter/queryDevice') {
       if (res.code == 1) {
         // return res.data
-        return Object.assign(res.data || {}, {
-          menu_types: ['现场培训', '现场维修']
-        })
+        const no = res.data
+        let menu_types: any =  []
+        if(no && no.devicesn == '989846001001') menu_types = ['现场培训', '现场维修']
+        if(no && no.devicesn == '624590081900') menu_types = ['现场维修', '客户索赔']
+        return Object.assign(no || {}, {menu_types})
       } else { 
         Toast(res.msg || '获取数据失败，请刷新重试')  
         return null

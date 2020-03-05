@@ -37,7 +37,6 @@ export function toBase64Image(img: any) {
 
 // 压缩图片
 export function compress(img: any, Orientation: any, fn: Function) {
-  // console.log(Orientation + ' 类型')
   // 修复ios图片旋转的问题
   getRotateImg(img, Orientation).then(newImg => {
     let originWidth = newImg.width, 
@@ -136,7 +135,7 @@ const rotateImg = (img: any, dir = 'right', canvas: any, s = 1) => {
       ctx.drawImage(img, 0, 0, width, height)
       break
   }
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     let base64 = canvas.toDataURL("image/jpeg")
     let imgs = new Image()
     imgs.src = base64
