@@ -65,8 +65,8 @@ const routes = [
     }
   },
   {
-    path: '/reqair',
-    name: 'reqair',
+    path: '/repair',
+    name: 'repair',
     component: () => import('../views/tab-bar/repair.vue'),
     meta: {
       index: 2,

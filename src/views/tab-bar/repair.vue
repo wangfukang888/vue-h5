@@ -22,12 +22,12 @@
 
 <script>
 import VGrid from 'com/grid-list'
-import {getModelGridList} from 'api'
- 
+import { getModelGridList } from 'api'
+
 export default {
   data() {
     return {
-      text: "修车有问题",
+      text: '修车有问题',
       grid_list: []
     }
   },
@@ -41,8 +41,8 @@ export default {
     async getGridList() {
       const data = await getModelGridList()
       if (data instanceof Array) {
-        this.grid_list = data   
-      }  
+        this.grid_list = data
+      }
     },
     downloadApp() {
       const type = this._detect()
@@ -54,21 +54,21 @@ export default {
       // }
     },
     _detect() {
-      var equipmentType = ""
+      var equipmentType = ''
       var agent = navigator.userAgent.toLowerCase()
-      var android = agent.indexOf("android")
-      var iphone = agent.indexOf("iphone")
-      var ipad = agent.indexOf("ipad")
-      if(android != -1){
-          equipmentType = "android"
+      var android = agent.indexOf('android')
+      var iphone = agent.indexOf('iphone')
+      var ipad = agent.indexOf('ipad')
+      if (android != -1) {
+        equipmentType = 'android'
       }
-      if(iphone != -1 || ipad != -1){
-          equipmentType = "ios"
+      if (iphone != -1 || ipad != -1) {
+        equipmentType = 'ios'
       }
-      return equipmentType;
+      return equipmentType
     }
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>
@@ -81,23 +81,23 @@ export default {
     background: linear-gradient(to bottom, #00314e, #02615e);
     border-radius: size(40);
     margin-bottom: size(20);
-    .phone{
+    .phone {
       position: absolute;
       top: size(60);
-      left:size(98);
+      left: size(98);
       width: size(158);
       height: size(318);
       @include bg('~img/phone.png');
     }
-    .split{
+    .split {
       position: absolute;
-      left:44%;
-      top:35%;
+      left: 44%;
+      top: 35%;
       background: rgba($color: #fff, $alpha: 0.4);
       width: size(1);
       height: size(100);
     }
-    .title{
+    .title {
       position: absolute;
       right: 15%;
       top: size(80);
@@ -105,7 +105,7 @@ export default {
       // width: size(138);
       color: #fff;
     }
-    .code{
+    .code {
       position: absolute;
       right: size(150);
       top: size(150);
@@ -113,7 +113,7 @@ export default {
       height: size(137);
       z-index: 8;
     }
-    .btn{
+    .btn {
       position: absolute;
       right: size(120);
       bottom: size(40);
@@ -124,12 +124,12 @@ export default {
       border: size(1) solid #fff;
     }
   }
-  .grid-m{
-    /deep/ .title{
-      &.t-1{
+  .grid-m {
+    /deep/ .title {
+      &.t-1 {
         background: linear-gradient(to right, #024374, #096bb4);
       }
-    }  
+    }
   }
 }
 </style>

@@ -52,10 +52,10 @@
 
 <script>
 import VSearch from 'base/search/search'
-import VGrid from "com/grid-list"
-import {equipment_data, querydeviceimg} from '../../mock/grid_data'
-import {queryDevice} from 'api'
-import {SERVICE_URL} from '@/common/config'
+import VGrid from 'com/grid-list'
+import { equipment_data, querydeviceimg } from '../../mock/grid_data'
+import { queryDevice } from 'api'
+import { SERVICE_URL } from '@/common/config'
 
 export default {
   components: {
@@ -64,7 +64,7 @@ export default {
   },
   data() {
     return {
-      text: "设备有问题",
+      text: '设备有问题',
       search_val: '',
       pdfSrc: '',
       imgdata: querydeviceimg || [],
@@ -72,7 +72,7 @@ export default {
       show_search: false,
       search_info: null,
       search_grid: [],
-      grid_list:[]
+      grid_list: []
     }
   },
   destroyed() {
@@ -86,7 +86,7 @@ export default {
   methods: {
     // 外部携带获取
     appQuery(no) {
-      const history_list = JSON.parse(localStorage.getItem('history_list') )
+      const history_list = JSON.parse(localStorage.getItem('history_list'))
       this.search(no, history_list)
     },
     async queryInfo(val, arrs, type) {
@@ -99,43 +99,45 @@ export default {
         for (let i in files) {
           arr.push(files[i])
         }
-        arr.forEach((item,i) => {
-          newArr.push(Object.assign(item, {
-            imgUrl: this.imgdata[i]
-          }))
+        arr.forEach((item, i) => {
+          newArr.push(
+            Object.assign(item, {
+              imgUrl: this.imgdata[i]
+            })
+          )
         })
         sessionStorage.setItem('query_no', JSON.stringify(val))
-        if (type) localStorage.setItem('history_list', JSON.stringify(arrs) ) 
+        if (type) localStorage.setItem('history_list', JSON.stringify(arrs))
         this.search_grid = newArr
         if (this.search_info) {
           this._grid_handle(data.menu_types)
         } else {
           this.grid_list = this.init_grid_data(equipment_data)
         }
-      }     
+      }
       this.is_loading = false
     },
     init_grid_data() {
       equipment_data.map(v => {
-        v.typeRes.map( item => {            
-          item.hide = false                
+        v.typeRes.map(item => {
+          item.hide = false
         })
-      })  
+      })
       return equipment_data
     },
     _grid_handle(data) {
-      if(!data) return
+      if (!data) return
       this.grid_list = []
       let r = this.init_grid_data(equipment_data)
       r.map(v => {
-        v.typeRes.map( item => {
+        v.typeRes.map(item => {
           data.map(f => {
-            if(item.name == f) {
+            if (item.name == f) {
               item.hide = true
-            } 
-          })  
+            }
+          })
         })
-      })  
+      })
       this.$nextTick(() => {
         this.grid_list = r
       })
@@ -147,7 +149,7 @@ export default {
       this.show_search = true
       this.$nextTick(() => {
         this.$refs.f_s && this.$refs.f_s.f()
-      })   
+      })
     },
     topdf(item) {
       window.location.href = item.url
@@ -157,92 +159,92 @@ export default {
     },
     search(val, arr) {
       let arrs = arr || []
-      let type 
+      let type
       this.show_search = false
       this.search_info = ''
       this.search_val = val
-      this.is_loading = true  
+      this.is_loading = true
       type = val ? !arrs.includes(val) : false
       arrs.push(val)
       this.queryInfo(val, arrs, type)
     }
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>
-.top{
+.top {
   width: 100%;
   background: #f1f1f1;
   height: size(100);
   padding: size(20);
   display: flex;
-  .icon-code{
+  .icon-code {
     width: size(50);
     margin-right: size(30);
     font-size: size(60);
   }
-  .search{
+  .search {
     position: relative;
     flex: 1;
     width: 100%;
     height: size(60);
-    .icon{
+    .icon {
       position: absolute;
-      top:size(15);
+      top: size(15);
       left: size(10);
     }
-    input{
+    input {
       height: size(60);
       line-height: size(60);
-      padding-left: size(60); 
+      padding-left: size(60);
       border-radius: size(40);
       font-size: size(26);
     }
   }
 }
-.search-info{
+.search-info {
   padding: 0 size(20);
   margin-bottom: size(20);
-  .header{
+  .header {
     display: flex;
     background: #fff;
     padding: size(30);
     padding-bottom: size(10);
     border-radius: size(40) size(40) 0 0;
-    .left-img{
+    .left-img {
       width: size(150);
       height: size(150);
       border-radius: size(5);
     }
-    .info{
+    .info {
       flex: 1;
       margin-left: size(30);
       display: flex;
       padding: size(10) 0;
       flex-direction: column;
       text-align: left;
-      .title{
-        margin-bottom: size(30);  
+      .title {
+        margin-bottom: size(30);
       }
-      .desc{
-        justify-content: flex-end;   
+      .desc {
+        justify-content: flex-end;
         color: #ccc;
-        font-size: size(26);  
-        .dec-type{
+        font-size: size(26);
+        .dec-type {
           margin-top: size(20);
-          .mark{
-            padding:size(6) size(20);
+          .mark {
+            padding: size(6) size(20);
             background: #579379;
             font-size: size(24);
             border-radius: size(30);
             margin-right: size(20);
           }
         }
-      }    
+      }
     }
   }
-  .bottom{
+  .bottom {
     background: #fff;
   }
 }
