@@ -1,12 +1,12 @@
 <template>
-  <div class="home">
+  <div class="home"> 
     <div class="top">
       <div class="left" @click="goback('fit')"></div>
       <div class="right" @click="goback('order_list')">历史记录</div>
-    </div> 
-    <div class="content">       
+    </div>    
+    <div class="content">  
       <div class="img" v-for="(item, index) in imgData" :key="index" v-lazy:background-image="item.url" @click="goback(item.path, $route.query.serial_no)"></div> 
-    </div>     
+    </div>  
   </div>
 </template>
 
@@ -40,9 +40,10 @@ export default {
 <style lang="scss" scoped>
 .top {
   position: fixed;
+  top:0;
   width: 100%;
   height: size(100);
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.4);
   z-index: 10;
   padding: size(20) 0 0 size(30);
   .left {
@@ -64,11 +65,10 @@ export default {
   }
 }
 .content {
-  position: absolute;
-  width: 100%;
-  top: 0;
+  // 解决ios定位元素滚动的问题
   overflow: auto;
-  bottom: 0;
+  -webkit-overflow-scrolling: touch;    
+  height: 100vh;
   .img {
     height: size(750);
     background-size: 100%;
