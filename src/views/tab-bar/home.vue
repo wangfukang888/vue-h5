@@ -71,7 +71,7 @@ export default {
   height: 100vh;
   .img {
     height: size(750);
-    background-size: 100%;
+    background-size: 100% 100%;
   }
 }
 </style>

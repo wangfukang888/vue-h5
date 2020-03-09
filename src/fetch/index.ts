@@ -33,8 +33,9 @@ api.interceptors.response.use(
         // return res.data
         const no = res.data
         let menu_types: any =  []
-        if(no && no.devicesn == '989846001001') menu_types = ['现场培训', '现场维修']
-        if(no && no.devicesn == '624590081900') menu_types = ['现场维修', '客户索赔']
+        let _str  = no && no.devicesn ? no.devicesn.substr(0,2) : 0
+        if(_str == '98') menu_types = ['现场培训', '现场维修', '产品退换货']
+        if(_str == '62') menu_types = ['现场维修', '客户索赔']
         return Object.assign(no || {}, {menu_types})
       } else { 
         Toast(res.msg || '获取数据失败，请刷新重试')  
