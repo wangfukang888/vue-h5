@@ -89,7 +89,7 @@
 import VCity from 'base/city/city'
 import SelectDevice from 'com/eq_install/select-device'
 import { DatetimePicker, Popup } from 'vant'
-import {getDeviceList} from 'api'
+import { getDeviceList } from 'api'
 
 export default {
   data() {
@@ -115,13 +115,21 @@ export default {
   },
   mounted() {
     const form_data = JSON.parse(localStorage.getItem('form_data'))
-    if (form_data && form_data.select_info) this.info_select_data = form_data.select_info
+    if (form_data && form_data.select_info)
+      this.info_select_data = form_data.select_info
     if (form_data) this.form_data = form_data
   },
   computed: {
     is_from() {
       const f_data = this.form_data
-      return this.info_select_data && f_data.name && f_data.phone && f_data.time && f_data.address && f_data.f_address 
+      return (
+        this.info_select_data &&
+        f_data.name &&
+        f_data.phone &&
+        f_data.time &&
+        f_data.address &&
+        f_data.f_address
+      )
     }
   },
   methods: {
@@ -158,16 +166,17 @@ export default {
             deviceTypeName: item.deviceTypeName
           })
         })
-        this.nav_data = nav_arr   
+        this.nav_data = nav_arr
         this.list_data = data
         // 初始进入
-        this.list_data && this.$refs.s_device._dataInit(this.nav_data[0], this.list_data)
-      } 
+        this.list_data &&
+          this.$refs.s_device._dataInit(this.nav_data[0], this.list_data)
+      }
     },
     toSelect() {
       this.show_select = true
       this.$emit('hidden', true)
-      if( this.list_data.length == 0 ) {
+      if (this.list_data.length == 0) {
         this.getList()
       }
     },
@@ -188,13 +197,13 @@ export default {
       if (!this.form_data.phone || !reg.test(this.form_data.phone)) {
         return this.$toast('手机号不能为空或格式不正确')
       }
-      this.$emit("go_ative", 1, 'partner')
+      this.$emit('go_ative', 1, 'partner')
       this.form_data.select_info = this.info_select_data
       localStorage.setItem('form_data', JSON.stringify(this.form_data))
       this.$store.commit('install_info', this.form_data)
     }
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>
@@ -204,105 +213,105 @@ export default {
   bottom: 0;
   width: 100%;
   padding: size(10) size(60);
-  .main{
+  .main {
     padding-bottom: size(10);
   }
-  .btn-select{
+  .btn-select {
     width: 100%;
-    height:size(80);
+    height: size(80);
     font-size: size(30);
-    font-weight:500;
-    color:rgba(43,166,159,1);
-    border: size(1) solid #2BA69F;
-    line-height:size(80);
+    font-weight: 500;
+    color: rgba(43, 166, 159, 1);
+    border: size(1) solid #2ba69f;
+    line-height: size(80);
     border-radius: size(30);
   }
-  .s-info{
+  .s-info {
     position: relative;
-    border: size(1) solid #2BA69F;
+    border: size(1) solid #2ba69f;
     padding: size(30) 0;
     border-radius: size(30);
-    .icon{
-      position: absolute; 
+    .icon {
+      position: absolute;
       right: size(20);
       top: 42%;
     }
-    .des{
-      color:rgba(43,166,159,1);
-      font-weight:500;
+    .des {
+      color: rgba(43, 166, 159, 1);
+      font-weight: 500;
       font-size: size(24);
       margin-bottom: size(20);
     }
-    .name{
+    .name {
       color: #333;
       margin-bottom: size(10);
     }
-    .type{
+    .type {
       font-size: size(24);
       color: #888;
     }
   }
-  .l-r{
+  .l-r {
     display: flex;
-    .desc{
+    .desc {
       flex: 1;
       margin-right: size(50);
-      &:first-child{
+      &:first-child {
         width: size(260);
         flex: none;
       }
-      &:last-child{
+      &:last-child {
         margin-right: 0;
       }
     }
   }
-  .desc{
+  .desc {
     width: 100%;
     margin: size(20) 0;
     // height: size(900);
     // background: #ccc;
-    .title{
+    .title {
       height: size(50);
       line-height: size(50);
       font-size: size(30);
       color: #666;
       text-align: left;
     }
-    .det{
+    .det {
       margin: size(20) 0;
-      /deep/ .van-cell-group{
-        &::after{
+      /deep/ .van-cell-group {
+        &::after {
           border: 0;
         }
       }
-      /deep/ .van-cell{
+      /deep/ .van-cell {
         margin: size(20) 0;
-        background: #EBEDF0;
+        background: #ebedf0;
         border-radius: size(30);
         padding-right: size(15);
-        color: #939FB2;
-        &::after{
+        color: #939fb2;
+        &::after {
           border-bottom: 0;
         }
-        input{
+        input {
           background: transparent;
           padding-left: size(10);
         }
       }
     }
   }
-  .btn-next{
+  .btn-next {
     position: relative;
     margin: size(50) auto;
     border-radius: size(30);
     width: size(440);
     height: size(110);
     line-height: size(110);
-    background: #EBEDF0;
-    .icon{
+    background: #ebedf0;
+    .icon {
       position: absolute;
       top: size(20);
-      right:size(20);
+      right: size(20);
       display: inline-block;
       width: size(70);
       height: size(70);
@@ -313,11 +322,11 @@ export default {
       color: #333;
       font-weight: bold;
     }
-    &.active{
-      background: #2BA69F;
+    &.active {
+      background: #2ba69f;
       color: #fff;
-      .icon{
-        color: #2BA69F;
+      .icon {
+        color: #2ba69f;
       }
     }
   }

@@ -84,6 +84,9 @@ body, html {
       line-height: size(40);
       margin-bottom: size(20);
       font-size: size(26);
+      &:last-child{
+        margin-bottom: 0;
+      }
     }
     .l{
       width: size(150);

@@ -12,14 +12,14 @@ export const equipment_data = [
         path:'/eq_install',
         name: '现场安装'
       },
-      {
-        link_image: require('img/icon/13.png'),
-        name: '现场培训'
-      },
-      {
-        link_image: require('img/icon/14.png'),
-        name: '现场维修'
-      }
+      // {
+      //   link_image: require('img/icon/13.png'),
+      //   name: '现场培训'
+      // },
+      // {
+      //   link_image: require('img/icon/14.png'),
+      //   name: '现场维修'
+      // }
     ]
   },
   {

@@ -37,12 +37,8 @@ Vue.filter('formatPhone', function (p : string) {
   }
 })
 
-Vue.prototype.toast = function(text: string) {
-  return Toast( text )
-}
-Vue.prototype.dialog = function() {
-  return Dialog
-}
+Vue.prototype.toast = Toast
+Vue.prototype.dialog = Dialog
 Vue.prototype.$cookie = Cookie
 
 router.beforeEach((to,from,next) => {

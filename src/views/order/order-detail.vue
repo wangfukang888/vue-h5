@@ -5,7 +5,8 @@
         <div class="g-order-status hd">
           <div class="l">
             <div class="status-text">{{ status_text(info.taskstatus) }}</div>
-            <div class="time">发布时间: {{info.user_time}}</div>
+            <div class="time" v-if="info.user_time">发布时间: {{info.user_time}}</div>
+            <div class="time" v-if="info.fcwx_time">发布时间: {{info.fcwx_time}}</div>
           </div>
           <div class="r"></div>
         </div>
@@ -21,16 +22,24 @@
           </div>
         </div>
         <div class="goods-container">
-          <div class="l">
-            <img v-lazy="info.deviceImg" alt="">
-          </div>
-          <div class="r">
-            <div class="name">{{info.deviceName}}</div>
-            <div class="item" v-if="info.deviceModels">设备型号：{{info.deviceModel}}</div>
-            <div class="item" v-if="info.carName">车辆名称：{{info.carName}} {{info.carModel}}</div>
-            <div class="item" v-if="info.carName">车辆问题：{{info.carProblem}}</div>
+          <div class="r r-udesk" v-if="info.serviceType == 'udesk服务'">
             <div class="item">服务类型：{{info.serviceType}}</div>
+            <div class="item" v-if="info.fcwx_model">产品模型：{{info.fcwx_model}}</div>
+            <div class="item" v-if="info.fcwx_sn">主机序列号：{{info.fcwx_sn}}</div>
+            <div class="item" v-if="info.fcwx_accident">故障现象：{{info.fcwx_accident}}</div>  
           </div>
+          <template v-else> 
+            <div class="l">
+              <img v-lazy="info.deviceImg" alt="">
+            </div>
+            <div class="r">
+              <div class="name">{{info.deviceName}}</div>
+              <div class="item" v-if="info.deviceModels">设备型号：{{info.deviceModel}}</div>
+              <div class="item" v-if="info.carName">车辆名称：{{info.carName}} {{info.carModel}}</div>
+              <div class="item" v-if="info.carName">车辆问题：{{info.carProblem}}</div>
+              <div class="item">服务类型：{{info.serviceType}}</div>
+            </div>
+          </template>
         </div>
         <div class="remask-container" v-if="info.remask">
           <div class="l">备注：</div>
@@ -310,6 +319,10 @@ export default {
           font-size: size(23);
           color: #bbb;
         }
+      }
+      .r-udesk{
+        font-size: size(28);
+        line-height: size(36);
       }
     }
     .remask-container{

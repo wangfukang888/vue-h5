@@ -58,6 +58,11 @@
             </div>
           </div>
         </div>
+        <div class="content" v-if="item.service_type ==3">
+          <template v-if="item.udesk_type == 1">
+            <list-a :info="item" />
+          </template>
+        </div>
         <div class="fd" v-if="item.devicePrice">
           <div class="l"></div>
           <div class="r">安装费： <b>¥{{item.devicePrice ? item.devicePrice.toFixed(2) : ''}}</b></div>
@@ -69,9 +74,13 @@
 
 <script>
 import {order_status_type} from 'mixin/order-mixin'
+import ListA from './udesk/udesk_1/list'
 
 export default {
   mixins: [order_status_type],
+  components: {
+    ListA
+  },
   props: {
     list_data: {
       type: Array,

@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import { Uploader, Field, Button, Toast } from 'vant'
+import { Uploader, Field, Button} from 'vant'
 import {uploadImg} from 'api'
 import {compress} from '@/utils/imgHandle'
 import Exif from 'exif-js'
@@ -91,7 +91,7 @@ export default {
     },
     async getToImg(file) {
       try {
-        Toast.loading({
+        this.$toast.loading({
           message: '上传中...',
           duration: 0,
           forbidClick: true
@@ -103,11 +103,11 @@ export default {
         } else {
           this.fileList.pop()
         }
-        Toast.clear()
+        this.$toast.clear()
       } 
       catch (error) {
         this.fileList.pop()
-        Toast.clear()
+        this.$toast.clear()
         this.$toast('图片上传失败，可能原因服务器响应超时')
       }  
     },

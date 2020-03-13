@@ -39,7 +39,7 @@ export default {
       tabIndex: 1,
       isRefresh: false,
       hasNext: true,
-      nav_list: ['设备服务', '维修服务']
+      nav_list: ['设备服务', '维修服务', 'udesk服务']
     }
   },
   created() {
@@ -74,8 +74,6 @@ export default {
           this.$router.push('/login')
         },2000)     
       }
-      // 数据返回错误，也需要关闭
-      this.hasNext = false
     },
     loadData() {
       if ( !this.hasNext ) return
@@ -90,11 +88,22 @@ export default {
       this.hasNext = true   
     },
     tabChange(i, t) {
+      let type_no = -1
       this.list_data = []
       this.page = 1
       this.hasNext = true
-      const index = i == 0 ? 1 : 2 
-      this.getList(index)
+      switch(i) {
+        case 0: 
+          type_no = 1
+        break
+        case 1: 
+          type_no = 2
+        break
+        case 2: 
+          type_no = 3
+        break
+      }
+      this.getList(type_no)
     }
   }
 }
