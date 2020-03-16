@@ -23,10 +23,7 @@
         </div>
         <div class="goods-container">
           <div class="r r-udesk" v-if="info.serviceType == 'udesk服务'">
-            <div class="item">服务类型：{{info.serviceType}}</div>
-            <div class="item" v-if="info.fcwx_model">产品模型：{{info.fcwx_model}}</div>
-            <div class="item" v-if="info.fcwx_sn">主机序列号：{{info.fcwx_sn}}</div>
-            <div class="item" v-if="info.fcwx_accident">故障现象：{{info.fcwx_accident}}</div>  
+            <udesk-a :info="info"/>
           </div>
           <template v-else> 
             <div class="l">
@@ -103,6 +100,7 @@ import { Button, Popup, Rate, Toast } from 'vant'
 import InfoList from 'com/partner/info-list'
 import ServiceDetail from 'com/order/service-detail'
 import VAppeal from 'com/order/order-appeal'
+import UdeskA from 'com/order/udesk/udesk_1/detail'
 import {order_status_type} from 'mixin/order-mixin'
 import {getOrderDetail, getOrderCancel, getAppeal, confirmService, getRate} from 'api'
 
@@ -111,6 +109,7 @@ export default {
   components: {
     InfoList,
     VAppeal,
+    UdeskA,
     ServiceDetail,
     'v-btn': Button,
     'v-rate': Rate,
@@ -247,6 +246,7 @@ export default {
     position: fixed;
     top:0;
     width: 100%;
+    min-height: 90vh;
     background: #f1f1f1;
     bottom: size(100);
     .hd{
@@ -323,6 +323,12 @@ export default {
       .r-udesk{
         font-size: size(28);
         line-height: size(36);
+        .info{
+          padding: 0;
+          .l{
+            width: size(200);
+          }
+        }
       }
     }
     .remask-container{

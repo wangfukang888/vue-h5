@@ -20,6 +20,14 @@ module.exports = {
           '^/tps/': '/' 
         }
       },
+      '/mps/': {
+        target: 'https://mycar.x431.com/',
+        ws: true,
+        changeOrigin: true,
+        pathRewrite: {
+          '^/mps/': '/' 
+        }
+      },
       '/apis/': {
         target: GOLO_URL,
         ws: true,

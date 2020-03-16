@@ -43,6 +43,15 @@ export function queryDevice(deviceSn) {
   })  
 }
 
+//返厂记录查询
+export function queryFactory(serialNo) {
+  return req.get('/mps/rest/s_ajax_logic_4_page2/oeInfoAndExpressInfo', { 
+    params: {
+      serialNo
+    }
+  })  
+}
+
 //历史记录
 export function getOrderList(service_type, page, size=5) { 
   return req.post('/apis/api/Inter/serviceOrderList', { 

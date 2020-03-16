@@ -11,6 +11,7 @@ import ScrollView from 'base//scroll-view/scroll-view.vue'
 
 // import VConsole from 'vconsole'
 // new VConsole()
+
 // 懒加载配置
 Vue.use(Lazyload, {
   lazyComponent: true,

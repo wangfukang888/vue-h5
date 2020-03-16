@@ -28,7 +28,7 @@ export default {
     list_data() { 
       setTimeout(() => {
         this.refresh()
-      },20)     
+      })     
     }
   },
   mounted() {
@@ -43,7 +43,6 @@ export default {
       if (!scroll) return   
       this.scroll = new BScroll(scroll, {
         click: true,
-        scrollX: true,
         probeType: 1,  
         scrollbar: { // 设置滚动条
           fade: true 
