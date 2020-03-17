@@ -12,14 +12,6 @@ module.exports = {
   // 输出文件目录`
   devServer: {
     proxy: {
-      '/tps/': {
-        target: 'https://eq.x431.com/',
-        ws: true,
-        changeOrigin: true,
-        pathRewrite: {
-          '^/tps/': '/' 
-        }
-      },
       '/mps/': {
         target: 'https://mycar.x431.com/',
         ws: true,

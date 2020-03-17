@@ -5,8 +5,11 @@ export const SERVICE_URL = 'https://eq.x431.com/'
 
 // 生产环境代理处理
 export function proxy_handle(url: any) {
+  if(url.indexOf('mycar.x431.com') > 0) {
+    return url
+  }
   const pathArr = url.split('/')
-  pathArr.splice(1,1)
+  pathArr.splice(1,1) 
   return pathArr.join('/')
 }
 

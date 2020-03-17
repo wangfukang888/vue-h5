@@ -1,12 +1,5 @@
 <template>
   <div class="select-container" :class="{active: show}">
-    <!-- <div class="header">
-      <div class="search">
-        <form action="/">
-          <van-search placeholder="请输入搜索关键词" v-model="s_val" />
-        </form>
-      </div>
-    </div> -->
     <section>
        <div class="left-nav">
         <scroll-view class="l-scroll" ref="l_s">
@@ -99,22 +92,6 @@ export default {
   transform: translate3d(0, 100%, 0);
   &.active{
     transform: translate3d(0, 0, 0);
-  }
-  .header{
-    display: flex;
-    height: size(100);
-    padding: 0 size(10);
-    align-items: center;
-    @include border('bottom');
-    .search{
-      width: 100%;
-      /deep/ input{
-        background: transparent;
-      }
-      /deep/ .van-search__content{
-        border-radius: size(40);
-      }
-    }
   }
   section{
     position: fixed;

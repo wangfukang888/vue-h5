@@ -76,12 +76,12 @@ export default {
   methods: {
     async query(no) {
       this.b_loading = true
-      const data = await queryFactory(no)
+      const data = await queryFactory(no || 2)    
       if (data.repairInfoList) {
         this.list = data
       } else{
         this.$toast('暂无数据')
-      }
+      }  
       this.b_loading = false
     }
   }

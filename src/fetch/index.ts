@@ -27,11 +27,11 @@ const api = axios.create({
 api.interceptors.response.use(
   (response) => {
     const res = response.data
-    const url : string | undefined = response.config.url
-    if (url == '/mps/rest/s_ajax_logic_4_page2/oeInfoAndExpressInfo' || url == '/rest/s_ajax_logic_4_page2/oeInfoAndExpressInfo') {
+    const url : any = response.config.url
+    if (url.indexOf('/rest/s_ajax_logic_4_page2') > 0) {
       return res
     }
-    if (url == '/api/Inter/queryDevice' || url == '/apis/api/Inter/queryDevice') {
+    if (url.indexOf('/Inter/queryDevice') > 0){
       if (res.code == 1) {
         // return res.data
         const no = res.data

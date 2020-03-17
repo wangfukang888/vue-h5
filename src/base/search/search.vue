@@ -1,7 +1,7 @@
 <template>
   <div class="search-container">
     <form action="/">
-      <van-search
+      <v-search
         ref="s_f"
         v-model="val"
         :placeholder="placeholder"
@@ -21,7 +21,12 @@
 </template>
 
 <script>
+import {Search} from 'vant'
+
 export default {
+  components: {
+    'v-search': Search
+  },
   props: {
     placeholder: {
       type: String,
