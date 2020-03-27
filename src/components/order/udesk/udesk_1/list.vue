@@ -9,7 +9,7 @@
       <div class="r">{{info.fcwxPhone}}</div>
     </div> -->
     <div class="item" v-if="info.fcwxModel">
-      <div class="l">产品模型:</div>
+      <div class="l">产品型号:</div>
       <div class="r">{{info.fcwxModel}}</div>
     </div>
     <div class="item" v-if="info.fcwxSn">

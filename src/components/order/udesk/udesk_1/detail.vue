@@ -10,7 +10,7 @@
         <div class="r">{{info.fcwx_sn}}</div>
       </div>
       <div class="item" v-if="info.fcwx_model">
-        <div class="l">产品模型：</div>
+        <div class="l">产品型号：</div>
         <div class="r">{{info.fcwx_model}}</div>
       </div>
       <div class="item">
@@ -70,14 +70,14 @@ export default {
   },
   computed: {
     dis_btn() {
-      return !!this.list.repairInfoList
+      return !!(this.list.repairInfoList || this.list.expressInfoList)
     }
   },
   methods: {
     async query(no) {
       this.b_loading = true
       const data = await queryFactory(no || 2)    
-      if (data.repairInfoList) {
+      if (data && (data.repairInfoList || data.expressInfoList) ) {
         this.list = data
       } else{
         this.$toast('暂无数据')

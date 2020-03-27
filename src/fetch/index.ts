@@ -10,8 +10,7 @@ export const OK = 0
 axios.defaults.timeout = 10000
 
 const headers = {
-  'Content-Type': 'application/x-www-form-urlencoded',
-  'Access-Control-Allow-Origin': '*'
+  'Content-Type': 'application/x-www-form-urlencoded'
 }
 
 // 通用参数
@@ -28,7 +27,7 @@ api.interceptors.response.use(
   (response) => {
     const res = response.data
     const url : any = response.config.url
-    if (url.indexOf('/rest/s_ajax_logic_4_page2') > 0) {
+    if (url.indexOf('/Inter/getSerialMethod') > 0) {
       return res
     }
     if (url.indexOf('/Inter/queryDevice') > 0){
@@ -36,9 +35,9 @@ api.interceptors.response.use(
         // return res.data
         const no = res.data
         let menu_types: any =  []
-        let _str  = no && no.devicesn ? no.devicesn.substr(0,2) : 0
-        if(_str == '98') menu_types = ['产品退换货']
-        if(_str == '62') menu_types = ['客户索赔']
+        // 沙雕后台不会弄，写死
+        let _str  = no && no.devicesn ? no.devicesn.substr(0,5) : 0
+        if(_str == '98984') menu_types = ['产品退换货']
         return Object.assign(no || {}, {menu_types})
       } else { 
         Toast(res.msg || '获取数据失败，请刷新重试')  
@@ -68,7 +67,7 @@ api.interceptors.response.use(
         break; 
       }
     } catch (err) {
-      Toast('服务器响应超时,请重试')
+      Toast('服务器错误或响应超时,请刷新重试')
     }
   }
 )

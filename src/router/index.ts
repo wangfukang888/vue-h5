@@ -123,13 +123,43 @@ const routes = [
       keepAlive: false,
       title: '发布成功'
     }
+  },
+  {
+    path: '/h5_map',
+    name: 'h5_map',
+    component: () => import('../views/h5/map.vue'),
+    meta: {
+      index: 6,
+      keepAlive: false,
+      title: '附近的共享设备'
+    }
+  },
+  {
+    path: '/map_detail',
+    name: 'map_detail',
+    component: () => import('../views/h5/map_detail.vue'),
+    meta: {
+      index: 7,
+      keepAlive: false,
+      title: '设备详情'
+    }
+  },
+  {
+    path: '/download',
+    name: 'download',
+    component: () => import('../views/h5/download.vue'),
+    meta: {
+      index: 8,
+      keepAlive: false,
+      title: '修修吧'
+    }
   }
 ]
 
 const BASE_URL = process.env.NODE_ENV !== 'production' ? '/' : '/index/indexpro'
 
 const router = new VueRouter({
-  mode: 'history',
+  mode: 'hash',
   scrollBehavior(to, from, saveTop) {
     if (saveTop) {
       return saveTop

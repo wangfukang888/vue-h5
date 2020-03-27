@@ -5,9 +5,6 @@ export const SERVICE_URL = 'https://eq.x431.com/'
 
 // 生产环境代理处理
 export function proxy_handle(url: any) {
-  if(url.indexOf('mycar.x431.com') > 0) {
-    return url
-  }
   const pathArr = url.split('/')
   pathArr.splice(1,1) 
   return pathArr.join('/')
@@ -21,7 +18,8 @@ export const order_status : any = {
   3: '申诉中',
   4: '已取消',
   5: '待接单',
-  6: '已完成'
+  6: '已完成',
+  7: '已提交'
 }
 
 //判断是否是微信浏览器

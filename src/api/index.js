@@ -1,5 +1,4 @@
 import req from 'req'
-import {is_production} from '../common/config'
 
 //grid模块
 export function getModelGridList() {
@@ -46,11 +45,8 @@ export function queryDevice(deviceSn) {
 
 //返厂记录查询
 export function queryFactory(serialNo) {
-  const mps = is_production ? 'https://mycar.x431.com' : '/mps'
-  return req.get(`${mps}/rest/s_ajax_logic_4_page2/oeInfoAndExpressInfo`, { 
-    params: {
-      serialNo
-    }
+  return req.post('/apis/api/Inter/getSerialMethod', { 
+    serialNo
   })  
 }
 

@@ -39,7 +39,7 @@ export default {
       tabIndex: 1,
       isRefresh: false,
       hasNext: true,
-      nav_list: ['设备服务', '维修服务', 'udesk服务']
+      nav_list: ['现场服务', '专家答疑', '设备服务']
     }
   },
   created() {
@@ -56,24 +56,18 @@ export default {
   },
   methods: {
     async getList(index, type) {
-      this.index = index
-      // 后台原因，需要先验证token
-      const _token =  await getToken(this.$store.state.token)
-      if (_token) {
-        const data = await getOrderList(index, this.page, this.pageSize)
-        if (data instanceof Array) {
-          this.isRefresh = false  
-          if (data.length == 0 && this.page == 1) return this.hasNext = false
-          if (type) return this.list_data = data 
-          if (data.length < this.pageSize) this.hasNext = false
-          this.list_data = this.list_data.concat(data) 
-        } 
-      } else {
-        localStorage.removeItem('userInfo')
-        setTimeout(() => {
-          this.$router.push('/login')
-        },2000)     
-      }
+      this.index = index    
+      const data = await getOrderList(index, this.page, this.pageSize)
+      if (data instanceof Array) {
+        if (data.length == 0 && this.page == 1) return this.hasNext = false
+        if (type) {
+          this.isRefresh = false
+          this.list_data = data 
+          return 
+        }
+        if (data.length < this.pageSize) this.hasNext = false
+        this.list_data = this.list_data.concat(data) 
+      }     
     },
     loadData() {
       if ( !this.hasNext ) return
@@ -88,22 +82,10 @@ export default {
       this.hasNext = true   
     },
     tabChange(i, t) {
-      let type_no = -1
       this.list_data = []
       this.page = 1
       this.hasNext = true
-      switch(i) {
-        case 0: 
-          type_no = 1
-        break
-        case 1: 
-          type_no = 2
-        break
-        case 2: 
-          type_no = 3
-        break
-      }
-      this.getList(type_no)
+      this.getList(i + 1)
     }
   }
 }

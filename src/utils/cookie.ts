@@ -1,6 +1,5 @@
 let Cookie = {
   get(name: string) {
-    console.log(name)
     let arr, reg = new RegExp("(^| )" + name + "=([^]*)(|$)")
     if (arr = document.cookie.match(reg))
     return (arr[2])

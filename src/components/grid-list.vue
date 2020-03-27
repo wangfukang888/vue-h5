@@ -33,6 +33,12 @@ export default {
     goGrid(url, path, name) {
       if (url == 'event') return this.$emit('search')
       if (!this.$store.state.token) return this.$router.push('/login')  
+      if(name == '远程诊断') {
+        this.$dialog({
+          title: '该功能目前只支持APP使用,请点击上方按钮下载APP'
+        })
+        return
+      }
       if (name == '返厂维修') return window.location.href = `${url}?token=${this.$store.state.token}`  
       if ( !(url || path) ) return this.$toast('暂未开通此功能')     
       if (url) return window.location.href = url

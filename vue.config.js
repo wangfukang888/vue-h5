@@ -12,14 +12,6 @@ module.exports = {
   // 输出文件目录`
   devServer: {
     proxy: {
-      '/mps/': {
-        target: 'https://mycar.x431.com/',
-        ws: true,
-        changeOrigin: true,
-        pathRewrite: {
-          '^/mps/': '/' 
-        }
-      },
       '/apis/': {
         target: GOLO_URL,
         ws: true,
@@ -27,7 +19,15 @@ module.exports = {
         pathRewrite: {
           '^/apis/':'/' 
         }
-      }   
+      },
+      '/maps/': {
+        target: 'http://share-repair.test.x431.com:8000/',
+        ws: true,
+        changeOrigin: true,
+        pathRewrite: {
+          '^/maps/':'/' 
+        }
+      }      
     }
   },
   css: {  // 一次配置，全局使用，这个scss 因为每个文件都要引入

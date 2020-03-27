@@ -60,10 +60,10 @@
       </div>  
       <loading vertical v-else/>
     </scroll-view>
-    <div class="footer" :class="{hide: info && info.taskstatus == 4}">
+    <div class="footer" :class="{hide: info && (info.taskstatus == 4 || info.serviceType == 'udesk服务') }">
       <div class="l"></div>
       <div class="r">
-        <div class="r-btn" v-if="info">
+        <div class="r-btn" v-if="info && info.serviceType != 'udesk服务'">
           <v-btn v-if="info.taskstatus == 0" class="btn" :loading="btnLoading" loading-text="取消中" type="info" @click="cancelOrder(info.task_id)">取消订单</v-btn>
           <v-btn v-if="info.taskstatus == 2" class="btn" type="info" @click="show_appeal">发起申诉</v-btn>
           <v-btn v-if="info.taskstatus == 3" class="btn" type="info" @click="goAppeal(info.task_id)">申诉详情</v-btn>
