@@ -1,9 +1,9 @@
 const path = require('path')
 const assetsDir = 'static_pro'
 
-const GOLO_URL = 'https://partner.golodata.com/'
+// const GOLO_URL = 'https://partner.golodata.com/'
 // 线上
-// const GOLO_URL = 'https://partner.goloiov.cn/'
+const GOLO_URL = 'https://partner.goloiov.cn/'
 
 module.exports = {
   productionSourceMap: true,

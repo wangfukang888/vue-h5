@@ -30,7 +30,7 @@ export const equipment_data = [
     typeRes: [
       {
         link_image: require('img/icon/15.png'),
-        url: 'https://partner.golodata.com/indexapp/diagnosis/showFcwx',
+        url: 'https://partner.goloiov.cn/indexapp/diagnosis/showFcwx',
         name: '返厂维修'
       },
       {
