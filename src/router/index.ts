@@ -129,7 +129,7 @@ const routes = [
 const BASE_URL = process.env.NODE_ENV !== 'production' ? '/' : '/index/indexpro'
 
 const router = new VueRouter({
-  mode: 'hash',
+  mode: 'history',
   scrollBehavior(to, from, saveTop) {
     if (saveTop) {
       return saveTop

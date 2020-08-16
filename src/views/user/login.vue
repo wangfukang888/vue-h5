@@ -93,7 +93,7 @@ export default {
     },
     success(info) {   
       this.$store.commit('get_login', info)
-      this.$router.back()
+      this.$router.push('/')
     }
   },
   components: {
